@@ -1,0 +1,461 @@
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\api\plumber.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\api\plumber.R
+@@ -45,7 +45,7 @@
+ }
+
+ 
+
+ # Phase 5 endpoints
+
+-if (file.exists("api/plumber_phase5.R")) source("api/plumber_phase5.R")
+
++if (file.exists("api/plumber_phase5.R")) source("plumber_phase5.R")
+
+ 
+
+ # Auth layer
+
+-if (file.exists("api/plumber_auth.R")) source("api/plumber_auth.R")
+
++if (file.exists("api/plumber_auth.R")) source("plumber_auth.R")
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\api\plumber_auth.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\api\plumber_auth.R
+@@ -370,7 +370,7 @@
+                  sprintf("role=%s,session=%s", auth_result$role, substr(session_id, 1, 8)))
+
+   
+
+   # Audit-Log fÃ¼r erfolgreichen Login
+
+-  source("R/audit.r")
+
++  source("../R/audit.R")
+
+   audit_append_hashchain(
+
+     actor = username,
+
+     action = "user_login",
+
+@@ -426,7 +426,7 @@
+   .log_auth_event(payload$username, ip, "logout", TRUE, "")
+
+   
+
+   # Audit-Log
+
+-  source("R/audit.r")
+
++  source("../R/audit.R")
+
+   audit_append_hashchain(
+
+     actor = payload$username,
+
+     action = "user_logout",
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\examples\optimization_example.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\examples\optimization_example.R
+@@ -7,9 +7,9 @@
+ library(ggplot2)
+
+ 
+
+ # Source optimization functions
+
+-source("R/backend_bayes.R")
+
+-source("R/warmstart_manager.R")
+
+-source("R/optimization_utils.R")
+
++source("../R/backend_bayes.R")
+
++source("../R/warmstart_manager.R")
+
++source("../R/optimization_utils.R")
+
+ 
+
+ # Setup optimization environment
+
+ setup_optimization_env("config/optimization_config.yaml")
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\examples\parallel_usage_example.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\examples\parallel_usage_example.R
+@@ -7,11 +7,11 @@
+ # ============================================================================
+
+ 
+
+ # Load required sources
+
+-source("R/parallel_utils.R")
+
+-source("R/async_fits.R")
+
+-source("R/job_queue.R")
+
+-source("R/pta_cfr.R")
+
+-source("R/backend_bayes.R")
+
++source("../R/parallel_utils.R")
+
++source("../R/async_fits.R")
+
++source("../R/job_queue.R")
+
++source("../R/pta_cfr.R")
+
++source("../R/backend_bayes.R")
+
+ 
+
+ # Load configuration
+
+ config <- yaml::read_yaml("config/optimization_config.yaml")
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\async_fits.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\async_fits.R
+@@ -15,7 +15,7 @@
+ 
+
+ # Source parallel utilities
+
+ if (file.exists("R/parallel_utils.R")) {
+
+-  source("R/parallel_utils.R")
+
++  source("parallel_utils.R")
+
+ }
+
+ 
+
+ # ============================================================================
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\auth_safe_upgrade.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\auth_safe_upgrade.R
+@@ -2,7 +2,7 @@
+ # This file contains the enhanced version of auth_upgrade_hashes that uses safe I/O
+
+ 
+
+ # Source the safe I/O module
+
+-source("R/safe_io.R")
+
++source("safe_io.R")
+
+ 
+
+ #' Check if a password hash needs upgrade
+
+ #' @param hash The password hash to check
+
+@@ -113,7 +113,7 @@
+   # Source audit functions if available
+
+   audit_available <- file.exists("R/audit.R")
+
+   if (audit_available) {
+
+-    source("R/audit.R")
+
++    source("audit.R")
+
+   }
+
+   
+
+   # Define audit wrapper function
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\backend_bayes.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\backend_bayes.R
+@@ -4,13 +4,13 @@
+ 
+
+ # Source parallel components if available
+
+ if (file.exists("R/parallel_utils.R")) {
+
+-  source("R/parallel_utils.R")
+
++  source("parallel_utils.R")
+
+ }
+
+ if (file.exists("R/async_fits.R")) {
+
+-  source("R/async_fits.R")
+
++  source("async_fits.R")
+
+ }
+
+ if (file.exists("R/job_queue.R")) {
+
+-  source("R/job_queue.R")
+
++  source("job_queue.R")
+
+ }
+
+ 
+
+ # Load configuration
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\fhir.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\fhir.R
+@@ -5,9 +5,9 @@
+ #' automatic retries, caching, and circuit breaker protection.
+
+ 
+
+ # Load dependencies
+
+-source("R/fhir_connection.R")
+
+-source("R/fhir_auth.R")
+
+-source("R/fhir_cache.R")
+
++source("fhir_connection.R")
+
++source("fhir_auth.R")
+
++source("fhir_cache.R")
+
+ 
+
+ # Configuration
+
+ .fhir_config <- new.env(parent = emptyenv())
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\job_queue.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\job_queue.R
+@@ -257,7 +257,7 @@
+     # Execute Stan fit job
+
+     execute_stan_fit = function(spec) {
+
+       if (file.exists("R/backend_bayes.R")) {
+
+-        source("R/backend_bayes.R")
+
++        source("backend_bayes.R")
+
+       }
+
+       
+
+       # Use existing run_fit_stan_hmc or similar
+
+@@ -268,7 +268,7 @@
+     # Execute PTA calculation job
+
+     execute_pta_calc = function(spec) {
+
+       if (file.exists("R/pta_cfr.R")) {
+
+-        source("R/pta_cfr.R")
+
++        source("pta_cfr.R")
+
+       }
+
+       
+
+       # Parallel PTA if available
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\pta_cfr.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\pta_cfr.R
+@@ -4,7 +4,7 @@
+ 
+
+ # Source parallel utilities if available
+
+ if (file.exists("R/parallel_utils.R")) {
+
+-  source("R/parallel_utils.R")
+
++  source("parallel_utils.R")
+
+ }
+
+ 
+
+ # ============================================================================
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\run_fit_jags.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\R\run_fit_jags.R
+@@ -15,7 +15,7 @@
+ 
+
+ # Source safety wrapper if available
+
+ if (file.exists("R/safe_computation.R")) {
+
+-  source("R/safe_computation.R")
+
++  source("safe_computation.R")
+
+ }
+
+ 
+
+ #' Run JAGS fitting with comprehensive error handling
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\scripts\security_migration.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\scripts\security_migration.R
+@@ -11,8 +11,8 @@
+ cat("4. Test authentication\n\n")
+
+ 
+
+ # Load required functions
+
+-source("R/auth.R")
+
+-source("R/audit.R")
+
++source("../R/auth.R")
+
++source("../R/audit.R")
+
+ 
+
+ # --- Step 1: Check Environment Variables ---
+
+ cat("Step 1: Checking environment variables...\n")
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\performance\benchmark.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\performance\benchmark.R
+@@ -8,7 +8,7 @@
+ library(jsonlite)
+
+ 
+
+ # Source required functions
+
+-source("R/utils.R")
+
++source("../../R/utils.R")
+
+ source("R/pk_calculations.R")
+
+ source("R/plotting_functions.R")
+
+ 
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-cache-manager.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-cache-manager.R
+@@ -5,7 +5,7 @@
+ library(mockery)
+
+ 
+
+ # Source the cache manager
+
+-source("R/cache_manager.R")
+
++source("../../R/cache_manager.R")
+
+ 
+
+ # Helper to create a mock Stan model
+
+ create_mock_model <- function(size_mb = 10) {
+
+@@ -274,7 +274,7 @@
+   skip_if_not_installed("cmdstanr")
+
+   
+
+   # Source modified backend
+
+-  source("R/backend_bayes.R")
+
++  source("../../R/backend_bayes.R")
+
+   
+
+   # Initialize cache
+
+   cache <- .initialize_model_cache()
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-safe-io.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-safe-io.R
+@@ -5,8 +5,8 @@
+ library(mockery)
+
+ 
+
+ # Source the module to test
+
+-source("R/safe_io.R")
+
+-source("R/auth_safe_upgrade.R")
+
++source("../../R/safe_io.R")
+
++source("../../R/auth_safe_upgrade.R")
+
+ 
+
+ # Helper function to create temp directory for tests
+
+ create_test_dir <- function() {
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-vectorized-functions.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat\test-vectorized-functions.R
+@@ -5,10 +5,10 @@
+ library(microbenchmark)
+
+ 
+
+ # Lade optimierte Funktionen
+
+-source("R/pk_models.R")
+
+-source("R/error_models.R")
+
+-source("R/crrt.R")
+
+-source("R/prior_db.R")
+
++source("../../R/pk_models.R")
+
++source("../../R/error_models.R")
+
++source("../../R/crrt.R")
+
++source("../../R/prior_db.R")
+
+ 
+
+ # Test-Suite fÃ¼r PK-Modelle
+
+ context("Vektorisierte PK-Modelle")
+
+--- C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat.R
++++ C:\Users\Danie\Meine Ablage (moba.apotheken@gmail.com)\00000000000000_UNTERNEHMENSGRUPPE\12_KOLUMBUS_BioComputing_GmbH\001_TDM_Tool\v6\tests\testthat.R
+@@ -46,7 +46,7 @@
+ 
+
+ # Load helper functions
+
+ if (file.exists("tests/testthat/helper-functions.R")) {
+
+-  source("tests/testthat/helper-functions.R")
+
++  source("testthat/helper-functions.R")
+
+ }
+
+ 
+
+ # Load test fixtures
+
