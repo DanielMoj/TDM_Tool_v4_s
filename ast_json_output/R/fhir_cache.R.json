@@ -1,0 +1,4949 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_cache"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_cache_stats"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_cache_config"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "default_ttl": {
+            "type": "literal",
+            "value": 300
+          },
+          "max_cache_size": {
+            "type": "literal",
+            "value": 100
+          },
+          "max_cache_memory": {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "literal",
+                "value": 50
+              },
+              {
+                "type": "call",
+                "fun": "^",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1024
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          },
+          "enable_compression": {
+            "type": "literal",
+            "value": true
+          },
+          "enable_stats": {
+            "type": "literal",
+            "value": true
+          },
+          "stale_while_revalidate": {
+            "type": "literal",
+            "value": 60
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_cache_stats"
+          },
+          {
+            "type": "name",
+            "value": "hits"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_cache_stats"
+          },
+          {
+            "type": "name",
+            "value": "misses"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_cache_stats"
+          },
+          {
+            "type": "name",
+            "value": "evictions"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_cache_stats"
+          },
+          {
+            "type": "name",
+            "value": "revalidations"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fhir_cached_request"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL", "FALSE", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.character",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nzchar",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_key"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "cache_key must be a non-empty string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.function",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fetch_fn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "fetch_fn must be a function"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ttl"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ttl"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "default_ttl"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "force_refresh"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR: Force refresh requested for key: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "fetch_fn",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "data"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "set_cache_entry",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_key"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ttl"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cached"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "get_cache_entry",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "cache_key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cached"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cached"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_at"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "update_cache_stats",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "hits"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "getOption",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "fhir.cache.verbose"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": false
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "FHIR cache HIT: "
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "cache_key"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cached"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "data"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stale_window"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cached"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_at"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_cache_config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "stale_while_revalidate"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "stale_window"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "update_cache_stats",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "revalidations"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "getOption",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "fhir.cache.verbose"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": false
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "FHIR: Serving stale data while revalidating: "
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "cache_key"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "tryCatch",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "new_data"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "fetch_fn",
+                                            "args": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "!",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "is.null",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "new_data"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "set_cache_entry",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "cache_key"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "new_data"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "ttl"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "message",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "FHIR: Revalidation failed: "
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "e"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "message"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cached"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "data"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "update_cache_stats",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "misses"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getOption",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "fhir.cache.verbose"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR cache MISS: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "data"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "fetch_fn",
+                            "args": []
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "FHIR: Fetch failed: "
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "&&",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "use_stale_on_error"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "!",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "is.null",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "cached"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "FHIR: Returning stale data due to fetch error"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "return",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "cached"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "e"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "set_cache_entry",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          },
+                          {
+                            "type": "name",
+                            "value": "data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ttl"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "set_cache_entry"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "size"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "object.size",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "data"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "enable_compression"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "size"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 10240
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "compress_data",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "data"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "compressed"
+                          },
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "compressed"
+                          },
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      },
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "data": {
+                        "type": "name",
+                        "value": "data"
+                      },
+                      "cached_at": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "expires_at": {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          },
+                          {
+                            "type": "name",
+                            "value": "ttl"
+                          }
+                        ]
+                      },
+                      "size": {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "size"
+                          }
+                        ]
+                      },
+                      "compressed": {
+                        "type": "name",
+                        "value": "compressed"
+                      },
+                      "access_count": {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "enforce_cache_limits",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_cache_entry"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_cache"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "entry"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      },
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "entry"
+                      },
+                      {
+                        "type": "name",
+                        "value": "access_count"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entry"
+                          },
+                          {
+                            "type": "name",
+                            "value": "access_count"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      },
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "entry"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "isTRUE",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entry"
+                          },
+                          {
+                            "type": "name",
+                            "value": "compressed"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "entry"
+                              },
+                              {
+                                "type": "name",
+                                "value": "data"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "decompress_data",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "entry"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "data"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "entry"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "enforce_cache_limits"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_keys"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "ls",
+                    "args": {
+                      "envir": {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_cache_size"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "lapply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_keys"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": ".fhir_cache"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "k"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "key"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "k"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "entries"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "order",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sapply",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entries"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "function",
+                                        "args": [
+                                          {
+                                            "type": "pairlist",
+                                            "value": ""
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "access_count"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "sapply",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entries"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "function",
+                                        "args": [
+                                          {
+                                            "type": "pairlist",
+                                            "value": ""
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "cached_at"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "to_remove"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "head",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "entries"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "length",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entries"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_cache_config"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "max_cache_size"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "for",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entry"
+                          },
+                          {
+                            "type": "name",
+                            "value": "to_remove"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "rm",
+                                "args": {
+                                  "list": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entry"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "key"
+                                      }
+                                    ]
+                                  },
+                                  "envir": {
+                                    "type": "name",
+                                    "value": ".fhir_cache"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "update_cache_stats",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "evictions"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "total_size"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sapply",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_cache"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "k"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "size"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "total_size"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_cache_memory"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "lapply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_keys"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": ".fhir_cache"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "k"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "key"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "k"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "entries"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "order",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sapply",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entries"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "function",
+                                        "args": [
+                                          {
+                                            "type": "pairlist",
+                                            "value": ""
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "e"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "size"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "evicted"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "for",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entry"
+                          },
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<=",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "total_size"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_cache_config"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "max_cache_memory"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "break",
+                                        "args": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "size"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_cache"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "entry"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "key"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "size"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "rm",
+                                "args": {
+                                  "list": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "entry"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "key"
+                                      }
+                                    ]
+                                  },
+                                  "envir": {
+                                    "type": "name",
+                                    "value": ".fhir_cache"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "total_size"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "total_size"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "size"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "evicted"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "evicted"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "update_cache_stats",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "evictions"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ">",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "evicted"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "getOption",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "fhir.cache.verbose"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "FHIR: Evicted %d entries for memory limit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "evicted"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "clear_fhir_cache"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["NULL", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_keys"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "ls",
+                    "args": {
+                      "envir": {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pattern"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "grep",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "pattern"
+                              },
+                              "2": {
+                                "type": "name",
+                                "value": "cache_keys"
+                              },
+                              "value": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "older_than"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "inherits",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "older_than"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "difftime"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cutoff"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "Sys.time",
+                                        "args": []
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "older_than"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "inherits",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "older_than"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "POSIXct"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cutoff"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "older_than"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "stop",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "older_than must be POSIXct or difftime"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_keys"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sapply",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_keys"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "[[",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": ".fhir_cache"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "key"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "cached_at"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "cutoff"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rm",
+                        "args": {
+                          "list": {
+                            "type": "name",
+                            "value": "cache_keys"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_cache"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "FHIR cache: Cleared %d entries"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_keys"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR cache: No entries to clear"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "invalidate_fhir_cache"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["NULL", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "resource_type"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "clear_fhir_cache",
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "resource_id"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pattern"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "%s.*%s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "resource_type"
+                              },
+                              {
+                                "type": "name",
+                                "value": "resource_id"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pattern"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "%s.*"
+                              },
+                              {
+                                "type": "name",
+                                "value": "resource_type"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "clear_fhir_cache",
+                "args": {
+                  "pattern": {
+                    "type": "name",
+                    "value": "pattern"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_cache_stats"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_keys"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "ls",
+                    "args": {
+                      "envir": {
+                        "type": "name",
+                        "value": ".fhir_cache"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "total_size"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "expired_count"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "current_time"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_keys"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sizes"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sapply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_keys"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "entry"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": ".fhir_cache"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "key"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "entry"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "expires_at"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "current_time"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "<<-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "expired_count"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "+",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "expired_count"
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 1
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "entry"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "size"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_size"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sum",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sizes"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "total_requests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "hits"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "misses"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "hit_rate"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_requests"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_cache_stats"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "hits"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "total_requests"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 100
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "entries": {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "cache_keys"
+                      }
+                    ]
+                  },
+                  "expired_entries": {
+                    "type": "name",
+                    "value": "expired_count"
+                  },
+                  "total_size": {
+                    "type": "name",
+                    "value": "total_size"
+                  },
+                  "total_size_mb": {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "total_size"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "^",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1024
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "hits": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "hits"
+                      }
+                    ]
+                  },
+                  "misses": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "misses"
+                      }
+                    ]
+                  },
+                  "evictions": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "evictions"
+                      }
+                    ]
+                  },
+                  "revalidations": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "revalidations"
+                      }
+                    ]
+                  },
+                  "hit_rate_percent": {
+                    "type": "call",
+                    "fun": "round",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "hit_rate"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  "config": {
+                    "type": "name",
+                    "value": ".fhir_cache_config"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "configure_fhir_cache"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["NULL", "NULL", "NULL", "NULL", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "default_ttl"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "default_ttl"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "default_ttl"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "max_cache_size"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_cache_size"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_cache_size"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "max_cache_memory"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_cache_memory"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_cache_memory"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "enable_compression"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "enable_compression"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "enable_compression"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "enable_stats"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "enable_stats"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "enable_stats"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "FHIR cache configuration updated"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_cache_config"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "warmup_cache"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.function",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "preload_fn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "preload_fn must be a function"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "entries"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "preload_fn",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.list",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "entries"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "preload_fn must return a list"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "loaded"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "item"
+                  },
+                  {
+                    "type": "name",
+                    "value": "entries"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "item"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "key"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "item"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "data"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "ttl"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "item"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "ttl"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_cache_config"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "default_ttl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "set_cache_entry",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "item"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "key"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "item"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "data"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ttl"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "loaded"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "loaded"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "FHIR cache warmed up with %d entries"
+                      },
+                      {
+                        "type": "name",
+                        "value": "loaded"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "update_cache_stats"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "enable_stats"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%in%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stat_type"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_cache_stats"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_cache_stats"
+                              },
+                              {
+                                "type": "name",
+                                "value": "stat_type"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_cache_stats"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "stat_type"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "compress_data"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "serialized"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "serialize",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "data"
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "memCompress",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "serialized"
+                  },
+                  "type": {
+                    "type": "literal",
+                    "value": "gzip"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "decompress_data"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "decompressed"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "memDecompress",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "compressed_data"
+                      },
+                      "type": {
+                        "type": "literal",
+                        "value": "gzip"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "unserialize",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "decompressed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "format_bytes"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "bytes"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1024
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "%d B"
+                              },
+                              {
+                                "type": "name",
+                                "value": "bytes"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "bytes"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1024
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "%.1f KB"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "bytes"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1024
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "bytes"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1024
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 3
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "%.1f MB"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "bytes"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "^",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": 1024
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 2
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "%.1f GB"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "bytes"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "^",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": 1024
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 3
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "reset_cache_stats"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "hits"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "misses"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "evictions"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_cache_stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "revalidations"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "FHIR cache statistics reset"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

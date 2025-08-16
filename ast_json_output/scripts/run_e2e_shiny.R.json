@@ -1,0 +1,40 @@
+[
+  {
+    "type": "call",
+    "fun": "dir.create",
+    "args": {
+      "1": {
+        "type": "literal",
+        "value": "artifacts"
+      },
+      "showWarnings": {
+        "type": "literal",
+        "value": false
+      },
+      "recursive": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": ["::", "testthat", "test_file"],
+    "args": {
+      "1": {
+        "type": "literal",
+        "value": "tests/testthat/test-e2e-shiny.R"
+      },
+      "reporter": {
+        "type": "call",
+        "fun": ["$", "testthat::JunitReporter", "new"],
+        "args": {
+          "file": {
+            "type": "literal",
+            "value": "artifacts/e2e-shiny.xml"
+          }
+        }
+      }
+    }
+  }
+]

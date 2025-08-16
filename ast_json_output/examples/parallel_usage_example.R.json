@@ -1,0 +1,3355 @@
+[
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/parallel_utils.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/async_fits.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/job_queue.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/pta_cfr.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/backend_bayes.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "config"
+      },
+      {
+        "type": "call",
+        "fun": ["::", "yaml", "read_yaml"],
+        "args": [
+          {
+            "type": "literal",
+            "value": "config/optimization_config.yaml"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "configure_parallel",
+    "args": {
+      "max_cores": {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "config"
+              },
+              {
+                "type": "name",
+                "value": "parallel"
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "value": "max_cores"
+          }
+        ]
+      },
+      "method": {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "config"
+              },
+              {
+                "type": "name",
+                "value": "parallel"
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "value": "method"
+          }
+        ]
+      },
+      "progress": {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "config"
+              },
+              {
+                "type": "name",
+                "value": "parallel"
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "value": "show_progress"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n=== BEISPIEL 1: Parallelisierte PTA-Berechnung ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "set.seed",
+    "args": [
+      {
+        "type": "literal",
+        "value": 123
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "n_draws"
+      },
+      {
+        "type": "literal",
+        "value": 1000
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "draws"
+      },
+      {
+        "type": "call",
+        "fun": "data.frame",
+        "args": {
+          "CL": {
+            "type": "call",
+            "fun": "rlnorm",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "call",
+                "fun": "log",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0.3
+              }
+            ]
+          },
+          "Vc": {
+            "type": "call",
+            "fun": "rlnorm",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "call",
+                "fun": "log",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 30
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0.3
+              }
+            ]
+          },
+          "Q1": {
+            "type": "call",
+            "fun": "rlnorm",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "call",
+                "fun": "log",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0.2
+              }
+            ]
+          },
+          "Vp1": {
+            "type": "call",
+            "fun": "rlnorm",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "call",
+                "fun": "log",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 20
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0.2
+              }
+            ]
+          },
+          "sigma_add": {
+            "type": "call",
+            "fun": "runif",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "literal",
+                "value": 0.05
+              },
+              {
+                "type": "literal",
+                "value": 0.2
+              }
+            ]
+          },
+          "sigma_prop": {
+            "type": "call",
+            "fun": "runif",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_draws"
+              },
+              {
+                "type": "literal",
+                "value": 0.05
+              },
+              {
+                "type": "literal",
+                "value": 0.15
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "regimen"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "dose": {
+            "type": "literal",
+            "value": 1000
+          },
+          "tau": {
+            "type": "literal",
+            "value": 8
+          },
+          "tinf": {
+            "type": "literal",
+            "value": 1
+          },
+          "n_doses": {
+            "type": "literal",
+            "value": 10
+          },
+          "start_time": {
+            "type": "literal",
+            "value": 0
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "target_def"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "type": {
+            "type": "literal",
+            "value": "fT>MIC"
+          },
+          "cutoff": {
+            "type": "literal",
+            "value": 0.5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "MIC"
+      },
+      {
+        "type": "literal",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Vergleiche Sequentiell vs Parallel PTA:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_seq"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pta_seq"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pta_for_regimen",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ":",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "literal",
+                                "value": 100
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "regimen"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "2C"
+                      },
+                      {
+                        "type": "name",
+                        "value": "target_def"
+                      },
+                      {
+                        "type": "name",
+                        "value": "MIC"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Sequentiell (100 draws): %.2f Sekunden, PTA = %.2f%%\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_seq"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "name",
+                "value": "pta_seq"
+              },
+              {
+                "type": "literal",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_par"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pta_par"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pta_parallel",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "draws"
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "regimen"
+                      },
+                      "3": {
+                        "type": "literal",
+                        "value": "2C"
+                      },
+                      "4": {
+                        "type": "name",
+                        "value": "target_def"
+                      },
+                      "5": {
+                        "type": "name",
+                        "value": "MIC"
+                      },
+                      "n_cores": {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      "progress": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Parallel (1000 draws, 4 cores): %.2f Sekunden, PTA = %.2f%%\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_par"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "name",
+                "value": "pta_par"
+              },
+              {
+                "type": "literal",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "speedup"
+      },
+      {
+        "type": "call",
+        "fun": "/",
+        "args": [
+          {
+            "type": "call",
+            "fun": "(",
+            "args": [
+              {
+                "type": "call",
+                "fun": "*",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "time_seq"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "elapsed"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_par"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Speedup: %.1fx\n\n"
+          },
+          {
+            "type": "name",
+            "value": "speedup"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "=== BEISPIEL 2: Asynchrone Stan-Fits ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "stan_code"
+      },
+      {
+        "type": "literal",
+        "value": "\ndata {\n  int<lower=0> N;\n  vector[N] time;\n  vector[N] conc;\n}\nparameters {\n  real<lower=0> CL;\n  real<lower=0> Vc;\n  real<lower=0> sigma;\n}\nmodel {\n  CL ~ lognormal(log(5), 0.3);\n  Vc ~ lognormal(log(30), 0.3);\n  sigma ~ normal(0, 1);\n  \n  vector[N] pred;\n  for (i in 1:N) {\n    pred[i] = 1000 / Vc * exp(-CL/Vc * time[i]);\n  }\n  conc ~ normal(pred, sigma);\n}\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "obs_data"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "N": {
+            "type": "literal",
+            "value": 10
+          },
+          "time": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": 0.5
+              },
+              {
+                "type": "literal",
+                "value": 1
+              },
+              {
+                "type": "literal",
+                "value": 2
+              },
+              {
+                "type": "literal",
+                "value": 4
+              },
+              {
+                "type": "literal",
+                "value": 6
+              },
+              {
+                "type": "literal",
+                "value": 8
+              },
+              {
+                "type": "literal",
+                "value": 12
+              },
+              {
+                "type": "literal",
+                "value": 16
+              },
+              {
+                "type": "literal",
+                "value": 20
+              },
+              {
+                "type": "literal",
+                "value": 24
+              }
+            ]
+          },
+          "conc": {
+            "type": "call",
+            "fun": "+",
+            "args": [
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 28
+                  },
+                  {
+                    "type": "literal",
+                    "value": 25
+                  },
+                  {
+                    "type": "literal",
+                    "value": 20
+                  },
+                  {
+                    "type": "literal",
+                    "value": 15
+                  },
+                  {
+                    "type": "literal",
+                    "value": 12
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  {
+                    "type": "literal",
+                    "value": 7
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  {
+                    "type": "literal",
+                    "value": 4
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "rnorm",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Starte asynchronen Stan-Fit...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "progress_callback"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "progress"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "/",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "chain"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "n_chains"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "/",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "iter"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "total_iter"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "n_chains"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\rProgress: %3.0f%% [Chain %d/%d, Iteration %d/%d]"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progress"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 100
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "chain"
+                      },
+                      {
+                        "type": "name",
+                        "value": "n_chains"
+                      },
+                      {
+                        "type": "name",
+                        "value": "iter"
+                      },
+                      {
+                        "type": "name",
+                        "value": "total_iter"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_promise"
+      },
+      {
+        "type": "call",
+        "fun": "fit_stan_async",
+        "args": {
+          "stan_code": {
+            "type": "name",
+            "value": "stan_code"
+          },
+          "data": {
+            "type": "name",
+            "value": "obs_data"
+          },
+          "chains": {
+            "type": "literal",
+            "value": 2
+          },
+          "iter_warmup": {
+            "type": "literal",
+            "value": 500
+          },
+          "iter_sampling": {
+            "type": "literal",
+            "value": 500
+          },
+          "parallel_chains": {
+            "type": "literal",
+            "value": 2
+          },
+          "progress": {
+            "type": "name",
+            "value": "progress_callback"
+          },
+          "model_id": {
+            "type": "literal",
+            "value": "example_pk_model"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n\nFühre andere Berechnungen aus während Stan läuft...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "Sys.sleep",
+    "args": [
+      {
+        "type": "literal",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Andere Arbeit erledigt!\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Warte auf Stan-Ergebnis...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_result"
+      },
+      {
+        "type": "call",
+        "fun": ["::", "promises", "promise_resolve"],
+        "args": [
+          {
+            "type": "name",
+            "value": "fit_promise"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Fit abgeschlossen! Converged: %s, Divergences: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "fit_result"
+              },
+              {
+                "type": "name",
+                "value": "converged"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "fit_result"
+              },
+              {
+                "type": "name",
+                "value": "n_divergent"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n=== BEISPIEL 3: Job Queue System ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "queue"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "JobQueue", "new"],
+        "args": {
+          "max_workers": {
+            "type": "literal",
+            "value": 2
+          },
+          "cache_dir": {
+            "type": "call",
+            "fun": "tempdir",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Submitte multiple Jobs mit verschiedenen Prioritäten:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "job_ids"
+      },
+      {
+        "type": "call",
+        "fun": "character",
+        "args": [
+          {
+            "type": "literal",
+            "value": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "[",
+        "args": [
+          {
+            "type": "name",
+            "value": "job_ids"
+          },
+          {
+            "type": "literal",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": ["$", "queue", "submit"],
+        "args": {
+          "type": {
+            "type": "literal",
+            "value": "pta_calculation"
+          },
+          "spec": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "draws": {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 200
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": ""
+                  }
+                ]
+              },
+              "regimen": {
+                "type": "name",
+                "value": "regimen"
+              },
+              "model_type": {
+                "type": "literal",
+                "value": "2C"
+              },
+              "target_def": {
+                "type": "name",
+                "value": "target_def"
+              },
+              "MIC": {
+                "type": "literal",
+                "value": 1
+              }
+            }
+          },
+          "priority": {
+            "type": "literal",
+            "value": 10
+          },
+          "callback": {
+            "type": "call",
+            "fun": "function",
+            "args": [
+              {
+                "type": "pairlist",
+                "value": ""
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "\n✓ High priority job completed: PTA = %.2f%%\n"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 100
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "for",
+    "args": [
+      {
+        "type": "name",
+        "value": "i"
+      },
+      {
+        "type": "call",
+        "fun": ":",
+        "args": [
+          {
+            "type": "literal",
+            "value": 2
+          },
+          {
+            "type": "literal",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "job_ids"
+                  },
+                  {
+                    "type": "name",
+                    "value": "i"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["$", "queue", "submit"],
+                "args": {
+                  "type": {
+                    "type": "literal",
+                    "value": "pta_calculation"
+                  },
+                  "spec": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "draws": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ":",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "literal",
+                                "value": 200
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      "regimen": {
+                        "type": "name",
+                        "value": "regimen"
+                      },
+                      "model_type": {
+                        "type": "literal",
+                        "value": "2C"
+                      },
+                      "target_def": {
+                        "type": "name",
+                        "value": "target_def"
+                      },
+                      "MIC": {
+                        "type": "name",
+                        "value": "i"
+                      }
+                    }
+                  },
+                  "priority": {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  "callback": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "✓ Normal priority job completed: PTA = %.2f%%\n"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 100
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "[",
+        "args": [
+          {
+            "type": "name",
+            "value": "job_ids"
+          },
+          {
+            "type": "literal",
+            "value": 5
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": ["$", "queue", "submit"],
+        "args": {
+          "type": {
+            "type": "literal",
+            "value": "batch_processing"
+          },
+          "spec": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "data": {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 100
+                  }
+                ]
+              },
+              "fun": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "^",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            }
+          },
+          "priority": {
+            "type": "literal",
+            "value": 1
+          },
+          "callback": {
+            "type": "call",
+            "fun": "function",
+            "args": [
+              {
+                "type": "pairlist",
+                "value": ""
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "✓ Batch job completed: %d items processed\n"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nQueue Status:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "print",
+    "args": [
+      {
+        "type": "name",
+        "value": "queue"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nWarte auf High-Priority Job...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "high_priority_result"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "queue", "result"],
+        "args": {
+          "1": {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "job_ids"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          "wait": {
+            "type": "literal",
+            "value": true
+          },
+          "timeout": {
+            "type": "literal",
+            "value": 30
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "High-Priority Ergebnis: PTA = %.2f%%\n"
+          },
+          {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "name",
+                "value": "high_priority_result"
+              },
+              {
+                "type": "literal",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "stats"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "queue", "get_stats"],
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nQueue Statistics:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Completed: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "completed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Failed: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "failed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Cache hits: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "cache_hits"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Avg wait time: %.1f seconds\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "avg_wait_time"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Avg run time: %.1f seconds\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "avg_run_time"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n=== BEISPIEL 4: Batch PTA für Multiple Regimens ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "regimens_list"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "standard": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 1000
+              },
+              "tau": {
+                "type": "literal",
+                "value": 8
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 1
+              },
+              "n_doses": {
+                "type": "literal",
+                "value": 10
+              },
+              "start_time": {
+                "type": "literal",
+                "value": 0
+              }
+            }
+          },
+          "high_dose": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 2000
+              },
+              "tau": {
+                "type": "literal",
+                "value": 12
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 2
+              },
+              "n_doses": {
+                "type": "literal",
+                "value": 8
+              },
+              "start_time": {
+                "type": "literal",
+                "value": 0
+              }
+            }
+          },
+          "continuous": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 3000
+              },
+              "tau": {
+                "type": "literal",
+                "value": 24
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 24
+              },
+              "n_doses": {
+                "type": "literal",
+                "value": 5
+              },
+              "start_time": {
+                "type": "literal",
+                "value": 0
+              }
+            }
+          },
+          "loading": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 1500
+              },
+              "tau": {
+                "type": "literal",
+                "value": 8
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 0.5
+              },
+              "n_doses": {
+                "type": "literal",
+                "value": 10
+              },
+              "start_time": {
+                "type": "literal",
+                "value": 0
+              }
+            }
+          },
+          "extended": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 1000
+              },
+              "tau": {
+                "type": "literal",
+                "value": 8
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 4
+              },
+              "n_doses": {
+                "type": "literal",
+                "value": 10
+              },
+              "start_time": {
+                "type": "literal",
+                "value": 0
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Berechne PTA für 5 verschiedene Dosierungsschemata...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_batch"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pta_results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pta_batch_parallel",
+                    "args": {
+                      "draws": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ":",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "literal",
+                                "value": 500
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      "regimens_list": {
+                        "type": "name",
+                        "value": "regimens_list"
+                      },
+                      "model_type": {
+                        "type": "literal",
+                        "value": "2C"
+                      },
+                      "target_def": {
+                        "type": "name",
+                        "value": "target_def"
+                      },
+                      "MIC": {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      "n_cores": {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      "load_balance": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nPTA-Ergebnisse für verschiedene Regimes:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "for",
+    "args": [
+      {
+        "type": "name",
+        "value": "i"
+      },
+      {
+        "type": "call",
+        "fun": "seq_along",
+        "args": [
+          {
+            "type": "name",
+            "value": "regimens_list"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "  %s: PTA = %.1f%%\n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimens_list"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "i"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pta_results"
+                          },
+                          {
+                            "type": "name",
+                            "value": "i"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 100
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "\nGesamtzeit für 5 Regimes: %.2f Sekunden\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_batch"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n=== BEISPIEL 5: Parallel Diagnostics ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Berechne ESS und Rhat für alle Parameter...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_diag"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "calculate_diagnostics_parallel",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "draws"
+                      },
+                      "n_cores": {
+                        "type": "literal",
+                        "value": 4
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nDiagnostics Summary:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Min ESS (bulk): %.0f\n"
+          },
+          {
+            "type": "call",
+            "fun": "min",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  },
+                  {
+                    "type": "name",
+                    "value": "ess_bulk"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Max Rhat: %.3f\n"
+          },
+          {
+            "type": "call",
+            "fun": "max",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  },
+                  {
+                    "type": "name",
+                    "value": "rhat"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Zeit: %.2f Sekunden\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_diag"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "converged"
+      },
+      {
+        "type": "call",
+        "fun": "&&",
+        "args": [
+          {
+            "type": "call",
+            "fun": "all",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "diagnostics"
+                      },
+                      {
+                        "type": "name",
+                        "value": "rhat"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1.01
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "all",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "diagnostics"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ess_bulk"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 400
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "\nKonvergiert: %s\n"
+          },
+          {
+            "type": "call",
+            "fun": "ifelse",
+            "args": [
+              {
+                "type": "name",
+                "value": "converged"
+              },
+              {
+                "type": "literal",
+                "value": "✓ Ja"
+              },
+              {
+                "type": "literal",
+                "value": "✗ Nein"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n=== BEISPIEL 6: CFR mit MIC-Verteilung ===\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mic_dist"
+      },
+      {
+        "type": "call",
+        "fun": "data.frame",
+        "args": {
+          "mic": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": 0.25
+              },
+              {
+                "type": "literal",
+                "value": 0.5
+              },
+              {
+                "type": "literal",
+                "value": 1
+              },
+              {
+                "type": "literal",
+                "value": 2
+              },
+              {
+                "type": "literal",
+                "value": 4
+              },
+              {
+                "type": "literal",
+                "value": 8
+              }
+            ]
+          },
+          "p": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": 0.05
+              },
+              {
+                "type": "literal",
+                "value": 0.1
+              },
+              {
+                "type": "literal",
+                "value": 0.3
+              },
+              {
+                "type": "literal",
+                "value": 0.35
+              },
+              {
+                "type": "literal",
+                "value": 0.15
+              },
+              {
+                "type": "literal",
+                "value": 0.05
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "MIC-Verteilung:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "print",
+    "args": [
+      {
+        "type": "name",
+        "value": "mic_dist"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nBerechne CFR...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_cfr"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cfr_result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cfr_parallel",
+                    "args": {
+                      "draws": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ":",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "literal",
+                                "value": 500
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      "regimen": {
+                        "type": "name",
+                        "value": "regimen"
+                      },
+                      "model_type": {
+                        "type": "literal",
+                        "value": "2C"
+                      },
+                      "target_def": {
+                        "type": "name",
+                        "value": "target_def"
+                      },
+                      "mic_dist": {
+                        "type": "name",
+                        "value": "mic_dist"
+                      },
+                      "n_cores": {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      "parallel_mic": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "\nCFR = %.1f%%\n"
+          },
+          {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "name",
+                "value": "cfr_result"
+              },
+              {
+                "type": "literal",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Berechnungszeit: %.2f Sekunden\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_cfr"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "%+%",
+        "args": [
+          {
+            "type": "call",
+            "fun": "%+%",
+            "args": [
+              {
+                "type": "literal",
+                "value": "\n"
+              },
+              {
+                "type": "call",
+                "fun": "paste",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "="
+                      },
+                      {
+                        "type": "literal",
+                        "value": 60
+                      }
+                    ]
+                  },
+                  "collapse": {
+                    "type": "literal",
+                    "value": ""
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": "\n"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "PERFORMANCE SUMMARY\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "%+%",
+        "args": [
+          {
+            "type": "call",
+            "fun": "paste",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "rep",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "="
+                  },
+                  {
+                    "type": "literal",
+                    "value": 60
+                  }
+                ]
+              },
+              "collapse": {
+                "type": "literal",
+                "value": ""
+              }
+            }
+          },
+          {
+            "type": "literal",
+            "value": "\n\n"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "System Information:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Platform: %s\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": ".Platform"
+              },
+              {
+                "type": "name",
+                "value": "OS.type"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Cores available: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": ["::", "parallel", "detectCores"],
+            "args": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Cores used: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "get_optimal_workers",
+            "args": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  R version: %s\n"
+          },
+          {
+            "type": "name",
+            "value": "R.version.string"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nPerformance Metrics:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  PTA calculation speedup: %.1fx\n"
+          },
+          {
+            "type": "name",
+            "value": "speedup"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Jobs processed: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "name",
+                "value": "completed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Cache efficiency: %.0f%%\n"
+          },
+          {
+            "type": "call",
+            "fun": "*",
+            "args": [
+              {
+                "type": "call",
+                "fun": "(",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_hits"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "completed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mem_info"
+      },
+      {
+        "type": "call",
+        "fun": "gc",
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "\nMemory Usage:\n"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Used: %.1f MB\n"
+          },
+          {
+            "type": "call",
+            "fun": "sum",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mem_info"
+                  },
+                  {
+                    "type": "name",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "  Max used: %.1f MB\n"
+          },
+          {
+            "type": "call",
+            "fun": "sum",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mem_info"
+                  },
+                  {
+                    "type": "name",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": 6
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n✓ Alle Beispiele erfolgreich ausgeführt!\n"
+      }
+    ]
+  }
+]

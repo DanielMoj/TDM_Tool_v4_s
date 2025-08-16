@@ -1,0 +1,190 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "password hashing and verify works; audit chain verifies"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "load_sources",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "sodium"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "h"
+              },
+              {
+                "type": "call",
+                "fun": "password_hash",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "secret123"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "password_verify",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "secret123"
+                  },
+                  {
+                    "type": "name",
+                    "value": "h"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "td"
+              },
+              {
+                "type": "call",
+                "fun": "make_temp_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "f"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "td"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "audit.csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "audit_append_hashchain",
+                "args": {
+                  "file": {
+                    "type": "name",
+                    "value": "f"
+                  },
+                  "actor": {
+                    "type": "literal",
+                    "value": "tester"
+                  },
+                  "action": {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "act"
+                      },
+                      {
+                        "type": "name",
+                        "value": "i"
+                      }
+                    ]
+                  },
+                  "payload": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "i": {
+                        "type": "name",
+                        "value": "i"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "audit_verify_chain",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "f"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,4190 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_circuit"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_circuit"
+          },
+          {
+            "type": "name",
+            "value": "state"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": "closed"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_circuit"
+          },
+          {
+            "type": "name",
+            "value": "failures"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_circuit"
+          },
+          {
+            "type": "name",
+            "value": "last_failure_time"
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_circuit"
+          },
+          {
+            "type": "name",
+            "value": "success_count"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_circuit"
+          },
+          {
+            "type": "name",
+            "value": "config"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "failure_threshold": {
+            "type": "literal",
+            "value": 5
+          },
+          "timeout_seconds": {
+            "type": "literal",
+            "value": 60
+          },
+          "success_threshold": {
+            "type": "literal",
+            "value": 3
+          },
+          "request_timeout": {
+            "type": "literal",
+            "value": 30
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fhir_request_with_circuit_breaker"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "3", "30", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.function",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "request_fn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "request_fn must be a function"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "circuit_status"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "check_circuit_state",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "circuit_status"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "blocked"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "time_remaining"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "config"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "timeout_seconds"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "as.numeric",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "difftime",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "Sys.time",
+                                        "args": []
+                                      },
+                                      "2": {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_circuit"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "last_failure_time"
+                                          }
+                                        ]
+                                      },
+                                      "units": {
+                                        "type": "literal",
+                                        "value": "secs"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Circuit breaker OPEN: FHIR server unavailable. Retry in %d seconds."
+                              },
+                              {
+                                "type": "call",
+                                "fun": "max",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "ceiling",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "time_remaining"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "log_circuit_event",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "blocked"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "time_remaining": {
+                                "type": "name",
+                                "value": "time_remaining"
+                              },
+                              "failures": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "failures"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "execute_with_retry",
+                    "args": {
+                      "request_fn": {
+                        "type": "name",
+                        "value": "request_fn"
+                      },
+                      "args": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "..."
+                          }
+                        ]
+                      },
+                      "max_retries": {
+                        "type": "name",
+                        "value": "max_retries"
+                      },
+                      "timeout": {
+                        "type": "name",
+                        "value": "timeout"
+                      },
+                      "retry_on_401": {
+                        "type": "name",
+                        "value": "retry_on_401"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "update_circuit_state",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "success"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "response"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_circuit_state"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "state"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "open"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "time_since_failure"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "difftime",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "last_failure_time"
+                                  }
+                                ]
+                              },
+                              "units": {
+                                "type": "literal",
+                                "value": "secs"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "time_since_failure"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "config"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "timeout_seconds"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "state"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "half_open"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "success_count"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Circuit breaker: Attempting recovery (half-open)"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "testing"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "blocked"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "allowed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "execute_with_retry"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "attempt"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "wait_time"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "last_error"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "while",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<=",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "attempt"
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_retries"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "FHIR request attempt %d/%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "attempt"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "max_retries"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tryCatch",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "response"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "httr", "with_config"],
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ["::", "httr", "timeout"],
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "timeout"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "do.call",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "request_fn"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "args"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "httr", "http_error"],
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "response"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "handle_http_error",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "response"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "retry_on_401"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "list",
+                                            "args": {
+                                              "success": {
+                                                "type": "literal",
+                                                "value": true
+                                              },
+                                              "response": {
+                                                "type": "name",
+                                                "value": "response"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "error": {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "last_error"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "message"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "log_network_error",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "message"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "attempt"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "should_retry_error",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "e"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "message"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "list",
+                                                "args": {
+                                                  "success": {
+                                                    "type": "literal",
+                                                    "value": false
+                                                  },
+                                                  "retry": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  },
+                                                  "error": {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "e"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "message"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "list",
+                                                "args": {
+                                                  "success": {
+                                                    "type": "literal",
+                                                    "value": false
+                                                  },
+                                                  "retry": {
+                                                    "type": "literal",
+                                                    "value": false
+                                                  },
+                                                  "error": {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "e"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "message"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "success"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "success"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "retry"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "retry"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Non-retryable error: %s"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "error"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "response": {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "wait_time"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "wait_time"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempt"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "max_retries"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "wait_time"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "min",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "+",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "*",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "wait_time"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 2
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "runif",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 0
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 30
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_retries"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Waiting %.1f seconds before retry..."
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "wait_time"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "Sys.sleep",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempt"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "warning",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "FHIR request failed after %d attempts. Last error: %s"
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_retries"
+                      },
+                      {
+                        "type": "name",
+                        "value": "last_error"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "audit_event",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "fhir_request_failed"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "endpoint": {
+                        "type": "call",
+                        "fun": "deparse",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "substitute",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "request_fn"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "attempts": {
+                        "type": "name",
+                        "value": "max_retries"
+                      },
+                      "last_error": {
+                        "type": "name",
+                        "value": "last_error"
+                      },
+                      "circuit_state": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "state"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "success": {
+                        "type": "literal",
+                        "value": false
+                      },
+                      "response": {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "handle_http_error"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status_code"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "httr", "status_code"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "response"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "status_code"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 401
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "retry_on_401"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR: 401 Unauthorized - attempting token refresh"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "exists",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "fhir_refresh_token"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "is.function",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "fhir_refresh_token"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "fhir_refresh_token",
+                                    "args": []
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "return",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "list",
+                                            "args": {
+                                              "success": {
+                                                "type": "literal",
+                                                "value": false
+                                              },
+                                              "retry": {
+                                                "type": "literal",
+                                                "value": true
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "retry": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "error": {
+                                "type": "literal",
+                                "value": "Token refresh failed"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "status_code"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 429
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "retry_after"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "httr", "headers"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "response"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "retry-after"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "wait_time"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "ifelse",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "retry_after"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 5
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.numeric",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "retry_after"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "FHIR: Rate limited (429). Waiting %d seconds."
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "success": {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  "retry": {
+                                    "type": "literal",
+                                    "value": true
+                                  },
+                                  "wait_time": {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "status_code"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 500
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "error_msg"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "FHIR server error: %d %s"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "status_code"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ["::", "httr", "http_status"],
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "response"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "message"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "retry": {
+                                        "type": "literal",
+                                        "value": true
+                                      },
+                                      "error": {
+                                        "type": "name",
+                                        "value": "error_msg"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "error_msg"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "FHIR client error: %d %s"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "status_code"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ["::", "httr", "http_status"],
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "response"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "message"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "retry": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "error": {
+                                        "type": "name",
+                                        "value": "error_msg"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "update_circuit_state"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "success"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "handle_success",
+                        "args": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "handle_failure",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "handle_success"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "state"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "half_open"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "success_count"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "success_count"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "success_count"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "config"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "success_threshold"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "state"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "closed"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "failures"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "success_count"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Circuit breaker: Recovery successful (closed)"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "log_circuit_event",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "recovered"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success_count": {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": ".fhir_circuit"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "config"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "success_threshold"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "state"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "closed"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "failures"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "handle_failure"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "failures"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "failures"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "last_failure_time"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "state"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "half_open"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "state"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "open"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "success_count"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Circuit breaker: Recovery failed, reopening"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "log_circuit_event",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "recovery_failed"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "failures": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "failures"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "failures"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "failure_threshold"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "state"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "open"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Circuit breaker: Opening after %d failures"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "failures"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log_circuit_event",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "opened"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "failures": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_circuit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "failures"
+                                      }
+                                    ]
+                                  },
+                                  "threshold": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_circuit"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "config"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "failure_threshold"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "should_retry_error"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "retry_patterns"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "timeout"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "connection refused"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "could not resolve host"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "network is unreachable"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "connection reset"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "temporary failure"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "any",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "retry_patterns"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "grepl",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pattern"
+                                  },
+                                  "2": {
+                                    "type": "name",
+                                    "value": "error_message"
+                                  },
+                                  "ignore.case": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_fhir_circuit_status"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "state": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "state"
+                          }
+                        ]
+                      },
+                      "failures": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "failures"
+                          }
+                        ]
+                      },
+                      "last_failure": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "last_failure_time"
+                          }
+                        ]
+                      },
+                      "available": {
+                        "type": "call",
+                        "fun": "!=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "state"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "open"
+                          }
+                        ]
+                      },
+                      "config": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_circuit"
+                          },
+                          {
+                            "type": "name",
+                            "value": "config"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_circuit"
+                              },
+                              {
+                                "type": "name",
+                                "value": "state"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "open"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "last_failure_time"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "time_since_failure"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "difftime",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "last_failure_time"
+                                  }
+                                ]
+                              },
+                              "units": {
+                                "type": "literal",
+                                "value": "secs"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "status"
+                              },
+                              {
+                                "type": "name",
+                                "value": "recovery_in"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "max",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              },
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_circuit"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "config"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "timeout_seconds"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.numeric",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "time_since_failure"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "reset_fhir_circuit"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "NULL"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "state"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "closed"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "failures"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "last_failure_time"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "success_count"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "FHIR circuit breaker reset"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "log_circuit_event",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "manual_reset"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "reason": {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "reason"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "Manual reset by admin"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "configure_circuit_breaker"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["NULL", "NULL", "NULL", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "failure_threshold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "failure_threshold"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "failure_threshold"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "timeout_seconds"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "timeout_seconds"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "timeout_seconds"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "success_threshold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "success_threshold"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "success_threshold"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "request_timeout"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": ".fhir_circuit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "request_timeout"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "request_timeout"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "Circuit breaker configuration updated"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_circuit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "config"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "log_circuit_event"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getOption",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "fhir.verbose"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "[CIRCUIT] %s: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "event_type"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "details"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "log_network_error"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getOption",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "fhir.verbose"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "[NETWORK] Attempt %d failed: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "name",
+                                "value": "error_message"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "audit_event"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getOption",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "fhir.audit"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "audit_entry"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "timestamp": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "event": {
+                                "type": "name",
+                                "value": "event_type"
+                              },
+                              "details": {
+                                "type": "name",
+                                "value": "details"
+                              },
+                              "user": {
+                                "type": "call",
+                                "fun": "Sys.getenv",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "USER"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "unknown"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "[AUDIT] %s"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "audit_entry"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

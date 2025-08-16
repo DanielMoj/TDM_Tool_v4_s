@@ -1,0 +1,151 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pkgs"
+      },
+      {
+        "type": "call",
+        "fun": "c",
+        "args": [
+          {
+            "type": "literal",
+            "value": "testthat"
+          },
+          {
+            "type": "literal",
+            "value": "shinytest2"
+          },
+          {
+            "type": "literal",
+            "value": "httr2"
+          },
+          {
+            "type": "literal",
+            "value": "yaml"
+          },
+          {
+            "type": "literal",
+            "value": "sodium"
+          },
+          {
+            "type": "literal",
+            "value": "digest"
+          },
+          {
+            "type": "literal",
+            "value": "DBI"
+          },
+          {
+            "type": "literal",
+            "value": "RPostgres"
+          },
+          {
+            "type": "literal",
+            "value": "cmdstanr"
+          },
+          {
+            "type": "literal",
+            "value": "posterior"
+          },
+          {
+            "type": "literal",
+            "value": "plumber"
+          },
+          {
+            "type": "literal",
+            "value": "processx"
+          },
+          {
+            "type": "literal",
+            "value": "covr"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "to_install"
+      },
+      {
+        "type": "call",
+        "fun": "setdiff",
+        "args": [
+          {
+            "type": "name",
+            "value": "pkgs"
+          },
+          {
+            "type": "call",
+            "fun": "rownames",
+            "args": [
+              {
+                "type": "call",
+                "fun": "installed.packages",
+                "args": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "length",
+        "args": [
+          {
+            "type": "name",
+            "value": "to_install"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "install.packages",
+        "args": [
+          {
+            "type": "name",
+            "value": "to_install"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "message",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Installed/ensured: "
+      },
+      {
+        "type": "call",
+        "fun": "paste",
+        "args": {
+          "1": {
+            "type": "name",
+            "value": "pkgs"
+          },
+          "collapse": {
+            "type": "literal",
+            "value": ", "
+          }
+        }
+      }
+    ]
+  }
+]

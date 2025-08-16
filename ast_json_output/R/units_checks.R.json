@@ -1,0 +1,288 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "validate_inputs_units"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "dose"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Dosis muss > 0 mg sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "tau"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Intervall tau muss > 0 h sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "tinf"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Infusionsdauer muss > 0 h sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "n_doses"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Anzahl Gaben muss >= 1 sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "any",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "obs"
+                              },
+                              {
+                                "type": "name",
+                                "value": "time"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Messzeiten müssen >= 0 h sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "any",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "obs"
+                              },
+                              {
+                                "type": "name",
+                                "value": "conc"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Konzentrationen müssen >= 0 mg/L sein."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": true
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

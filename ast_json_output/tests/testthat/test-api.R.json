@@ -1,0 +1,228 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "API endpoints respond"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "plumber"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "httr2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "pr"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "plumber", "pr"],
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "api/plumber.R"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "port"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "httpuv", "randomPort"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "s"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "plumber", "pr_run"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "pr"
+                  },
+                  "port": {
+                    "type": "name",
+                    "value": "port"
+                  },
+                  "background": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "try",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ["$", "s", "stop"],
+                        "args": []
+                      },
+                      "silent": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "Sys.sleep",
+            "args": [
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "req"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "httr2", "request"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "http://127.0.0.1:%d/lis/antibiogram/list"
+                      },
+                      {
+                        "type": "name",
+                        "value": "port"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "resp"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "httr2", "req_perform"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "httr2", "resp_status"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "resp"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 200
+                      },
+                      {
+                        "type": "literal",
+                        "value": 500
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

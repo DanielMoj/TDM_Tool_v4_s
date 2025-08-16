@@ -1,0 +1,670 @@
+[
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "requireNamespace",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "jsonlite"
+              },
+              "quietly": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "stop",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "Benötigt das Paket 'jsonlite'. Bitte installieren Sie es mit install.packages('jsonlite')"
+              },
+              "call.": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "jsonlite"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "expr_to_obj"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.call",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "e"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fn"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.character",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "e"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "args"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "as.list",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "e"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "nm"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "args"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "args_json"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "lapply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "args"
+                              },
+                              {
+                                "type": "name",
+                                "value": "expr_to_obj"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "nm"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "args_json"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "nm"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "type": {
+                            "type": "literal",
+                            "value": "call"
+                          },
+                          "fun": {
+                            "type": "name",
+                            "value": "fn"
+                          },
+                          "args": {
+                            "type": "name",
+                            "value": "args_json"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.name",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "e"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "type": {
+                                "type": "literal",
+                                "value": "name"
+                              },
+                              "value": {
+                                "type": "call",
+                                "fun": "as.character",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "e"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.atomic",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "e"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "type": {
+                                    "type": "literal",
+                                    "value": "literal"
+                                  },
+                                  "value": {
+                                    "type": "name",
+                                    "value": "e"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "type": {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "class",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "call",
+                                    "fun": "as.character",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "args"
+      },
+      {
+        "type": "call",
+        "fun": "commandArgs",
+        "args": {
+          "trailingOnly": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!=",
+        "args": [
+          {
+            "type": "call",
+            "fun": "length",
+            "args": [
+              {
+                "type": "name",
+                "value": "args"
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "stop",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "Benötigt werden: <input_file> <output_file>"
+              },
+              "call.": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "input_file"
+      },
+      {
+        "type": "call",
+        "fun": "[[",
+        "args": [
+          {
+            "type": "name",
+            "value": "args"
+          },
+          {
+            "type": "literal",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "output_file"
+      },
+      {
+        "type": "call",
+        "fun": "[[",
+        "args": [
+          {
+            "type": "name",
+            "value": "args"
+          },
+          {
+            "type": "literal",
+            "value": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "parsed"
+      },
+      {
+        "type": "call",
+        "fun": "try",
+        "args": {
+          "1": {
+            "type": "call",
+            "fun": "parse",
+            "args": {
+              "file": {
+                "type": "name",
+                "value": "input_file"
+              }
+            }
+          },
+          "silent": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "inherits",
+        "args": [
+          {
+            "type": "name",
+            "value": "parsed"
+          },
+          {
+            "type": "literal",
+            "value": "try-error"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "write_json",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "error": {
+                    "type": "literal",
+                    "value": "Parse error in R file"
+                  },
+                  "file": {
+                    "type": "call",
+                    "fun": "basename",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "input_file"
+                      }
+                    ]
+                  }
+                }
+              },
+              "2": {
+                "type": "name",
+                "value": "output_file"
+              },
+              "auto_unbox": {
+                "type": "literal",
+                "value": true
+              },
+              "pretty": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "quit",
+            "args": {
+              "status": {
+                "type": "literal",
+                "value": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "ast"
+              },
+              {
+                "type": "call",
+                "fun": "lapply",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "parsed"
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr_to_obj"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "write_json",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "ast"
+              },
+              "2": {
+                "type": "name",
+                "value": "output_file"
+              },
+              "auto_unbox": {
+                "type": "literal",
+                "value": true
+              },
+              "pretty": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

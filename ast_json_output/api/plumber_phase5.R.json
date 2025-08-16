@@ -1,0 +1,454 @@
+[
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", "", "", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "codes_vec"
+              },
+              {
+                "type": "call",
+                "fun": "[[",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "strsplit",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "codes"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ","
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "codes_vec"
+              },
+              {
+                "type": "call",
+                "fun": "trimws",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "codes_vec"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "nzchar",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "codes_vec"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "b"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "base_url"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "patient_id"
+                  },
+                  "3": {
+                    "type": "name",
+                    "value": "codes_vec"
+                  },
+                  "token": {
+                    "type": "name",
+                    "value": "token"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_observations_to_tdm",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "n": {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  }
+                ]
+              },
+              "items": {
+                "type": "name",
+                "value": "df"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ""
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df"
+              },
+              {
+                "type": "call",
+                "fun": "read_antibiogram_csv",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "ok": {
+                "type": "literal",
+                "value": true
+              },
+              "n": {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "NULL",
+        "value": []
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "call",
+                "fun": "connect_pg",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": [
+              {
+                "type": "call",
+                "fun": "try",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ["::", "DBI", "dbDisconnect"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  "silent": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "drugs": {
+                "type": "call",
+                "fun": "db_list_antibiogram_drugs",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ""
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "call",
+                "fun": "connect_pg",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": [
+              {
+                "type": "call",
+                "fun": "try",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ["::", "DBI", "dbDisconnect"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  "silent": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df"
+              },
+              {
+                "type": "call",
+                "fun": "db_get_antibiogram",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "name",
+                    "value": "drug"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "n": {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  }
+                ]
+              },
+              "items": {
+                "type": "name",
+                "value": "df"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", "api-upload"]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "res"
+              },
+              {
+                "type": "call",
+                "fun": "antibiogram_import_to_db",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "path"
+                  },
+                  "source": {
+                    "type": "name",
+                    "value": "source"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "value": "res"
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3657 @@
+[
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "db.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "read_antibiogram_csv"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "File not found: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "readr", "read_csv"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "path"
+                              },
+                              "show_col_types": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "progress": {
+                                "type": "literal",
+                                "value": false
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Failed to read CSV: "
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req_cols"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "drug"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "mic"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "prob"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "miss"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "setdiff",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "req_cols"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "miss"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Missing required columns: "
+                          },
+                          {
+                            "type": "call",
+                            "fun": "paste",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "miss"
+                              },
+                              "collapse": {
+                                "type": "literal",
+                                "value": ", "
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "as.character",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mic"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "as.numeric",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "mic"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "prob"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "as.numeric",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "prob"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "valid"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "&",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.finite",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "mic"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "is.finite",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ">=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "prob"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "valid"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Removed %d invalid rows"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sum",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "!",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "valid"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "valid"
+                      },
+                      {
+                        "type": "name",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "dplyr"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Package 'dplyr' required for data normalization"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "dplyr", "ungroup"],
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "dplyr", "mutate"],
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": ["::", "dplyr", "group_by"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          },
+                          "prob": {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "prob"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sum",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "as.data.frame",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_to_text"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.data.frame",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sub"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sub"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sub"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sub"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "order",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sub"
+                              },
+                              {
+                                "type": "name",
+                                "value": "mic"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "paste",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "%g:%0.3f"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sub"
+                          },
+                          {
+                            "type": "name",
+                            "value": "mic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sub"
+                          },
+                          {
+                            "type": "name",
+                            "value": "prob"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "collapse": {
+                    "type": "literal",
+                    "value": ", "
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_import_to_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "upload", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Import file not found: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "read_antibiogram_csv",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "path"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Failed to read antibiogram CSV: "
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "No valid data to import"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_import_antibiogram",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      "source": {
+                        "type": "name",
+                        "value": "source"
+                      },
+                      "version": {
+                        "type": "name",
+                        "value": "version"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Database import failed - check connection and logs"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Successfully imported antibiogram data: %d rows"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "rows"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_drugs_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "drugs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_list_antibiogram_drugs",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "drugs"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Could not retrieve drug list from database"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "character",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "drugs"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_from_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.character",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nzchar",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Valid drug name required"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_get_antibiogram",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Could not retrieve antibiogram data for drug: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "data.frame",
+                            "args": {
+                              "drug": {
+                                "type": "call",
+                                "fun": "character",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              "mic": {
+                                "type": "call",
+                                "fun": "numeric",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              "prob": {
+                                "type": "call",
+                                "fun": "numeric",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_prob"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sum",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "total_prob"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0.01
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Probabilities for %s sum to %.3f, normalizing"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "drug"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "total_prob"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "prob"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "df"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "prob"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "total_prob"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_all_from_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_get_antibiogram",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Could not retrieve antibiogram data from database"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "data.frame",
+                            "args": {
+                              "drug": {
+                                "type": "call",
+                                "fun": "character",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              "mic": {
+                                "type": "call",
+                                "fun": "numeric",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              },
+                              "prob": {
+                                "type": "call",
+                                "fun": "numeric",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_exists_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_has_antibiogram_data",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "isTRUE",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_version_info"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "info"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_get_latest_version",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "antibiogram"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "info"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "has_data": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "version": {
+                                "type": "literal",
+                                "value": null
+                              },
+                              "updated": {
+                                "type": "literal",
+                                "value": null
+                              },
+                              "rows": {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "has_data": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "version": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "info"
+                      },
+                      {
+                        "type": "name",
+                        "value": "version"
+                      }
+                    ]
+                  },
+                  "updated": {
+                    "type": "call",
+                    "fun": "format",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "info"
+                          },
+                          {
+                            "type": "name",
+                            "value": "created_at"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "%Y-%m-%d %H:%M:%S"
+                      }
+                    ]
+                  },
+                  "rows": {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "info"
+                              },
+                              {
+                                "type": "name",
+                                "value": "meta"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "rows"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "drugs": {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "info"
+                              },
+                              {
+                                "type": "name",
+                                "value": "meta"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "drugs"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "antibiogram_cleanup"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "db_cleanup_antibiogram",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Could not clean up antibiogram data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "parse_mic_distribution"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "txt"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nzchar",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "txt"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "parts"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "trimws",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "unlist",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "strsplit",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "txt"
+                              },
+                              {
+                                "type": "literal",
+                                "value": ","
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vals"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "parts"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "kv"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "trimws",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "unlist",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "strsplit",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "p"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": ":"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "!=",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "length",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "kv"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 2
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "warning",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "Invalid MIC:prob pair: %s"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "p"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "return",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "c",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": null
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": null
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "c",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "as.numeric",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "kv"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.numeric",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "kv"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 2
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "vals"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vals"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "do.call",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "rbind"
+                      },
+                      {
+                        "type": "name",
+                        "value": "vals"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "data.frame",
+                    "args": {
+                      "mic": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "vals"
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      "prob": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "vals"
+                          },
+                          {
+                            "type": "name",
+                            "value": ""
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "valid"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "&",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.finite",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "mic"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "is.finite",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ">=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "prob"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "valid"
+                      },
+                      "3": {
+                        "type": "name",
+                        "value": ""
+                      },
+                      "drop": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "prob"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "prob"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "prob"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "validate_antibiogram"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.data.frame",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Not a data frame"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req_cols"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "drug"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "mic"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "prob"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "%in%",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "req_cols"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Missing required columns"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.character",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "drug"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.factor",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "drug"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Drug column must be character or factor"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "mic"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "MIC column must be numeric"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "prob"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Probability column must be numeric"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "any",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "<=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "mic"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      "na.rm": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "MIC values must be positive"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "any",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "|",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "na.rm": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "valid": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Probabilities must be between 0 and 1"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "requireNamespace",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": "dplyr"
+                      },
+                      "quietly": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sums"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "dplyr", "summarise"],
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": ["::", "dplyr", "group_by"],
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "drug"
+                                  }
+                                ]
+                              },
+                              "total": {
+                                "type": "call",
+                                "fun": "sum",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "prob"
+                                  }
+                                ]
+                              },
+                              ".groups": {
+                                "type": "literal",
+                                "value": "drop"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "off"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sums"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "total"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0.01
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "off"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "drugs"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sums"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "drug"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "off"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "valid": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "message": {
+                                        "type": "call",
+                                        "fun": "sprintf",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "Probabilities don't sum to 1 for: %s"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "paste",
+                                            "args": {
+                                              "1": {
+                                                "type": "name",
+                                                "value": "drugs"
+                                              },
+                                              "collapse": {
+                                                "type": "literal",
+                                                "value": ", "
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "valid": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "message": {
+                    "type": "literal",
+                    "value": "Valid antibiogram data"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

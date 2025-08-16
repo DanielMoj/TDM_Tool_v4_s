@@ -1,0 +1,1809 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "credentials_load"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "config/users.yaml"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "users.yaml fehlt"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "yaml"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'yaml' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "password_hash"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "sodium"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'sodium' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "sodium", "password_store"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "charToRaw",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "p"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "password_verify"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "sodium"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'sodium' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ["::", "sodium", "password_verify"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "hash"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "charToRaw",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "p"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "auth_check"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "config/users.yaml"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "credentials_load",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "path"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "users.yaml: Abschnitt 'users' fehlt"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "u"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "usr"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "users"
+                      },
+                      {
+                        "type": "name",
+                        "value": "users"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "identical",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "usr"
+                              },
+                              {
+                                "type": "name",
+                                "value": "username"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "u"
+                              },
+                              {
+                                "type": "name",
+                                "value": "usr"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "break",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "u"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "u"
+                              },
+                              {
+                                "type": "name",
+                                "value": "password_hash"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "isTRUE",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "password_verify",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "password"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "u"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "auth_set_user"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "shiny"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "invisible",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "session"
+                          },
+                          {
+                            "type": "name",
+                            "value": "userData"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "user"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "reactiveVal",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "session"
+                          },
+                          {
+                            "type": "name",
+                            "value": "userData"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "reactiveVal",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "auth_upgrade_hashes"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["config/users.yaml", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "yaml"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'yaml' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "credentials_load",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "path"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "changed"
+                  },
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "i"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_along",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "u"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "users"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "users"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "u"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "password"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "u"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "u"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.character",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "password_hash",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "u"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "password"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "u"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "users"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "users"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "u"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "changed"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "changed"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "backup"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.copy",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "path"
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "path"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ".bak"
+                                  }
+                                ]
+                              },
+                              "overwrite": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "yaml", "write_yaml"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "changed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "policies_load"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "config/policies.yaml"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "yaml"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'yaml' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "policy_allow"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "policies"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "policies"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "policies_load",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "policies"
+                          },
+                          {
+                            "type": "name",
+                            "value": "policies"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "policies.yaml: Abschnitt 'policies' fehlt"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "p"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "policies"
+                      },
+                      {
+                        "type": "name",
+                        "value": "policies"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "identical",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "p"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "role"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "role"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "%in%",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "action"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "p"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "actions"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": true
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": false
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "auth_esign_verify"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "shiny"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Bitte Paket 'shiny' installieren."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "username"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ["$", "session$userData", "user"],
+                        "args": []
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "credentials_load",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "u"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "usr"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "users"
+                      },
+                      {
+                        "type": "name",
+                        "value": "users"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "identical",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "usr"
+                              },
+                              {
+                                "type": "name",
+                                "value": "username"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "u"
+                              },
+                              {
+                                "type": "name",
+                                "value": "usr"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "break",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "u"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "u"
+                              },
+                              {
+                                "type": "name",
+                                "value": "password_hash"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "isTRUE",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "password_verify",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "password"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "u"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

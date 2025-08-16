@@ -1,0 +1,574 @@
+[
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "utils.R"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "skip_if_no_cmdstan"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": ["::", "testthat", "skip_if_not_installed"],
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "cmdstanr"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ok"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "try",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ">=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "cmdstanr", "cmdstan_version"],
+                            "args": []
+                          },
+                          {
+                            "type": "literal",
+                            "value": "2.31"
+                          }
+                        ]
+                      },
+                      "silent": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "inherits",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ok"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "try-error"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "isFALSE",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ok"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "testthat", "skip"],
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "cmdstanr not set up"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "skip_if_no_jags"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": ["::", "testthat", "skip_if_not_installed"],
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "rjags"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "make_temp_dir"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "tdmx-test-"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "td"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "tempdir",
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "paste0",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "prefix"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.integer",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "runif",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1000000
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 10000000
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dir.create",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "td"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "showWarnings": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              },
+              {
+                "type": "name",
+                "value": "td"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_sources"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "pk_models.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "pta_cfr.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "optimize_regimen.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "units_checks.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "antibiogram.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fhir.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "backend_bayes.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "ode_grid.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "local": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "auth.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "source",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "audit.R"
+                      }
+                    ]
+                  },
+                  "chdir": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,345 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "antibiogram parser normalizes probabilities"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "load_sources",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "td"
+              },
+              {
+                "type": "call",
+                "fun": "make_temp_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "csv"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "td"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "abg.csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "write.csv",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "drug": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Meropenem"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "Meropenem"
+                      }
+                    ]
+                  },
+                  "mic": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "prob": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.7
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0.7
+                      }
+                    ]
+                  }
+                }
+              },
+              "2": {
+                "type": "name",
+                "value": "csv"
+              },
+              "row.names": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df"
+              },
+              {
+                "type": "call",
+                "fun": "read_antibiogram_csv",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "ex"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "dplyr", "summarise"],
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ["::", "dplyr", "group_by"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      }
+                    ]
+                  },
+                  "s": {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "prob"
+                      }
+                    ]
+                  },
+                  ".groups": {
+                    "type": "literal",
+                    "value": "drop"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "all",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "abs",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "ex"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "s"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1e-06
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "FHIR code param builder yields proper string"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "load_sources",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "codes"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "LOINC:1234-5"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "LOINC:2345-6"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "s"
+              },
+              {
+                "type": "call",
+                "fun": ".fhir_build_code_param",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "codes"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "&&",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "1234-5"
+                      },
+                      {
+                        "type": "name",
+                        "value": "s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "2345-6"
+                      },
+                      {
+                        "type": "name",
+                        "value": "s"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

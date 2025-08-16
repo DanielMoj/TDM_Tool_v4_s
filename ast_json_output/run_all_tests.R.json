@@ -1,0 +1,3695 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "covr"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "run_all_tests"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["tests/testthat", "TRUE", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\n╔══════════════════════════════════════════════════════════╗\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "║           PK/PD Application Test Suite                      ║\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "╚══════════════════════════════════════════════════════════╝\n\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "dir.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "test_dir"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Test directory not found: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "test_dir"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "start_time": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "test_results": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "coverage_report": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "summary": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_categories"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "security": {
+                        "type": "literal",
+                        "value": "test-security.R"
+                      },
+                      "fixes": {
+                        "type": "literal",
+                        "value": "test-fixes.R"
+                      },
+                      "performance": {
+                        "type": "literal",
+                        "value": "test-performance.R"
+                      },
+                      "integration": {
+                        "type": "literal",
+                        "value": "test-integration.R"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "category_results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "category"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "test_categories"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "test_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "test_dir"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "test_categories"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "category"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "file.exists",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "test_file"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "cat",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "\n▶ Running %s tests...\n"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "toupper",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "category"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "cat",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "rep",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "-"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 50
+                                      }
+                                    ]
+                                  },
+                                  "2": {
+                                    "type": "literal",
+                                    "value": "\n"
+                                  },
+                                  "sep": {
+                                    "type": "literal",
+                                    "value": ""
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "category_result"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "tryCatch",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "test_file",
+                                            "args": {
+                                              "1": {
+                                                "type": "name",
+                                                "value": "test_file"
+                                              },
+                                              "reporter": {
+                                                "type": "call",
+                                                "fun": "if",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "verbose"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "progress"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "silent"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "error": {
+                                        "type": "call",
+                                        "fun": "function",
+                                        "args": [
+                                          {
+                                            "type": "pairlist",
+                                            "value": ""
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "cat",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "  ✗ Error in %s tests: %s\n"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "category"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "e"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "message"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "return",
+                                                "args": [
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "category_results"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "category"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "category_result"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "!",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "is.null",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "category_result"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "passed"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "sum",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "sapply",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "category_result"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "function",
+                                                    "args": [
+                                                      {
+                                                        "type": "pairlist",
+                                                        "value": ""
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "x"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "passed"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "NULL",
+                                                        "value": []
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "failed"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "sum",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "sapply",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "category_result"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "function",
+                                                    "args": [
+                                                      {
+                                                        "type": "pairlist",
+                                                        "value": ""
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "x"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "failed"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "NULL",
+                                                        "value": []
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "skipped"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "sum",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "sapply",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "category_result"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "function",
+                                                    "args": [
+                                                      {
+                                                        "type": "pairlist",
+                                                        "value": ""
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "x"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "skipped"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "NULL",
+                                                        "value": []
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "==",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "failed"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 0
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "cat",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "  ✓ %s tests: %d passed, %d skipped\n"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "toupper",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "category"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "passed"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "skipped"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "cat",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "  ✗ %s tests: %d passed, %d FAILED, %d skipped\n"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "toupper",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "category"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "passed"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "failed"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "skipped"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "cat",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "  ⚠ %s test file not found: %s\n"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "category"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "test_file"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "results"
+                      },
+                      {
+                        "type": "name",
+                        "value": "test_results"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "category_results"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\n\n▶ Running complete test suite...\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "="
+                      },
+                      {
+                        "type": "literal",
+                        "value": 60
+                      }
+                    ]
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "\n"
+                  },
+                  "sep": {
+                    "type": "literal",
+                    "value": ""
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "overall_results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "test_dir",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "test_dir"
+                      },
+                      "reporter": {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "verbose"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "summary"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "silent"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "total_tests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "overall_results"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "passed_tests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sapply",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "overall_results"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "inherits",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "x"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": "expectation_success"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "failed_tests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sapply",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "overall_results"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "inherits",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "x"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": "expectation_failure"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "error_tests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sapply",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "overall_results"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "inherits",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "x"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": "expectation_error"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "skipped_tests"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sapply",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "overall_results"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "inherits",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "x"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": "expectation_skip"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "coverage"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "\n\n▶ Generating code coverage report...\n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "rep",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "-"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 50
+                              }
+                            ]
+                          },
+                          "2": {
+                            "type": "literal",
+                            "value": "\n"
+                          },
+                          "sep": {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tryCatch",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "source_files"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "R/utils.R"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "R/pk_calculations.R"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "R/plotting_functions.R"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "R/database_functions.R"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "R/security_functions.R"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "existing_files"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "source_files"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "file.exists",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "source_files"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ">",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "length",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "existing_files"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "cov"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "package_coverage",
+                                            "args": {
+                                              "path": {
+                                                "type": "literal",
+                                                "value": "."
+                                              },
+                                              "type": {
+                                                "type": "literal",
+                                                "value": "tests"
+                                              },
+                                              "code": {
+                                                "type": "name",
+                                                "value": "existing_files"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "coverage_pct"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "percent_coverage",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "cov"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "results"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "coverage_report"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "list",
+                                            "args": {
+                                              "overall": {
+                                                "type": "name",
+                                                "value": "coverage_pct"
+                                              },
+                                              "by_file": {
+                                                "type": "call",
+                                                "fun": "coverage_by_file",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "cov"
+                                                  }
+                                                ]
+                                              },
+                                              "zero_coverage": {
+                                                "type": "call",
+                                                "fun": "zero_coverage",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "cov"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "cat",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "  📊 Overall code coverage: %.1f%%\n"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "coverage_pct"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ">",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "length",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "results"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "coverage_report"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "by_file"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 0
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "cat",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "\n  Coverage by file:\n"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "for",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "i"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": ":",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 1
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "nrow",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "call",
+                                                                "fun": "$",
+                                                                "args": [
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "results"
+                                                                  },
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "coverage_report"
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "by_file"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "{",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "<-",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "file_cov"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "[",
+                                                            "args": [
+                                                              {
+                                                                "type": "call",
+                                                                "fun": "$",
+                                                                "args": [
+                                                                  {
+                                                                    "type": "call",
+                                                                    "fun": "$",
+                                                                    "args": [
+                                                                      {
+                                                                        "type": "name",
+                                                                        "value": "results"
+                                                                      },
+                                                                      {
+                                                                        "type": "name",
+                                                                        "value": "coverage_report"
+                                                                      }
+                                                                    ]
+                                                                  },
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "by_file"
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "i"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": ""
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "cat",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "sprintf",
+                                                            "args": [
+                                                              {
+                                                                "type": "literal",
+                                                                "value": "    • %s: %.1f%%\n"
+                                                              },
+                                                              {
+                                                                "type": "call",
+                                                                "fun": "basename",
+                                                                "args": [
+                                                                  {
+                                                                    "type": "call",
+                                                                    "fun": "as.character",
+                                                                    "args": [
+                                                                      {
+                                                                        "type": "call",
+                                                                        "fun": "$",
+                                                                        "args": [
+                                                                          {
+                                                                            "type": "name",
+                                                                            "value": "file_cov"
+                                                                          },
+                                                                          {
+                                                                            "type": "name",
+                                                                            "value": "filename"
+                                                                          }
+                                                                        ]
+                                                                      }
+                                                                    ]
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "type": "call",
+                                                                "fun": "$",
+                                                                "args": [
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "file_cov"
+                                                                  },
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "coverage"
+                                                                  }
+                                                                ]
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ">",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "length",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "results"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "coverage_report"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "zero_coverage"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 0
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "cat",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "\n  ⚠ Functions with zero coverage:\n"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "for",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "func"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "head",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "results"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "coverage_report"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "zero_coverage"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 10
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "{",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "cat",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "sprintf",
+                                                            "args": [
+                                                              {
+                                                                "type": "literal",
+                                                                "value": "    • %s\n"
+                                                              },
+                                                              {
+                                                                "type": "call",
+                                                                "fun": "$",
+                                                                "args": [
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "func"
+                                                                  },
+                                                                  {
+                                                                    "type": "name",
+                                                                    "value": "function_name"
+                                                                  }
+                                                                ]
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "cat",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "  ⚠ No source files found for coverage analysis\n"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "error": {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "cat",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "sprintf",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "  ✗ Coverage report failed: %s\n"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "message"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "results"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "coverage_report"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "results"
+                      },
+                      {
+                        "type": "name",
+                        "value": "end_time"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "results"
+                      },
+                      {
+                        "type": "name",
+                        "value": "duration"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "difftime",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "results"
+                          },
+                          {
+                            "type": "name",
+                            "value": "end_time"
+                          }
+                        ]
+                      },
+                      "2": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "results"
+                          },
+                          {
+                            "type": "name",
+                            "value": "start_time"
+                          }
+                        ]
+                      },
+                      "units": {
+                        "type": "literal",
+                        "value": "secs"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "results"
+                      },
+                      {
+                        "type": "name",
+                        "value": "summary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "total_tests": {
+                        "type": "name",
+                        "value": "total_tests"
+                      },
+                      "passed": {
+                        "type": "name",
+                        "value": "passed_tests"
+                      },
+                      "failed": {
+                        "type": "name",
+                        "value": "failed_tests"
+                      },
+                      "errors": {
+                        "type": "name",
+                        "value": "error_tests"
+                      },
+                      "skipped": {
+                        "type": "name",
+                        "value": "skipped_tests"
+                      },
+                      "pass_rate": {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "total_tests"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "passed_tests"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "total_tests"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 100
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      "duration": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "results"
+                          },
+                          {
+                            "type": "name",
+                            "value": "duration"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\n\n╔══════════════════════════════════════════════════════════╗\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "║                    TEST SUMMARY                           ║\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "╠══════════════════════════════════════════════════════════╣\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "summary"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "failed"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "summary"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "errors"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "║  ✅ ALL TESTS PASSED!                                    ║\n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "║  ❌ SOME TESTS FAILED                                    ║\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "╠══════════════════════════════════════════════════════════╣\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Total Tests:    %-40d ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "total_tests"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Passed:         %-40d ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "passed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Failed:         %-40d ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "failed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Errors:         %-40d ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "errors"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Skipped:        %-40d ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "skipped"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Pass Rate:      %-39.1f%% ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "pass_rate"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "║  Duration:       %-38.2f sec ║\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "summary"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "duration"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "coverage_report"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "╠══════════════════════════════════════════════════════════╣\n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "║  Code Coverage:  %-39.1f%% ║\n"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "results"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "coverage_report"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "overall"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "╚══════════════════════════════════════════════════════════╝\n\n"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "results"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "generate_html_report"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "test_report.html"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "html_content"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n<!DOCTYPE html>\n<html>\n<head>\n    <title>PK/PD Application Test Report<\/title>\n    <meta charset=\"UTF-8\">\n    <style>\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 20px;\n            background: #f5f5f5;\n        }\n        .header {\n            background: linear-gradient(135deg, #667eea 0%%, #764ba2 100%%);\n            color: white;\n            padding: 30px;\n            border-radius: 10px;\n            margin-bottom: 30px;\n        }\n        .summary-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 20px;\n            margin-bottom: 30px;\n        }\n        .summary-card {\n            background: white;\n            padding: 20px;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        .summary-card h3 {\n            margin-top: 0;\n            color: #667eea;\n        }\n        .summary-card .value {\n            font-size: 2em;\n            font-weight: bold;\n        }\n        .passed { color: #10b981; }\n        .failed { color: #ef4444; }\n        .skipped { color: #f59e0b; }\n        .coverage-bar {\n            width: 100%%;\n            height: 30px;\n            background: #e5e7eb;\n            border-radius: 15px;\n            overflow: hidden;\n            position: relative;\n        }\n        .coverage-fill {\n            height: 100%%;\n            background: linear-gradient(90deg, #10b981 0%%, #059669 100%%);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: white;\n            font-weight: bold;\n        }\n        table {\n            width: 100%%;\n            background: white;\n            border-radius: 8px;\n            overflow: hidden;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        th {\n            background: #f3f4f6;\n            padding: 12px;\n            text-align: left;\n            font-weight: 600;\n        }\n        td {\n            padding: 12px;\n            border-top: 1px solid #e5e7eb;\n        }\n        .timestamp {\n            color: #6b7280;\n            font-size: 0.9em;\n        }\n    <\/style>\n<\/head>\n<body>\n    <div class=\"header\">\n        <h1>PK/PD Application Test Report<\/h1>\n        <p class=\"timestamp\">Generated: %s<\/p>\n        <p>Duration: %.2f seconds<\/p>\n    <\/div>\n    \n    <div class=\"summary-grid\">\n        <div class=\"summary-card\">\n            <h3>Total Tests<\/h3>\n            <div class=\"value\">%d<\/div>\n        <\/div>\n        <div class=\"summary-card\">\n            <h3>Passed<\/h3>\n            <div class=\"value passed\">%d<\/div>\n        <\/div>\n        <div class=\"summary-card\">\n            <h3>Failed<\/h3>\n            <div class=\"value failed\">%d<\/div>\n        <\/div>\n        <div class=\"summary-card\">\n            <h3>Skipped<\/h3>\n            <div class=\"value skipped\">%d<\/div>\n        <\/div>\n    <\/div>\n    \n    <div class=\"summary-card\">\n        <h3>Code Coverage<\/h3>\n        <div class=\"coverage-bar\">\n            <div class=\"coverage-fill\" style=\"width: %.1f%%;\">\n                %.1f%%\n            <\/div>\n        <\/div>\n    <\/div>\n    \n    <h2>Test Categories<\/h2>\n    <table>\n        <thead>\n            <tr>\n                <th>Category<\/th>\n                <th>Status<\/th>\n                <th>Tests<\/th>\n                <th>Pass Rate<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>Security<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n            <\/tr>\n            <tr>\n                <td>Bug Fixes<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n            <\/tr>\n            <tr>\n                <td>Performance<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n            <\/tr>\n            <tr>\n                <td>Integration<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n                <td>%s<\/td>\n            <\/tr>\n        <\/tbody>\n    <\/table>\n<\/body>\n<\/html>"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "format",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "end_time"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "%Y-%m-%d %H:%M:%S"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "duration"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "total_tests"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "passed"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "failed"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "skipped"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "ifelse",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "coverage_report"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "coverage_report"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "overall"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "ifelse",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "coverage_report"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "results"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "coverage_report"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "overall"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "✓"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "✓"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "✓"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "✓"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "-"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "writeLines",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "html_content"
+                  },
+                  {
+                    "type": "name",
+                    "value": "output_file"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "cat",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n📄 HTML report generated: %s\n"
+                      },
+                      {
+                        "type": "name",
+                        "value": "output_file"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_critical_coverage"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "critical_functions"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "sanitize_input"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "validate_sql_params"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "hash_password"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "verify_password"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "check_session"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "compute_metrics_for_draw"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "%||%"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "get_compiled_model"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "process_pk_data"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "calculate_auc"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "calculate_cmax"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "safe_numeric"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "validate_inputs"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "handle_error"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "critical_functions": {
+                        "type": "name",
+                        "value": "critical_functions"
+                      },
+                      "covered": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      "not_covered": {
+                        "type": "name",
+                        "value": "critical_functions"
+                      },
+                      "coverage_pct": {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "interactive",
+        "args": []
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "\n🚀 Starting PK/PD Application Test Suite\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "========================================\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "required_packages"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "testthat"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "covr"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "missing_packages"
+              },
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "required_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "required_packages"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "installed.packages",
+                                "args": []
+                              },
+                              {
+                                "type": "name",
+                                "value": ""
+                              },
+                              {
+                                "type": "literal",
+                                "value": "Package"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "missing_packages"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n⚠ Installing missing packages:"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "paste",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "missing_packages"
+                          },
+                          "collapse": {
+                            "type": "literal",
+                            "value": ", "
+                          }
+                        }
+                      },
+                      {
+                        "type": "literal",
+                        "value": "\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "install.packages",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "missing_packages"
+                      },
+                      "quiet": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_results"
+              },
+              {
+                "type": "call",
+                "fun": "run_all_tests",
+                "args": {
+                  "test_dir": {
+                    "type": "literal",
+                    "value": "tests/testthat"
+                  },
+                  "coverage": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "verbose": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "generate_html_report",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_results"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "critical_check"
+              },
+              {
+                "type": "call",
+                "fun": "check_critical_coverage",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "critical_check"
+                          },
+                          {
+                            "type": "name",
+                            "value": "not_covered"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n⚠ Warning: Some critical functions lack test coverage:\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "func"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "head",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "critical_check"
+                              },
+                              {
+                                "type": "name",
+                                "value": "not_covered"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "  • %s\n"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "func"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "||",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "test_results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "failed"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "test_results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "summary"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "errors"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n❌ Tests failed. Please fix issues before deployment.\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "quit",
+                    "args": {
+                      "status": {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n✅ All tests passed! Ready for deployment.\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "quit",
+                    "args": {
+                      "status": {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,2468 @@
+[
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "========================================\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "File Case Sensitivity Fix for Linux\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "========================================\n\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "is_case_sensitive"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tempdir",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_file_lower"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "temp_dir"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test.r"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_file_upper"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "temp_dir"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test.R"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "writeLines",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "test"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_file_lower"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "test_file_upper"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "unlink",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_file_lower"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Step 1: System Check\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "--------------------\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "is_case_sensitive",
+        "args": []
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "✓ Running on case-sensitive filesystem (Linux/Unix)\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "ℹ Running on case-insensitive filesystem (Windows/macOS)\n"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Step 2: Scanning for inconsistencies\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "------------------------------------\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "r_dir"
+      },
+      {
+        "type": "literal",
+        "value": "R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "dir.exists",
+            "args": [
+              {
+                "type": "name",
+                "value": "r_dir"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "stop",
+            "args": [
+              {
+                "type": "literal",
+                "value": "R directory not found. Please run from project root."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "lowercase_files"
+      },
+      {
+        "type": "call",
+        "fun": "list.files",
+        "args": {
+          "1": {
+            "type": "name",
+            "value": "r_dir"
+          },
+          "pattern": {
+            "type": "literal",
+            "value": "\\.r$"
+          },
+          "full.names": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "==",
+        "args": [
+          {
+            "type": "call",
+            "fun": "length",
+            "args": [
+              {
+                "type": "name",
+                "value": "lowercase_files"
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "✓ No files with .r extension found - all files already use .R\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "⚠ Found %d file(s) with .r extension:\n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "lowercase_files"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "file"
+              },
+              {
+                "type": "name",
+                "value": "lowercase_files"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "  - %s\n"
+                          },
+                          {
+                            "type": "name",
+                            "value": "file"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Step 3: Checking source() references\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "------------------------------------\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "all_r_files"
+      },
+      {
+        "type": "call",
+        "fun": "list.files",
+        "args": {
+          "1": {
+            "type": "name",
+            "value": "r_dir"
+          },
+          "pattern": {
+            "type": "literal",
+            "value": "\\.[rR]$"
+          },
+          "full.names": {
+            "type": "literal",
+            "value": true
+          },
+          "recursive": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "inconsistent_refs"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "for",
+    "args": [
+      {
+        "type": "name",
+        "value": "file"
+      },
+      {
+        "type": "name",
+        "value": "all_r_files"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "call",
+                "fun": "readLines",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "file"
+                  },
+                  "warn": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "source_pattern"
+              },
+              {
+                "type": "literal",
+                "value": "source\\s*\\([\"']([^\"']+)[\"']"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": "seq_along",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "content"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "line"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "name",
+                            "value": "i"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "source_pattern"
+                          },
+                          {
+                            "type": "name",
+                            "value": "line"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "matches"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "gregexpr",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "source_pattern"
+                                  },
+                                  "2": {
+                                    "type": "name",
+                                    "value": "line"
+                                  },
+                                  "perl": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "match_text"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "regmatches",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "line"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "matches"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "for",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "match"
+                              },
+                              {
+                                "type": "name",
+                                "value": "match_text"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_ref"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sub",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "source_pattern"
+                                          },
+                                          "2": {
+                                            "type": "literal",
+                                            "value": "\\1"
+                                          },
+                                          "3": {
+                                            "type": "name",
+                                            "value": "match"
+                                          },
+                                          "perl": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "grepl",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "\\.r$"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "file_ref"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "[[",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "inconsistent_refs"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "+",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "length",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "inconsistent_refs"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 1
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "list",
+                                                "args": {
+                                                  "file": {
+                                                    "type": "name",
+                                                    "value": "file"
+                                                  },
+                                                  "line": {
+                                                    "type": "name",
+                                                    "value": "i"
+                                                  },
+                                                  "reference": {
+                                                    "type": "name",
+                                                    "value": "file_ref"
+                                                  },
+                                                  "full_line": {
+                                                    "type": "name",
+                                                    "value": "line"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": ">",
+        "args": [
+          {
+            "type": "call",
+            "fun": "length",
+            "args": [
+              {
+                "type": "name",
+                "value": "inconsistent_refs"
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "⚠ Found %d reference(s) to .r files:\n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "inconsistent_refs"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "ref"
+              },
+              {
+                "type": "name",
+                "value": "inconsistent_refs"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "  File: %s (line %d)\n"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "ref"
+                              },
+                              {
+                                "type": "name",
+                                "value": "file"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "ref"
+                              },
+                              {
+                                "type": "name",
+                                "value": "line"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "    Reference: %s\n"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "ref"
+                              },
+                              {
+                                "type": "name",
+                                "value": "reference"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "✓ No references to .r files found\n"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "||",
+        "args": [
+          {
+            "type": "call",
+            "fun": ">",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "lowercase_files"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ">",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "inconsistent_refs"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Step 4: Apply fixes?\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "-------------------\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "This will:\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "  1. Rename all .r files to .R\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "  2. Update all source() references\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "interactive",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "response"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "y"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Non-interactive mode - proceeding with fixes\n"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "response"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "readline",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Proceed with fixes? (y/n): "
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "==",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "tolower",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "response"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "y"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\nApplying fixes...\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "lowercase_files"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "\nRenaming files:\n"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "for",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "old_file"
+                              },
+                              {
+                                "type": "name",
+                                "value": "lowercase_files"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "new_file"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sub",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "\\.r$"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": ".R"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "old_file"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "&&",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "file.exists",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "new_file"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "!=",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "old_file"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "new_file"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "cat",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "sprintf",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "  ✗ Cannot rename %s - %s already exists\n"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "basename",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "old_file"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "basename",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "new_file"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "success"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "file.rename",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "old_file"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "new_file"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "if",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "success"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "cat",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "sprintf",
+                                                        "args": [
+                                                          {
+                                                            "type": "literal",
+                                                            "value": "  ✓ Renamed %s to %s\n"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "basename",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "old_file"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "basename",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "new_file"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "cat",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "sprintf",
+                                                        "args": [
+                                                          {
+                                                            "type": "literal",
+                                                            "value": "  ✗ Failed to rename %s\n"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "basename",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "old_file"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "inconsistent_refs"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "\nUpdating references:\n"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "files_to_update"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "unique",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sapply",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "inconsistent_refs"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "function",
+                                        "args": [
+                                          {
+                                            "type": "pairlist",
+                                            "value": ""
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "x"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "file"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "for",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "file"
+                              },
+                              {
+                                "type": "name",
+                                "value": "files_to_update"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "readLines",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "file"
+                                          },
+                                          "warn": {
+                                            "type": "literal",
+                                            "value": false
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "modified"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": false
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_refs"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "Filter",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "function",
+                                            "args": [
+                                              {
+                                                "type": "pairlist",
+                                                "value": ""
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "==",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "x"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "file"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "file"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "NULL",
+                                                "value": []
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "inconsistent_refs"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "for",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ref"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "file_refs"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "old_line"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "[",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "content"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "ref"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "line"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "new_line"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "gsub",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "\\.r([\"'])"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": ".R\\1"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "old_line"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "if",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "!=",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "old_line"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "new_line"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "<-",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "[",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "content"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "ref"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "line"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "new_line"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "<-",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "modified"
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": true
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "cat",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "sprintf",
+                                                        "args": [
+                                                          {
+                                                            "type": "literal",
+                                                            "value": "  ✓ Updated %s (line %d)\n"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "basename",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "file"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "ref"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "line"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "modified"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "writeLines",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "content"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "file"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\n✅ All fixes applied successfully!\n"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\nNo changes made.\n"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Step 4: Summary\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "---------------\n"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "✅ No fixes needed - all files already follow conventions!\n"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nStep 5: Final Verification\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "--------------------------\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "remaining_lowercase"
+      },
+      {
+        "type": "call",
+        "fun": "list.files",
+        "args": {
+          "1": {
+            "type": "name",
+            "value": "r_dir"
+          },
+          "pattern": {
+            "type": "literal",
+            "value": "\\.r$"
+          },
+          "full.names": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "==",
+        "args": [
+          {
+            "type": "call",
+            "fun": "length",
+            "args": [
+              {
+                "type": "name",
+                "value": "remaining_lowercase"
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "literal",
+                "value": "✓ All R files use .R extension\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "⚠ Still found %d files with .r extension\n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "remaining_lowercase"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "critical_files"
+      },
+      {
+        "type": "call",
+        "fun": "c",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R/utils.R"
+          },
+          {
+            "type": "literal",
+            "value": "R/db.R"
+          },
+          {
+            "type": "literal",
+            "value": "R/load_all.R"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nTesting critical files can be loaded:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "for",
+    "args": [
+      {
+        "type": "name",
+        "value": "file"
+      },
+      {
+        "type": "name",
+        "value": "critical_files"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "file.exists",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "file"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "parse",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "file"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "  ✓ %s - OK\n"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "file"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "cat",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "  ✗ %s - Parse error: %s\n"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "file"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "message"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "  ⚠ %s - Not found\n"
+                          },
+                          {
+                            "type": "name",
+                            "value": "file"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========================================\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Migration complete!\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "========================================\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nRecommended next steps:\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "1. Run tests to ensure everything works: testthat::test_dir('tests')\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "2. Commit these changes with message: 'fix: standardize R file extensions for Linux compatibility'\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "3. Test on a Linux system if possible\n"
+      }
+    ]
+  }
+]

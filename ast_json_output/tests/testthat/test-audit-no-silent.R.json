@@ -1,0 +1,4768 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "mockery"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "DBI"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "RSQLite"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/audit.r"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/audit_fallback.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../api/plumber_auth.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "setup_test_environment"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_dirs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "test_audit"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test_log"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test_audit/emergency"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test_audit/backup"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "dir"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_dirs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "dir.create",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "dir"
+                          },
+                          "showWarnings": {
+                            "type": "literal",
+                            "value": false
+                          },
+                          "recursive": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "assign",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "AUDIT_CSV_PATH"
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "test_audit/audit_log.csv"
+                  },
+                  "envir": {
+                    "type": "name",
+                    "value": ".GlobalEnv"
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "assign",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "AUDIT_ERROR_LOG"
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "test_log/audit_errors.log"
+                  },
+                  "envir": {
+                    "type": "name",
+                    "value": ".GlobalEnv"
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "assign",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "AUDIT_FALLBACK_PATH"
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "test_audit/audit_fallback.csv"
+                  },
+                  "envir": {
+                    "type": "name",
+                    "value": ".GlobalEnv"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cleanup_test_environment"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "test_audit"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "test_log"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "describe",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Audit System Error Handling"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "audit_append_hashchain logs DB errors properly"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_write"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "stop",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Connection refused"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_append_hashchain"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".audit_write_to_db"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_write"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_warning",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "audit_append_hashchain",
+                            "args": {
+                              "file": {
+                                "type": "name",
+                                "value": "AUDIT_CSV_PATH"
+                              },
+                              "actor": {
+                                "type": "literal",
+                                "value": "test_user"
+                              },
+                              "action": {
+                                "type": "literal",
+                                "value": "test_action"
+                              },
+                              "payload": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "test": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "regexp": {
+                        "type": "literal",
+                        "value": "Audit DB write failed"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_type",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "list"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "db_synced"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_ERROR_LOG"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "log_content"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "readLines",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_ERROR_LOG"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Connection refused"
+                              },
+                              {
+                                "type": "name",
+                                "value": "log_content"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "AUDIT_DB_FAIL"
+                              },
+                              {
+                                "type": "name",
+                                "value": "log_content"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "audit creates CSV fallback when DB fails"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_write"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "stop",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Database unavailable"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_append_hashchain"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".audit_write_to_db"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_write"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 3
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "expect_warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "audit_append_hashchain",
+                                "args": {
+                                  "file": {
+                                    "type": "name",
+                                    "value": "AUDIT_CSV_PATH"
+                                  },
+                                  "actor": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "user_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "action": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "action_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "payload": {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "index": {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "csv_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "read.csv",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          },
+                          "stringsAsFactors": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "csv_data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "csv_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "db_sync_status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "rep",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "failed"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nchar",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "csv_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "db_sync_error"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "audit fallback cascade works correctly"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "event_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "timestamp": {
+                            "type": "call",
+                            "fun": "format",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              {
+                                "type": "literal",
+                                "value": "%Y-%m-%d %H:%M:%S"
+                              }
+                            ]
+                          },
+                          "actor": {
+                            "type": "literal",
+                            "value": "test_user"
+                          },
+                          "action": {
+                            "type": "literal",
+                            "value": "critical_action"
+                          },
+                          "payload": {
+                            "type": "literal",
+                            "value": "{\"critical\": true}"
+                          },
+                          "hash": {
+                            "type": "literal",
+                            "value": "testhash123"
+                          },
+                          "prev_hash": {
+                            "type": "literal",
+                            "value": "prevhash456"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "stop",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "All databases down"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_fallback_cascade"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".fallback_level1_db_retry"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "success": {
+                            "type": "literal",
+                            "value": false
+                          },
+                          "error": {
+                            "type": "literal",
+                            "value": "DB retry failed"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "audit_fallback_cascade",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "event_data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "fallback_level"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 2
+                              },
+                              {
+                                "type": "literal",
+                                "value": 3
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "hash chain verification detects tampering"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "data.frame",
+                        "args": {
+                          "timestamp": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "2024-01-01 10:00:00"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "2024-01-01 10:01:00"
+                              }
+                            ]
+                          },
+                          "actor": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "user1"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "user2"
+                              }
+                            ]
+                          },
+                          "action": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "login"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "logout"
+                              }
+                            ]
+                          },
+                          "payload": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "{\"ip\":\"1.2.3.4\"}"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "{\"ip\":\"5.6.7.8\"}"
+                              }
+                            ]
+                          },
+                          "hash": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "hash1"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "hash2"
+                              }
+                            ]
+                          },
+                          "prev_hash": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "GENESIS"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "hash1"
+                              }
+                            ]
+                          },
+                          "db_sync_status": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "success"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "success"
+                              }
+                            ]
+                          },
+                          "db_sync_error": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": ""
+                              },
+                              {
+                                "type": "literal",
+                                "value": ""
+                              }
+                            ]
+                          },
+                          "stringsAsFactors": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "hash"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "digest", "digest"],
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "paste",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "timestamp"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "actor"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "3": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "action"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "4": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "payload"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "5": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "prev_hash"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "sep": {
+                                "type": "literal",
+                                "value": "|"
+                              }
+                            }
+                          },
+                          "algo": {
+                            "type": "literal",
+                            "value": "sha256"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "prev_hash"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "hash"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "hash"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "digest", "digest"],
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "paste",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "timestamp"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "actor"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              "3": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "action"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              "4": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "payload"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              "5": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "prev_hash"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              "sep": {
+                                "type": "literal",
+                                "value": "|"
+                              }
+                            }
+                          },
+                          "algo": {
+                            "type": "literal",
+                            "value": "sha256"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "write.csv",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "AUDIT_CSV_PATH"
+                      },
+                      "row.names": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "audit_verify_hashchain",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "action"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "malicious_change"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "write.csv",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "df"
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "AUDIT_CSV_PATH"
+                      },
+                      "row.names": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "audit_verify_hashchain",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "describe",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Authentication System Error Handling"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "rate limiting blocks after max attempts"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "rm",
+                    "args": {
+                      "list": {
+                        "type": "call",
+                        "fun": "ls",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".auth_attempts"
+                          }
+                        ]
+                      },
+                      "envir": {
+                        "type": "name",
+                        "value": ".auth_attempts"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test_user"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "192.168.1.100"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "AUTH_MAX_ATTEMPTS"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "expect_true",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "check_rate_limit",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ip"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_error",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "check_rate_limit",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          }
+                        ]
+                      },
+                      "regexp": {
+                        "type": "literal",
+                        "value": "Too many login attempts"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ".is_ip_blocked",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "auth_check handles DB errors gracefully"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_connect"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "stop",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Database connection failed"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_check"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "DBI::dbConnect"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_connect"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "auth_check",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "test_user"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "test_password"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "reason"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "auth_system_error"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUTH_ERROR_LOG_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "successful login resets rate limit"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "valid_user"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "192.168.1.101"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "key"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "paste0",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "_"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".auth_attempts"
+                          },
+                          {
+                            "type": "name",
+                            "value": "key"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          },
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ".reset_rate_limit",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".auth_attempts"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "JWT token generation and verification works"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "user_id"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 123
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "test_user"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "role"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "admin"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ".generate_jwt_token",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "user_id"
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "role"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_type",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "character"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nchar",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "token"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "jose", "jwt_decode_hmac"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token"
+                          },
+                          "secret": {
+                            "type": "name",
+                            "value": "JWT_SECRET"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "payload"
+                          },
+                          {
+                            "type": "name",
+                            "value": "sub"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.character",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "user_id"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "payload"
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "username"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "payload"
+                          },
+                          {
+                            "type": "name",
+                            "value": "role"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "payload"
+                              },
+                              {
+                                "type": "name",
+                                "value": "exp"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.numeric",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "describe",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Fallback System"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "SQLite fallback works when primary DB fails"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "event_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "timestamp": {
+                            "type": "call",
+                            "fun": "format",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              {
+                                "type": "literal",
+                                "value": "%Y-%m-%d %H:%M:%S"
+                              }
+                            ]
+                          },
+                          "actor": {
+                            "type": "literal",
+                            "value": "test_user"
+                          },
+                          "action": {
+                            "type": "literal",
+                            "value": "test_action"
+                          },
+                          "payload": {
+                            "type": "literal",
+                            "value": "{\"test\": true}"
+                          },
+                          "hash": {
+                            "type": "literal",
+                            "value": "hash789"
+                          },
+                          "prev_hash": {
+                            "type": "literal",
+                            "value": "prevhash"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ".fallback_level2_local_storage",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "event_data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "storage"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "sqlite"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sqlite_path"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file.path",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "FALLBACK_CONFIG"
+                              },
+                              {
+                                "type": "name",
+                                "value": "backup_dir"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "audit_fallback.sqlite"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dbConnect",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "SQLite",
+                            "args": []
+                          },
+                          {
+                            "type": "name",
+                            "value": "sqlite_path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dbGetQuery",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          "2": {
+                            "type": "literal",
+                            "value": "SELECT * FROM audit_fallback WHERE hash = ?"
+                          },
+                          "params": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "event_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "hash"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "actor"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "event_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "actor"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "dbDisconnect",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "emergency file is created as last resort"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "event_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "timestamp": {
+                            "type": "call",
+                            "fun": "format",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              {
+                                "type": "literal",
+                                "value": "%Y-%m-%d %H:%M:%S"
+                              }
+                            ]
+                          },
+                          "actor": {
+                            "type": "literal",
+                            "value": "emergency_user"
+                          },
+                          "action": {
+                            "type": "literal",
+                            "value": "critical_action"
+                          },
+                          "payload": {
+                            "type": "literal",
+                            "value": "{\"emergency\": true}"
+                          },
+                          "hash": {
+                            "type": "literal",
+                            "value": "emergency_hash"
+                          },
+                          "prev_hash": {
+                            "type": "literal",
+                            "value": "prev_emergency"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ".fallback_level3_emergency_file",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "event_data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "content"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "readLines",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "EMERGENCY AUDIT ENTRY"
+                              },
+                              {
+                                "type": "name",
+                                "value": "content"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "event_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "actor"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "content"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "event_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "hash"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "content"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "fallback sync recovers unsynced entries"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sqlite_path"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file.path",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "FALLBACK_CONFIG"
+                              },
+                              {
+                                "type": "name",
+                                "value": "backup_dir"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "audit_fallback.sqlite"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dbConnect",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "SQLite",
+                            "args": []
+                          },
+                          {
+                            "type": "name",
+                            "value": "sqlite_path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "dbExecute",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "\n      CREATE TABLE audit_fallback (\n        id INTEGER PRIMARY KEY,\n        timestamp TEXT,\n        actor TEXT,\n        action TEXT,\n        payload TEXT,\n        hash TEXT,\n        prev_hash TEXT,\n        synced BOOLEAN DEFAULT FALSE\n      )\n    "
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "dbExecute",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "con"
+                      },
+                      "2": {
+                        "type": "literal",
+                        "value": "\n      INSERT INTO audit_fallback (timestamp, actor, action, payload, hash, prev_hash)\n      VALUES (?, ?, ?, ?, ?, ?)\n    "
+                      },
+                      "params": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "2024-01-01 12:00:00"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sync_test_user"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sync_test_action"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "{\"sync_test\": true}"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sync_hash"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "prev_sync"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "dbDisconnect",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_success"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sync_fallback_entries"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".sync_sqlite_fallback"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "synced": {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          "failed": {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "sync_fallback_entries",
+                        "args": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "synced"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "failed"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "describe",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Integration Tests"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "full audit cycle with DB failure and recovery"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_fail"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "stop",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Database down"
+                              }
+                            ]
+                          },
+                          "cycle": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_append_hashchain"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".audit_write_to_db"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_fail"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 3
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "expect_warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "audit_append_hashchain",
+                                "args": {
+                                  "actor": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "user_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "action": {
+                                    "type": "literal",
+                                    "value": "action_during_outage"
+                                  },
+                                  "payload": {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "index": {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "csv_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "read.csv",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          },
+                          "stringsAsFactors": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "csv_data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "csv_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "db_sync_status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "failed"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_success"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": true
+                          },
+                          "cycle": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_sync_failed_entries"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".audit_write_to_db"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_success"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sync_result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "audit_sync_failed_entries",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sync_result"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "csv_data_after"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "read.csv",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          },
+                          "stringsAsFactors": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "csv_data_after"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "db_sync_status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "success"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "auth system prevents brute force attacks"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "attacker_ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "10.0.0.1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "target_username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "admin"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rm",
+                    "args": {
+                      "list": {
+                        "type": "call",
+                        "fun": "ls",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".auth_attempts"
+                          }
+                        ]
+                      },
+                      "envir": {
+                        "type": "name",
+                        "value": ".auth_attempts"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rm",
+                    "args": {
+                      "list": {
+                        "type": "call",
+                        "fun": "ls",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".blocked_ips"
+                          }
+                        ]
+                      },
+                      "envir": {
+                        "type": "name",
+                        "value": ".blocked_ips"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 10
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "tryCatch",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "check_rate_limit",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "target_username"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "attacker_ip"
+                                      }
+                                    ]
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "message"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "i"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "AUTH_MAX_ATTEMPTS"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "expect_true",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "&&",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "is.logical",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "result"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "expect_true",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "is.character",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "expect_true",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "grepl",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "blocked"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "break",
+                                    "args": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ".is_ip_blocked",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attacker_ip"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_error",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "check_rate_limit",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "target_username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "attacker_ip"
+                          }
+                        ]
+                      },
+                      "regexp": {
+                        "type": "literal",
+                        "value": "IP blocked"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "describe",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Performance Tests"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "audit system handles high load"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_db_fast"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "mock",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": true
+                          },
+                          "cycle": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_append_hashchain"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".audit_write_to_db"
+                      },
+                      {
+                        "type": "name",
+                        "value": "mock_db_fast"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "start_time"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 100
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "audit_append_hashchain",
+                            "args": {
+                              "actor": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "perf_user_%d"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%%",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 10
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "action": {
+                                "type": "literal",
+                                "value": "performance_test"
+                              },
+                              "payload": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "index": {
+                                    "type": "name",
+                                    "value": "i"
+                                  },
+                                  "timestamp": {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  "data": {
+                                    "type": "call",
+                                    "fun": "paste",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "sample",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "letters"
+                                          },
+                                          "2": {
+                                            "type": "literal",
+                                            "value": 50
+                                          },
+                                          "replace": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      },
+                                      "collapse": {
+                                        "type": "literal",
+                                        "value": ""
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "duration"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "difftime",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "2": {
+                                "type": "name",
+                                "value": "start_time"
+                              },
+                              "units": {
+                                "type": "literal",
+                                "value": "secs"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_lt",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "duration"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 10
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "audit_verify_hashchain",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "csv_data"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "read.csv",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "AUDIT_CSV_PATH"
+                          },
+                          "stringsAsFactors": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "csv_data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 100
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "test_that",
+            "args": [
+              {
+                "type": "literal",
+                "value": "fallback system handles cascade efficiently"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "setup_test_environment",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stub",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "audit_fallback_cascade"
+                      },
+                      {
+                        "type": "literal",
+                        "value": ".fallback_level1_db_retry"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "success": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "start_time"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "for",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "i"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 10
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "event_data"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "timestamp": {
+                                    "type": "call",
+                                    "fun": "format",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "Sys.time",
+                                        "args": []
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "%Y-%m-%d %H:%M:%S"
+                                      }
+                                    ]
+                                  },
+                                  "actor": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "cascade_user_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "action": {
+                                    "type": "literal",
+                                    "value": "cascade_test"
+                                  },
+                                  "payload": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "{\"test\":%d}"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "hash": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "hash_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "prev_hash": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "prev_%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "audit_fallback_cascade",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "event_data"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "expect_true",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "success"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "duration"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "difftime",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "2": {
+                                "type": "name",
+                                "value": "start_time"
+                              },
+                              "units": {
+                                "type": "literal",
+                                "value": "secs"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_lt",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "duration"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cleanup_test_environment",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "test_results"
+      },
+      {
+        "type": "call",
+        "fun": "test_dir",
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "."
+          },
+          "reporter": {
+            "type": "literal",
+            "value": "summary"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "requireNamespace",
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "covr"
+          },
+          "quietly": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "coverage"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "covr", "file_coverage"],
+                "args": {
+                  "source_files": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "../../R/audit.r"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "../../R/audit_fallback.R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "../../api/plumber_auth.R"
+                      }
+                    ]
+                  },
+                  "test_files": {
+                    "type": "literal",
+                    "value": "test-audit-no-silent.R"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "print",
+            "args": [
+              {
+                "type": "name",
+                "value": "coverage"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "coverage_percent"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "covr", "percent_coverage"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "coverage"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "cat",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\nCode Coverage: %.1f%%\n"
+                  },
+                  {
+                    "type": "name",
+                    "value": "coverage_percent"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "coverage_percent"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 90
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "warning",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Code coverage is below 90%!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

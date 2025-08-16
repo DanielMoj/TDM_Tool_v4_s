@@ -1,0 +1,3869 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "mockery"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/cache_manager.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_mock_model"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "10"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_model"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "data": {
+                        "type": "call",
+                        "fun": "rep",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "size_mb"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1024
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 256
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "compile_time": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "model_code": {
+                        "type": "literal",
+                        "value": "mock model"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "class",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mock_model"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "CmdStanModel"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_model"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_temp_stan_file"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "NULL"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "\n    parameters {\n      real theta;\n    }\n    model {\n      theta ~ normal(0, 1);\n    }\n    "
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tempfile",
+                    "args": {
+                      "fileext": {
+                        "type": "literal",
+                        "value": ".stan"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "writeLines",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "content"
+                  },
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "LRU cache initializes correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_s3_class",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "literal",
+                "value": "LRUCache"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "max_size"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "total_size_mb"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "LRU cache stores and retrieves models"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              },
+              {
+                "type": "call",
+                "fun": "create_temp_stan_file",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model1"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "total_size_mb"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "LRU cache evicts least recently used models"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "call",
+                "fun": "sapply",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "create_temp_stan_file",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "// Model"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "i"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model1"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_files"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.sleep",
+            "args": [
+              {
+                "type": "literal",
+                "value": 0.1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_files"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model1_again"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_files"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model3"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_files"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "initial_calls"
+              },
+              {
+                "type": "call",
+                "fun": "mock_call_count",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_compile"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2_again"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_files"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_gt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "mock_call_count",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_compile"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "initial_calls"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "sapply",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "name",
+                "value": "unlink"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache respects maximum size limit"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "max_size"
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "name",
+                    "value": "max_size"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "n_files"
+              },
+              {
+                "type": "literal",
+                "value": 15
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "call",
+                "fun": "sapply",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "name",
+                        "value": "n_files"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "create_temp_stan_file",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "// Model"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "i"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "file"
+              },
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["$", "cache", "get"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "file"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lte",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "max_size"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "sapply",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "name",
+                "value": "unlink"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Force recompile works correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              },
+              {
+                "type": "call",
+                "fun": "create_temp_stan_file",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "compile_count"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "compile_count"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "compile_count"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "create_mock_model",
+                        "args": {
+                          "size_mb": {
+                            "type": "literal",
+                            "value": 5
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model1"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "compile_count"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "compile_count"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model3"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "stan_file"
+                  },
+                  "force_recompile": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "compile_count"
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache clear function works"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "call",
+                "fun": "sapply",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "create_temp_stan_file",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "// Model"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "i"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "file"
+              },
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["$", "cache", "get"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "file"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats_before"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats_before"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["$", "cache", "clear"],
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats_after"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats_after"
+                  },
+                  {
+                    "type": "name",
+                    "value": "n_models"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats_after"
+                  },
+                  {
+                    "type": "name",
+                    "value": "total_size_mb"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "sapply",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_files"
+              },
+              {
+                "type": "name",
+                "value": "unlink"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Memory statistics are tracked correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": "get_memory_stats",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_type",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "literal",
+                "value": "list"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_s3_class",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "literal",
+                "value": "memory_stats"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "timestamp"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stats"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "r_memory"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stats"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stats"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">=",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "r_memory"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "used_mb"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">=",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "r_memory"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "gc_trigger_mb"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">=",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "n_models"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">=",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "total_size_mb"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Access counts and times are tracked"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              },
+              {
+                "type": "call",
+                "fun": "create_temp_stan_file",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["$", "cache", "get"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stan_file"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.sleep",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.01
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "stats"
+                      },
+                      {
+                        "type": "name",
+                        "value": "models"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          },
+                          {
+                            "type": "name",
+                            "value": "models"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "access_count"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<=",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "stats"
+                              },
+                              {
+                                "type": "name",
+                                "value": "models"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "last_access"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Global cache instance works"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache1"
+              },
+              {
+                "type": "call",
+                "fun": "get_lru_cache",
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 7
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache2"
+              },
+              {
+                "type": "call",
+                "fun": "get_lru_cache",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_identical",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache1"
+              },
+              {
+                "type": "name",
+                "value": "cache2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache1", "get_stats"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "max_size"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 7
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Garbage collection is triggered"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "force_gc",
+                "args": {
+                  "verbose": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_type",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "literal",
+                "value": "double"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "all",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "dim",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 2
+                          },
+                          {
+                            "type": "literal",
+                            "value": 6
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Integration with backend_bayes.R works"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "../../R/backend_bayes.R"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ".initialize_model_cache",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_s3_class",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "literal",
+                "value": "LRUCache"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              },
+              {
+                "type": "call",
+                "fun": "create_temp_stan_file",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "get_compiled_model"
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model"
+              },
+              {
+                "type": "call",
+                "fun": "get_compiled_model",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_s3_class",
+            "args": [
+              {
+                "type": "name",
+                "value": "model"
+              },
+              {
+                "type": "literal",
+                "value": "CmdStanModel"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2"
+              },
+              {
+                "type": "call",
+                "fun": "get_compiled_model",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "clear_model_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Memory monitoring options work"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_monitor_memory": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_debug": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_fn"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_message",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "monitor_memory",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "test"
+                      },
+                      {
+                        "type": "name",
+                        "value": "test_fn"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              "regexp": {
+                "type": "literal",
+                "value": "Memory"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_monitor_memory": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_debug": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_silent",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "monitor_memory",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "test"
+                      },
+                      {
+                        "type": "name",
+                        "value": "test_fn"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "GC options control garbage collection"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_gc_after_sampling": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_debug": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "gc_called"
+              },
+              {
+                "type": "literal",
+                "value": false
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_gc"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "gc_called"
+                          },
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "gc",
+                        "args": {
+                          "verbose": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "with_mock",
+            "args": {
+              "force_gc": {
+                "type": "name",
+                "value": "mock_gc"
+              },
+              "2": {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "getOption",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "tdmx_gc_after_sampling"
+                          },
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "force_gc",
+                            "args": {
+                              "verbose": {
+                                "type": "call",
+                                "fun": "getOption",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "tdmx_debug"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "gc_called"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_gc_after_sampling": {
+                "type": "NULL",
+                "value": []
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "options",
+            "args": {
+              "tdmx_debug": {
+                "type": "NULL",
+                "value": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache handles file modifications correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              },
+              {
+                "type": "call",
+                "fun": "create_temp_stan_file",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "// Version 1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_compile"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_model",
+                    "args": {
+                      "size_mb": {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "name",
+                    "value": "get"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cmdstanr::cmdstan_model"
+              },
+              {
+                "type": "name",
+                "value": "mock_compile"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model1"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "initial_calls"
+              },
+              {
+                "type": "call",
+                "fun": "mock_call_count",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_compile"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.sleep",
+            "args": [
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "// Version 2"
+              },
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model2"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stan_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_gt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "mock_call_count",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_compile"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "initial_calls"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "name",
+                "value": "stan_file"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache handles missing files gracefully"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": ["$", "cache", "get"],
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "non_existent_file.stan"
+                  }
+                ]
+              },
+              "regexp": {
+                "type": "literal",
+                "value": "Stan file not found"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Print methods work correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "LRUCache", "new"],
+                "args": {
+                  "max_size": {
+                    "type": "literal",
+                    "value": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_output",
+            "args": [
+              {
+                "type": "call",
+                "fun": "print",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "LRU Stan Model Cache"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_output",
+            "args": [
+              {
+                "type": "call",
+                "fun": "print",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "Models: 0 / 5"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": "get_memory_stats",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_output",
+            "args": [
+              {
+                "type": "call",
+                "fun": "print",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "Memory Statistics"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_output",
+            "args": [
+              {
+                "type": "call",
+                "fun": "print",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "R Memory Usage"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_output",
+            "args": [
+              {
+                "type": "call",
+                "fun": "print",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "Stan Model Cache"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

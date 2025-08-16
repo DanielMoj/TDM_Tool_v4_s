@@ -1,0 +1,162 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "render_report_pdf"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["report/report.Rmd", "NULL", "list()"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "rmarkdown"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "rmarkdown nicht installiert."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "output_file"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "output_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tempfile",
+                            "args": {
+                              "fileext": {
+                                "type": "literal",
+                                "value": ".pdf"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "out"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "rmarkdown", "render"],
+                    "args": {
+                      "input": {
+                        "type": "name",
+                        "value": "rmd"
+                      },
+                      "output_format": {
+                        "type": "call",
+                        "fun": ["::", "rmarkdown", "pdf_document"],
+                        "args": []
+                      },
+                      "output_file": {
+                        "type": "name",
+                        "value": "output_file"
+                      },
+                      "params": {
+                        "type": "name",
+                        "value": "params"
+                      },
+                      "envir": {
+                        "type": "call",
+                        "fun": "new.env",
+                        "args": {
+                          "parent": {
+                            "type": "call",
+                            "fun": "globalenv",
+                            "args": []
+                          }
+                        }
+                      },
+                      "quiet": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "out"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

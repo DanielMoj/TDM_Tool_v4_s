@@ -1,0 +1,731 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_targets_cfg"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "config/targets.json"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "path"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "jsonlite", "read_json"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "path"
+                          },
+                          "simplifyVector": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "choose_target_for_drug"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cfg"
+                              },
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "vanco"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tolower",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "Vancomycin"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "cillin|penem|cef|bactam"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tolower",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "Meropenem"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "amikacin|gentamicin|tobramycin|micin"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tolower",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "Aminoglycoside_Generic"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "meets_target"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "target"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": null
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "m"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "target"
+                      },
+                      {
+                        "type": "name",
+                        "value": "metric"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "identical",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "m"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fT>MIC"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "isTRUE",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ">=",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "metrics"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "ft_gt_mic"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "%||%",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "target"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "threshold"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 0.5
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "identical",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "m"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "AUC24/MIC"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "thr_min"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "target"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "threshold_min"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 400
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "thr_max"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "target"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "threshold_max"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "Inf"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "isTRUE",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "&&",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ">=",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "metrics"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "auc24_over_mic"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "thr_min"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<=",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "metrics"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "auc24_over_mic"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "thr_max"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "identical",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "m"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "Cmax/MIC"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "thr"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "target"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "threshold"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 8
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "isTRUE",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ">=",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "metrics"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "cmax_over_mic"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "thr"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": null
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,3953 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "digest"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "jsonlite"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "fs"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "WarmstartManager"
+      },
+      {
+        "type": "call",
+        "fun": ["::", "R6", "R6Class"],
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "WarmstartManager"
+          },
+          "private": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "cache_dir": {
+                "type": "NULL",
+                "value": []
+              },
+              "max_cache_size_mb": {
+                "type": "literal",
+                "value": 500
+              },
+              "cache_index": {
+                "type": "call",
+                "fun": "list",
+                "args": []
+              },
+              "get_cache_key": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "model_hash"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "digest",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "model_code"
+                              },
+                              "algo": {
+                                "type": "literal",
+                                "value": "md5"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data_hash"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "digest",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "data"
+                                  }
+                                ]
+                              },
+                              "algo": {
+                                "type": "literal",
+                                "value": "md5"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "paste0",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "model_hash"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "_"
+                          },
+                          {
+                            "type": "name",
+                            "value": "data_hash"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "manage_cache_size": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dir_ls",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              "regexp": {
+                                "type": "literal",
+                                "value": "\\.rds$"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_files"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "file_info"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file_info",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_files"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_size_mb"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sum",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_info"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "size"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1024
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "total_size_mb"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "max_cache_size_mb"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "file_info"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_info"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "order",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "file_info"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "modification_time"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": ""
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "while",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "&&",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ">",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "total_size_mb"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "*",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "private"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "max_cache_size_mb"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 0.8
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ">",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "nrow",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "file_info"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 0
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "oldest_file"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "rownames",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "file_info"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "file_delete",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "oldest_file"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "Removed old cache file: %s"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "basename",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "oldest_file"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "file_info"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "file_info"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": ""
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "total_size_mb"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "/",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "sum",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "file_info"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "size"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "^",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1024
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 2
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "load_index": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "index_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "cache_index.json"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "file_exists",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "index_file"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "private"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "cache_index"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "fromJSON",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "index_file"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "save_index": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "index_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "cache_index.json"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "write_json",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "private"
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_index"
+                              }
+                            ]
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "index_file"
+                          },
+                          "pretty": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            }
+          },
+          "public": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "initialize": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["cache/warmstart", "500"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "private"
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_dir"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_dir"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "private"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_cache_size_mb"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_cache_size_mb"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dir_create",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "private"
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_dir"
+                              }
+                            ]
+                          },
+                          "recurse": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "private", "load_index"],
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "WarmstartManager initialized with cache at: %s"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "save": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", "list()"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "private", "get_cache_key"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "model_code"
+                              },
+                              {
+                                "type": "name",
+                                "value": "data"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_key"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ".rds"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "self", "extract_warmstart_data"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "fit"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "metadata"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "metadata"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "timestamp"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_key"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "saveRDS",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "cache_file"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_index"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_key"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "file": {
+                                "type": "call",
+                                "fun": "basename",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_file"
+                                  }
+                                ]
+                              },
+                              "timestamp": {
+                                "type": "call",
+                                "fun": "as.character",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "timestamp"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "metadata": {
+                                "type": "name",
+                                "value": "metadata"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "private", "save_index"],
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "private", "manage_cache_size"],
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Warmstart saved with key: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "cache_key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "load": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "24"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_key"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "private", "get_cache_key"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "model_code"
+                              },
+                              {
+                                "type": "name",
+                                "value": "data"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_file"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_key"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ".rds"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "file_exists",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_file"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "readRDS",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_file"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "age_hours"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.numeric",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "difftime",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  "2": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "timestamp"
+                                      }
+                                    ]
+                                  },
+                                  "units": {
+                                    "type": "literal",
+                                    "value": "hours"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "age_hours"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_age_hours"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Warmstart cache expired (%.1f hours old)"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "age_hours"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Loaded warmstart (%.1f hours old)"
+                              },
+                              {
+                                "type": "name",
+                                "value": "age_hours"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "extract_warmstart_data": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "fit", "draws"],
+                            "args": {
+                              "format": {
+                                "type": "literal",
+                                "value": "draws_array"
+                              },
+                              "inc_warmup": {
+                                "type": "literal",
+                                "value": false
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "n_chains"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "dim",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "draws"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "n_iter"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "dim",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "draws"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "inits"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "for",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "chain"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "seq_len",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "n_chains"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "inits"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "chain"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.list",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "draws"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "n_iter"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "chain"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": ""
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sampler_params"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "fit", "sampler_diagnostics"],
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "step_sizes"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "seq_len",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "n_chains"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "steps"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sampler_params"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": ""
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "chain"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": "stepsize__"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "mean",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "steps"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "length",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "steps"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": ":",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 100
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "length",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "steps"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "na.rm": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "metric"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tryCatch",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ["$", "fit", "inv_metric"],
+                                    "args": []
+                                  }
+                                ]
+                              },
+                              "error": {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "summary"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "fit", "summary"],
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "inits": {
+                                "type": "name",
+                                "value": "inits"
+                              },
+                              "step_sizes": {
+                                "type": "name",
+                                "value": "step_sizes"
+                              },
+                              "metric": {
+                                "type": "name",
+                                "value": "metric"
+                              },
+                              "n_chains": {
+                                "type": "name",
+                                "value": "n_chains"
+                              },
+                              "n_iterations": {
+                                "type": "name",
+                                "value": "n_iter"
+                              },
+                              "convergence": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "max_rhat": {
+                                    "type": "call",
+                                    "fun": "max",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "summary"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "rhat"
+                                          }
+                                        ]
+                                      },
+                                      "na.rm": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  },
+                                  "min_ess": {
+                                    "type": "call",
+                                    "fun": "min",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "summary"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "ess_bulk"
+                                          }
+                                        ]
+                                      },
+                                      "na.rm": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  },
+                                  "n_divergent": {
+                                    "type": "call",
+                                    "fun": "sum",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": ["$", "fit", "diagnostic_summary"],
+                                            "args": []
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "num_divergent"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_data"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "apply_warmstart": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "list()"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_data"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sampling_args"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sampling_args"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "init"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "n_chains"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sampling_args"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "chains"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 4
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sampling_args"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "init"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "warmstart_data"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "inits"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "seq_len",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "n_chains"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "step_sizes"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sampling_args"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "step_size"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "step_sizes"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "metric"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sampling_args"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "inv_metric"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "metric"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "convergence"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "&&",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "warmstart_data"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "convergence"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "max_rhat"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1.01
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ">",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "warmstart_data"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "convergence"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "min_ess"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1000
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sampling_args"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "iter_warmup"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "%||%",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "sampling_args"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "iter_warmup"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1000
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sampling_args"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "iter_warmup"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "round",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "*",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "sampling_args"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "iter_warmup"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 0.5
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "Reducing warmup to %d iterations based on previous convergence"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "sampling_args"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "iter_warmup"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sampling_args"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "get_stats": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dir_ls",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              "regexp": {
+                                "type": "literal",
+                                "value": "\\.rds$"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_files"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "n_files": {
+                                        "type": "literal",
+                                        "value": 0
+                                      },
+                                      "total_size_mb": {
+                                        "type": "literal",
+                                        "value": 0
+                                      },
+                                      "oldest_file": {
+                                        "type": "NULL",
+                                        "value": []
+                                      },
+                                      "newest_file": {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "file_info"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file_info",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_files"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "n_files": {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "cache_files"
+                              }
+                            ]
+                          },
+                          "total_size_mb": {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sum",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_info"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "size"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1024
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "oldest_file": {
+                            "type": "call",
+                            "fun": "basename",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_files"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "which.min",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "file_info"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "modification_time"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "newest_file": {
+                            "type": "call",
+                            "fun": "basename",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_files"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "which.max",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "file_info"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "modification_time"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "cache_index": {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_index"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "clear": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": "NULL"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dir_ls",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              },
+                              "regexp": {
+                                "type": "literal",
+                                "value": "\\.rds$"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "older_than_days"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "file_delete",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cache_files"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "private"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "cache_index"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["$", "private", "save_index"],
+                                "args": []
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Cache cleared completely"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "file_info"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "file_info",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cache_files"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cutoff_time"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "Sys.time",
+                                        "args": []
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "*",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "older_than_days"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 24
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 3600
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "old_files"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cache_files"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "file_info"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "modification_time"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "cutoff_time"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ">",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "length",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "old_files"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "file_delete",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "old_files"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "for",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "file"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "old_files"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "key"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "gsub",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "\\.rds$"
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": ""
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "basename",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "file"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "[[",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "private"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "cache_index"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "key"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ["$", "private", "save_index"],
+                                        "args": []
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "Removed %d old cache files"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "length",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "old_files"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "export_cache": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": "warmstart_cache.tar.gz"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "temp_dir"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tempdir",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "export_dir"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "temp_dir"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "warmstart_export"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dir_create",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "export_dir"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dir_ls",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file_copy",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cache_files"
+                          },
+                          {
+                            "type": "name",
+                            "value": "export_dir"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tar",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "output_file"
+                          },
+                          "files": {
+                            "type": "name",
+                            "value": "export_dir"
+                          },
+                          "compression": {
+                            "type": "literal",
+                            "value": "gzip"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "dir_delete",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "export_dir"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Cache exported to: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "output_file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              "import_cache": {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "file_exists",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "archive_file"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Archive file does not exist"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "untar",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "archive_file"
+                          },
+                          "exdir": {
+                            "type": "call",
+                            "fun": "dirname",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "private"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "cache_dir"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "private", "load_index"],
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Cache imported from: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "archive_file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_warmstart_manager"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["cache/warmstart", "500"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": ["$", "WarmstartManager", "new"],
+                "args": {
+                  "cache_dir": {
+                    "type": "name",
+                    "value": "cache_dir"
+                  },
+                  "max_cache_size_mb": {
+                    "type": "name",
+                    "value": "max_cache_size_mb"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "save_warmstart_simple"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manager"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_warmstart_manager",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["$", "manager", "save"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "fit"
+                  },
+                  "model_code": {
+                    "type": "name",
+                    "value": "model_id"
+                  },
+                  "data": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  },
+                  "metadata": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "model_id": {
+                        "type": "name",
+                        "value": "model_id"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_warmstart_simple"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "24"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manager"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_warmstart_manager",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["$", "manager", "load"],
+                "args": {
+                  "model_code": {
+                    "type": "name",
+                    "value": "model_id"
+                  },
+                  "data": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  },
+                  "max_age_hours": {
+                    "type": "name",
+                    "value": "max_age_hours"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "use_warmstart"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "list()", "NULL", "24"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manager"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_warmstart_manager",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "warmstart_data"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["$", "manager", "load"],
+                    "args": {
+                      "model_code": {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "model_code"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "deparse",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "substitute",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "model"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "data": {
+                        "type": "name",
+                        "value": "data"
+                      },
+                      "max_age_hours": {
+                        "type": "name",
+                        "value": "max_age_hours"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sampling_args"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["$", "manager", "apply_warmstart"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "warmstart_data"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sampling_args"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "fit"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "do.call",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "model"
+                          },
+                          {
+                            "type": "name",
+                            "value": "sample"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "data": {
+                                "type": "name",
+                                "value": "data"
+                              }
+                            }
+                          },
+                          {
+                            "type": "name",
+                            "value": "sampling_args"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["$", "manager", "save"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "fit"
+                  },
+                  "model_code": {
+                    "type": "name",
+                    "value": "model_code"
+                  },
+                  "data": {
+                    "type": "name",
+                    "value": "data"
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "fit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,3424 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "utils.R"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Null coalescing operator tests"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator works correctly with NULL values"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "default"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": false
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "a": {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "a": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator returns non-NULL values"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "value"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "value"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 42
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 42
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  },
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": true
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": false
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": false
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "a": {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "b": {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "a": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 6
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator handles NA values correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": null
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": null
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": null
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": null
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "NA"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5.5
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "NA"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "+",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "NA"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "0+2i"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator handles empty vectors correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "numeric",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "numeric",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "character",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "logical",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "logical",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "a": {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator works with complex data types"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df1"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "x": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  "y": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      {
+                        "type": "literal",
+                        "value": 6
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df2"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "a": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 7
+                      },
+                      {
+                        "type": "literal",
+                        "value": 9
+                      }
+                    ]
+                  },
+                  "b": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 10
+                      },
+                      {
+                        "type": "literal",
+                        "value": 12
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "df2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "name",
+                    "value": "df2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "m1"
+              },
+              {
+                "type": "call",
+                "fun": "matrix",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 9
+                      }
+                    ]
+                  },
+                  "nrow": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "m2"
+              },
+              {
+                "type": "call",
+                "fun": "matrix",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 10
+                      },
+                      {
+                        "type": "literal",
+                        "value": 18
+                      }
+                    ]
+                  },
+                  "nrow": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "m1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "m2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "m1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "name",
+                    "value": "m2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "m2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "f1"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "first"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "f2"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "second"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "f1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "f2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "f1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "name",
+                    "value": "f2"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "f2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator can be chained"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "final"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "final"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "first"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "second"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "third"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "first"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 42
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 42
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "a"
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "b"
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "c"
+              },
+              {
+                "type": "literal",
+                "value": "value"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "a"
+                      },
+                      {
+                        "type": "name",
+                        "value": "b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "c"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "value"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator preserves attributes"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "v1"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": {
+                  "a": {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  "b": {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  "c": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "v2"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": {
+                  "x": {
+                    "type": "literal",
+                    "value": 4
+                  },
+                  "y": {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  "z": {
+                    "type": "literal",
+                    "value": 6
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "v1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "v2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "name",
+                "value": "v1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "names",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "names",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "v1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "df"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "x": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "attr",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "custom"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "attribute"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "data.frame",
+                    "args": {
+                      "y": {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 4
+                          },
+                          {
+                            "type": "literal",
+                            "value": 6
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "attr",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "custom"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "attribute"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator handles expressions correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "get_null"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "get_value"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "value"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "get_null",
+                    "args": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "default"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "get_value",
+                    "args": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "value"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "(",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "(",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "(",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 2
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "%||% operator performance with large objects"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "large_list"
+              },
+              {
+                "type": "call",
+                "fun": "as.list",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 10000
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "large_list"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 10000
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "name",
+                    "value": "large_list"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 10000
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Other utility functions"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "parse_num_list handles various inputs"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_num_list",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "1,2,3"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_num_list",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "1, 2, 3"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_num_list",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "numeric",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_num_list",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "numeric",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_num_list",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": null
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "numeric",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_warning",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "parse_num_list",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "1,a,3"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "Could not parse"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "is_empty correctly identifies empty values"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "numeric",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": null
+                      },
+                      {
+                        "type": "literal",
+                        "value": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": ""
+                      },
+                      {
+                        "type": "literal",
+                        "value": ""
+                      },
+                      {
+                        "type": "literal",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_empty",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "a": {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "coalesce returns first non-NULL value"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "coalesce",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "value"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "other"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "value"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "coalesce",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "first"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "second"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "first"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "coalesce",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "coalesce",
+                "args": []
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_extract handles missing keys gracefully"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "lst"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "a": {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  "b": {
+                    "type": "literal",
+                    "value": 2
+                  },
+                  "c": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "lst"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "a"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "lst"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "b"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "lst"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "d"
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "lst"
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "d"
+                  },
+                  "default": {
+                    "type": "literal",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": "a"
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_extract",
+                "args": {
+                  "1": {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": "a"
+                  },
+                  "default": {
+                    "type": "literal",
+                    "value": 10
+                  }
+                }
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_divide handles division by zero"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  "na_value": {
+                    "type": "literal",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_divide",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "NA"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "clamp restricts values to range"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "clamp",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "clamp",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "-",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "clamp",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 15
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "clamp",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "-",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 15
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "generate_id creates unique identifiers"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "id1"
+              },
+              {
+                "type": "call",
+                "fun": "generate_id",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "id2"
+              },
+              {
+                "type": "call",
+                "fun": "generate_id",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "nchar",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "id1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "grepl",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "^id_"
+                  },
+                  {
+                    "type": "name",
+                    "value": "id1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!=",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "id1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "id2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "custom_id"
+              },
+              {
+                "type": "call",
+                "fun": "generate_id",
+                "args": {
+                  "prefix": {
+                    "type": "literal",
+                    "value": "test"
+                  },
+                  "length": {
+                    "type": "literal",
+                    "value": 4
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "grepl",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "^test_"
+                  },
+                  {
+                    "type": "name",
+                    "value": "custom_id"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "is_valid_email validates email addresses"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "user@example.com"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "user.name@example.co.uk"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "user+tag@example.com"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "notanemail"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "@example.com"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "user@"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is_valid_email",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 123
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

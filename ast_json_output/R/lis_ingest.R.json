@@ -1,0 +1,608 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "read_tdm_csv"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "readr", "read_csv"],
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "path"
+                      },
+                      "show_col_types": {
+                        "type": "literal",
+                        "value": false
+                      },
+                      "progress": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "df"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tolower",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "datetime"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "%in%",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "time"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "names",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "time"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "name",
+                            "value": "datetime"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "%in%",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "c",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "time"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "conc"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "CSV benötigt mind. Spalten: time, conc"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "time"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "tt"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.POSIXct",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "time"
+                                  }
+                                ]
+                              },
+                              "tz": {
+                                "type": "literal",
+                                "value": "UTC"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "t0"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "tt"
+                              },
+                              "na.rm": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "time"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.numeric",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "difftime",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "tt"
+                                  },
+                                  "2": {
+                                    "type": "name",
+                                    "value": "t0"
+                                  },
+                                  "units": {
+                                    "type": "literal",
+                                    "value": "hours"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "unit"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "any",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nzchar",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "unit"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fac"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "vapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "unit"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "unit_factor"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "numeric",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "conc"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "conc"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "fac"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "name",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "time"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "conc"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "read_mic_csv"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "read_antibiogram_csv",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

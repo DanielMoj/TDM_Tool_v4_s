@@ -1,0 +1,3662 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "n_intervals is properly defined in compute_metrics_for_draw"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "predict_conc_grid"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k_el"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dosing"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dose"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k_el"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "times"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "apply_site_penetration"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "load_tissue_cfg"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "theta"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "CL": {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  "Vc": {
+                    "type": "literal",
+                    "value": 30
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "literal",
+                "value": "1C"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "MIC"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_no_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "compute_metrics_for_draw",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "theta"
+                          },
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "model_type"
+                          },
+                          {
+                            "type": "name",
+                            "value": "MIC"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "compute_metrics_for_draw",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "theta"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "MIC"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_type",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "literal",
+                "value": "list"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "all",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "%in%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "ft_gt_mic"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "auc_tau"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "auc24"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "auc24_over_mic"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "cmax"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "cmax_over_mic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ft_gt_mic"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "auc_tau"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "auc24"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "cmax"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "ss_window receives n_intervals parameter correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "win1"
+              },
+              {
+                "type": "call",
+                "fun": "ss_window",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "win1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "t_end"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "*",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 20
+                  },
+                  {
+                    "type": "literal",
+                    "value": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "win2"
+              },
+              {
+                "type": "call",
+                "fun": "ss_window",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  "n_intervals": {
+                    "type": "literal",
+                    "value": 30
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "win2"
+                  },
+                  {
+                    "type": "name",
+                    "value": "t_end"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "*",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 30
+                  },
+                  {
+                    "type": "literal",
+                    "value": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "win1"
+                          },
+                          {
+                            "type": "name",
+                            "value": "times"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "win1"
+                      },
+                      {
+                        "type": "name",
+                        "value": "times"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "tail",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "win1"
+                      },
+                      {
+                        "type": "name",
+                        "value": "times"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "win1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "t_end"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "PTA calculation works with fixed n_intervals"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "predict_conc_grid"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k_el"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dosing"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dose"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k_el"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "times"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "apply_site_penetration"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "load_tissue_cfg"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "meets_target"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "target_def"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "type"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "fT>MIC"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ">=",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "metrics"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "ft_gt_mic"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "target_def"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "cutoff"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "set.seed",
+            "args": [
+              {
+                "type": "literal",
+                "value": 123
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "draws"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "CL": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 10
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 5
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "Vc": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 10
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 30
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "literal",
+                "value": "1C"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "target_def"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "type": {
+                    "type": "literal",
+                    "value": "fT>MIC"
+                  },
+                  "cutoff": {
+                    "type": "literal",
+                    "value": 0.5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "MIC"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_no_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "pta"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "pta_for_regimen",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "model_type"
+                          },
+                          {
+                            "type": "name",
+                            "value": "target_def"
+                          },
+                          {
+                            "type": "name",
+                            "value": "MIC"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "pta"
+              },
+              {
+                "type": "call",
+                "fun": "pta_for_regimen",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "target_def"
+                  },
+                  {
+                    "type": "name",
+                    "value": "MIC"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pta"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_gte",
+            "args": [
+              {
+                "type": "name",
+                "value": "pta"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lte",
+            "args": [
+              {
+                "type": "name",
+                "value": "pta"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "CFR calculation works with fixed n_intervals"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "predict_conc_grid"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k_el"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dosing"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dose"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k_el"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "times"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "apply_site_penetration"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "load_tissue_cfg"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "meets_target"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "target_def"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "type"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "AUC/MIC"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ">=",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "metrics"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "auc24_over_mic"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "target_def"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "cutoff"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "set.seed",
+            "args": [
+              {
+                "type": "literal",
+                "value": 456
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "draws"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "CL": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 10
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 5
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "Vc": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 10
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 30
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "literal",
+                "value": "1C"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "target_def"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "type": {
+                    "type": "literal",
+                    "value": "AUC/MIC"
+                  },
+                  "cutoff": {
+                    "type": "literal",
+                    "value": 125
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mic_dist"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "mic": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.25
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0.5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  "p": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.2
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0.3
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0.3
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0.2
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_no_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "cfr"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "cfr_for_regimen",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "model_type"
+                          },
+                          {
+                            "type": "name",
+                            "value": "target_def"
+                          },
+                          {
+                            "type": "name",
+                            "value": "mic_dist"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cfr"
+              },
+              {
+                "type": "call",
+                "fun": "cfr_for_regimen",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "target_def"
+                  },
+                  {
+                    "type": "name",
+                    "value": "mic_dist"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.numeric",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cfr"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_gte",
+            "args": [
+              {
+                "type": "name",
+                "value": "cfr"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lte",
+            "args": [
+              {
+                "type": "name",
+                "value": "cfr"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "parse_mic_distribution handles various inputs correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "txt1"
+              },
+              {
+                "type": "literal",
+                "value": "0.25:0.1, 0.5:0.2, 1:0.4, 2:0.3"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "dist1"
+              },
+              {
+                "type": "call",
+                "fun": "parse_mic_distribution",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "txt1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "dist1"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 4
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sum",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "dist1"
+                      },
+                      {
+                        "type": "name",
+                        "value": "p"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_mic_distribution",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "call",
+                "fun": "parse_mic_distribution",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "txt2"
+              },
+              {
+                "type": "literal",
+                "value": "invalid format"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "||",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "parse_mic_distribution",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "txt2"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "parse_mic_distribution",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "txt2"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "txt3"
+              },
+              {
+                "type": "literal",
+                "value": "0.5:0.5, invalid:data, 1:0.5"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "dist3"
+              },
+              {
+                "type": "call",
+                "fun": "parse_mic_distribution",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "txt3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "dist3"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nrow",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "dist3"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_equal",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "dist3"
+                              },
+                              {
+                                "type": "name",
+                                "value": "p"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Performance optimization: vectorized functions are faster"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not",
+            "args": [
+              {
+                "type": "call",
+                "fun": "requireNamespace",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "microbenchmark"
+                  },
+                  "quietly": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "predict_conc_grid"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k_el"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dosing"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dose"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k_el"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "times"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "apply_site_penetration"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "conc"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0.7
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "load_tissue_cfg"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "factor": {
+                                "type": "literal",
+                                "value": 0.7
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "meets_target"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "metrics"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "auc24_over_mic"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 125
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "set.seed",
+            "args": [
+              {
+                "type": "literal",
+                "value": 789
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "draws"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "CL": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 100
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 5
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "Vc": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 100
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 30
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.2
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "literal",
+                "value": "1C"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "target_def"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "type": {
+                    "type": "literal",
+                    "value": "AUC/MIC"
+                  },
+                  "cutoff": {
+                    "type": "literal",
+                    "value": 125
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "MIC"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_vectorized"
+              },
+              {
+                "type": "call",
+                "fun": "system.time",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pta"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "pta_for_regimen",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "draws"
+                              },
+                              {
+                                "type": "name",
+                                "value": "regimen"
+                              },
+                              {
+                                "type": "name",
+                                "value": "model_type"
+                              },
+                              {
+                                "type": "name",
+                                "value": "target_def"
+                              },
+                              {
+                                "type": "name",
+                                "value": "MIC"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "time_vectorized"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "elapsed"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache functionality works correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not",
+            "args": [
+              {
+                "type": "call",
+                "fun": "requireNamespace",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "digest"
+                  },
+                  "quietly": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "clear_pta_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "predict_conc_grid"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k_el"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dosing"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dose"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k_el"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "times"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "apply_site_penetration"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "conc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "load_tissue_cfg"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "meets_target"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "metrics"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "auc24_over_mic"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 125
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "draws"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "CL": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 6
+                      }
+                    ]
+                  },
+                  "Vc": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 30
+                      },
+                      {
+                        "type": "literal",
+                        "value": 35
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "literal",
+                "value": "1C"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "target_def"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "type": {
+                    "type": "literal",
+                    "value": "AUC/MIC"
+                  },
+                  "cutoff": {
+                    "type": "literal",
+                    "value": 125
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "MIC"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "call",
+                "fun": "pta_for_regimen_cached",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "target_def"
+                  },
+                  {
+                    "type": "name",
+                    "value": "MIC"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "pta_for_regimen_cached",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "target_def"
+                  },
+                  {
+                    "type": "name",
+                    "value": "MIC"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "name",
+                "value": "result2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "clear_pta_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result3"
+              },
+              {
+                "type": "call",
+                "fun": "pta_for_regimen_cached",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  },
+                  {
+                    "type": "name",
+                    "value": "target_def"
+                  },
+                  {
+                    "type": "name",
+                    "value": "MIC"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "name",
+                "value": "result3"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

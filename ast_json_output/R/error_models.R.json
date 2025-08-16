@@ -1,0 +1,4244 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "loglik_residuals_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "0.1", "0.1", "1", "NULL", "NULL", "3", "0.1", "10"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "observed"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "predicted"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "observed und predicted müssen gleiche Länge haben"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "is_blq"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "is_blq"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "rep",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              },
+                              {
+                                "type": "name",
+                                "value": "n"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "lloq"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "lloq"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "min",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ">",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "observed"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 0
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sigma"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "rep",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_add"
+                          },
+                          {
+                            "type": "name",
+                            "value": "n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_prop"
+                          },
+                          {
+                            "type": "name",
+                            "value": "predicted"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "sqrt",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sigma_add"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sigma_prop"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "rep",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_add"
+                          },
+                          {
+                            "type": "name",
+                            "value": "n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_prop"
+                          },
+                          {
+                            "type": "name",
+                            "value": "predicted"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "sqrt",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sigma_add"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sigma_prop"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "standard_models"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%in%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          },
+                          {
+                            "type": "literal",
+                            "value": 3
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t_models"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%in%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 4
+                          },
+                          {
+                            "type": "literal",
+                            "value": 5
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mixture_model"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 6
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ll"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "numeric",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "n"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "standard_models"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "is_blq"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "pnorm",
+                                    "args": {
+                                      "1": {
+                                        "type": "name",
+                                        "value": "lloq"
+                                      },
+                                      "mean": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "sd": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sigma"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "log.p": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "non_blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "non_blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "non_blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "dnorm",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "observed"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "non_blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "mean": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "non_blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "sd": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sigma"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "non_blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "log": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t_models"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "is_blq"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "pt",
+                                    "args": {
+                                      "1": {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "lloq"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "[",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "predicted"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "blq_mask"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sigma"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "blq_mask"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "df": {
+                                        "type": "name",
+                                        "value": "nu"
+                                      },
+                                      "log.p": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "non_blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "non_blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "non_blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "dt",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "/",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "(",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "-",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "[",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "observed"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "non_blq_mask"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "[",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "predicted"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "non_blq_mask"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "[",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "sigma"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "non_blq_mask"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "df": {
+                                            "type": "name",
+                                            "value": "nu"
+                                          },
+                                          "log": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "log",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sigma"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mixture_model"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "is_blq"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "pnorm",
+                                    "args": {
+                                      "1": {
+                                        "type": "name",
+                                        "value": "lloq"
+                                      },
+                                      "mean": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "sd": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "sigma"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "blq_mask"
+                                          }
+                                        ]
+                                      },
+                                      "log.p": {
+                                        "type": "literal",
+                                        "value": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "non_blq_mask"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "any",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "non_blq_mask"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "comp1"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "log",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "mix_w"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "dnorm",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "observed"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          },
+                                          "mean": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "predicted"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          },
+                                          "sd": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sigma"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          },
+                                          "log": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "comp2"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "log",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "-",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "mix_w"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "dnorm",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "observed"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          },
+                                          "mean": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "predicted"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "non_blq_mask"
+                                              }
+                                            ]
+                                          },
+                                          "sd": {
+                                            "type": "call",
+                                            "fun": "*",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "mix_scale"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "[",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "sigma"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "non_blq_mask"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "log": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "ll"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "non_blq_mask"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "pmax",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "comp1"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "comp2"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "log1p",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "exp",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "pmin",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "comp1"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "comp2"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "pmax",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "comp1"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "comp2"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ll"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "is.na",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ll"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sum",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ll"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "calculate_residuals_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "standard"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "observed"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "predicted"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sigma"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Alle Vektoren müssen gleiche Länge haben"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "residuals"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "type"
+                      },
+                      "standard": {
+                        "type": "call",
+                        "fun": "-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "observed"
+                          },
+                          {
+                            "type": "name",
+                            "value": "predicted"
+                          }
+                        ]
+                      },
+                      "weighted": {
+                        "type": "call",
+                        "fun": "/",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "observed"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "predicted"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "sigma"
+                          }
+                        ]
+                      },
+                      "studentized": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "leverage"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "rep",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "n"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "observed"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "predicted"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sigma"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sqrt",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "-",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "leverage"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "5": {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Unbekannter Residuen-Typ: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "type"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "residuals"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "calculate_variance_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "1"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "variance"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "rep",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sigma_add"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "predicted"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "^",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sigma_prop"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "predicted"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sigma_add"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sigma_prop"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "predicted"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sigma_add"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "^",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "predicted"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": 2
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "sigma_prop"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Unbekanntes Fehlermodell: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "error_model"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "variance"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "calculate_weights_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "1", "FALSE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "variance"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "calculate_variance_vec",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "predicted"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sigma_add"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sigma_prop"
+                      },
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "weights"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "name",
+                        "value": "variance"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "robust"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "residuals_standardized"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "predicted"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "mean",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "predicted"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sd",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "predicted"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1.345
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "huber_weights"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "ifelse",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<=",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "residuals_standardized"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "k"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "k"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "residuals_standardized"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "weights"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "weights"
+                              },
+                              {
+                                "type": "name",
+                                "value": "huber_weights"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "weights"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "/",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "weights"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sum",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "weights"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "weights"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "weights"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "batch_loglik"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "1"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n_datasets"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "data_list"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n_params"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "nrow",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "params_matrix"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ll_matrix"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "matrix",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": null
+                      },
+                      "nrow": {
+                        "type": "name",
+                        "value": "n_datasets"
+                      },
+                      "ncol": {
+                        "type": "name",
+                        "value": "n_params"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "i"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_len",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "n_datasets"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "data_list"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ll_values"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "apply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "params_matrix"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "loglik_residuals_vec",
+                                        "args": {
+                                          "observed": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "observed"
+                                              }
+                                            ]
+                                          },
+                                          "predicted": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "predicted"
+                                              }
+                                            ]
+                                          },
+                                          "sigma_add": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "params"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": "sigma_add"
+                                              }
+                                            ]
+                                          },
+                                          "sigma_prop": {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "params"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": "sigma_prop"
+                                              }
+                                            ]
+                                          },
+                                          "error_model": {
+                                            "type": "name",
+                                            "value": "error_model"
+                                          },
+                                          "lloq": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "lloq"
+                                              }
+                                            ]
+                                          },
+                                          "is_blq": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "is_blq"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "ll_matrix"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              },
+                              {
+                                "type": "name",
+                                "value": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "ll_values"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ll_matrix"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "handle_blq_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "M3"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "observed"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "is_blq"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "|",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "observed"
+                          },
+                          {
+                            "type": "name",
+                            "value": "lloq"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "is.na",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "observed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "method"
+                      },
+                      "M1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "observed": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "observed"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "!",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "is_blq"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "is_blq": {
+                                "type": "call",
+                                "fun": "rep",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "sum",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "!",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "is_blq"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "M3": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              {
+                                "type": "name",
+                                "value": "observed"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "observed_adj"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "lloq"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "observed": {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              "is_blq": {
+                                "type": "name",
+                                "value": "is_blq"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "M4": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "first_blq"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "which",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "is_blq"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "first_blq"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "keep"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "c",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "seq_len",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "first_blq"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "which",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "&",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "!",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "is_blq"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": ">",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "seq_len",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "n"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "first_blq"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "observed": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "observed"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "keep"
+                                          }
+                                        ]
+                                      },
+                                      "is_blq": {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "is_blq"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "keep"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "observed": {
+                                        "type": "name",
+                                        "value": "observed"
+                                      },
+                                      "is_blq": {
+                                        "type": "name",
+                                        "value": "is_blq"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "M5": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              {
+                                "type": "name",
+                                "value": "observed"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "observed_adj"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "lloq"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "observed": {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              "is_blq": {
+                                "type": "call",
+                                "fun": "rep",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "M6": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              {
+                                "type": "name",
+                                "value": "observed"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "observed_adj"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "is_blq"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "observed": {
+                                "type": "name",
+                                "value": "observed_adj"
+                              },
+                              "is_blq": {
+                                "type": "call",
+                                "fun": "rep",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "7": {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Unbekannte BLQ-Methode: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "method"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "detect_outliers_vec"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "iqr", "3"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "residuals"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "outliers"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "method"
+                      },
+                      "iqr": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "q1"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "quantile",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  "2": {
+                                    "type": "literal",
+                                    "value": 0.25
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "q3"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "quantile",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  "2": {
+                                    "type": "literal",
+                                    "value": 0.75
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "iqr"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "q3"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "q1"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "lower"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "q1"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "threshold"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "iqr"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upper"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "+",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "q3"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "threshold"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "iqr"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "|",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "lower"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": ">",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "upper"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "zscore": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "z_scores"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "residuals"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "mean",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "name",
+                                                    "value": "residuals"
+                                                  },
+                                                  "na.rm": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sd",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "residuals"
+                                          },
+                                          "na.rm": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "z_scores"
+                              },
+                              {
+                                "type": "name",
+                                "value": "threshold"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "mad": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "med"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "median",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mad"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "median",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "abs",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "residuals"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "med"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "residuals"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "med"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "threshold"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "mad"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1.4826
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "grubbs": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mean_r"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "mean",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sd_r"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sd",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "residuals"
+                                  },
+                                  "na.rm": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "g_scores"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "abs",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "residuals"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "mean_r"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "sd_r"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "alpha"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0.05
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "t_crit"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "qt",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "alpha"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "*",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 2
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "n"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "n"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 2
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "g_crit"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "n"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sqrt",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "n"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "sqrt",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "^",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "t_crit"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 2
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "+",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "-",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "n"
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 2
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "^",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "t_crit"
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 2
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "g_scores"
+                              },
+                              {
+                                "type": "name",
+                                "value": "g_crit"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "6": {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Unbekannte Outlier-Methode: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "method"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "outliers"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "error_models_vectorized"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "loglik": {
+            "type": "name",
+            "value": "loglik_residuals_vec"
+          },
+          "residuals": {
+            "type": "name",
+            "value": "calculate_residuals_vec"
+          },
+          "variance": {
+            "type": "name",
+            "value": "calculate_variance_vec"
+          },
+          "weights": {
+            "type": "name",
+            "value": "calculate_weights_vec"
+          },
+          "batch_loglik": {
+            "type": "name",
+            "value": "batch_loglik"
+          },
+          "handle_blq": {
+            "type": "name",
+            "value": "handle_blq_vec"
+          },
+          "detect_outliers": {
+            "type": "name",
+            "value": "detect_outliers_vec"
+          }
+        }
+      }
+    ]
+  }
+]

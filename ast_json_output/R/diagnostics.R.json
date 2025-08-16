@@ -1,0 +1,827 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "yrep_matrix"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", "kombiniert", "1", "0.15", "200"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "n"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "nrow",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "obs"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "n"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "matrix",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "numeric",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          "nrow": {
+                            "type": "literal",
+                            "value": 0
+                          },
+                          "ncol": {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "idx"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sample",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "seq_len",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "draws"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "size": {
+                        "type": "call",
+                        "fun": "min",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "nrep"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "draws"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "replace": {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "draws"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "nrep"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "Y"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "matrix",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": "NA"
+                      },
+                      "nrow": {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "idx"
+                          }
+                        ]
+                      },
+                      "ncol": {
+                        "type": "name",
+                        "value": "n"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sigfun"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "make_sigma_fun",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sigma_add"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sigma_prop"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "i"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_along",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "idx"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "th"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.list",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "draws"
+                                  },
+                                  "2": {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "idx"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "3": {
+                                    "type": "name",
+                                    "value": ""
+                                  },
+                                  "drop": {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pred"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "predict_conc_grid",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "obs"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "time"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "regimen"
+                              },
+                              {
+                                "type": "name",
+                                "value": "th"
+                              },
+                              {
+                                "type": "name",
+                                "value": "model_type"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sig"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sigfun",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "pred"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "Y"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              },
+                              {
+                                "type": "name",
+                                "value": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "rnorm",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "n"
+                              },
+                              "mean": {
+                                "type": "name",
+                                "value": "pred"
+                              },
+                              "sd": {
+                                "type": "name",
+                                "value": "sig"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "colnames",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "Y"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "yrep_"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "seq_len",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "Y"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "ppc_summary"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "yrep"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "data.frame",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mu"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "apply",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "yrep"
+                      },
+                      "2": {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      "3": {
+                        "type": "name",
+                        "value": "mean"
+                      },
+                      "na.rm": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sd"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "apply",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "yrep"
+                      },
+                      "2": {
+                        "type": "literal",
+                        "value": 2
+                      },
+                      "3": {
+                        "type": "name",
+                        "value": "sd"
+                      },
+                      "na.rm": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "obs": {
+                    "type": "name",
+                    "value": "y"
+                  },
+                  "mean": {
+                    "type": "name",
+                    "value": "mu"
+                  },
+                  "sd": {
+                    "type": "name",
+                    "value": "sd"
+                  },
+                  "z": {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "(",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "y"
+                              },
+                              {
+                                "type": "name",
+                                "value": "mu"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "sd"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "diag_table_from_backend"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "diags"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "diags"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "data.frame",
+                        "args": {
+                          "Hinweis": {
+                            "type": "literal",
+                            "value": "Keine Stan-Diagnostik verfügbar (Laplace/ADVI)."
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "df"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "as.data.frame",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "diags"
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "data.frame",
+                        "args": {
+                          "Hinweis": {
+                            "type": "literal",
+                            "value": "Diagnostik leer."
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "df"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,6055 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "mockery"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "httr"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/fhir_connection.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/fhir_auth.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/fhir_cache.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/fhir.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_mock_response"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["200", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "resourceType": {
+                                "type": "literal",
+                                "value": "Bundle"
+                              },
+                              "type": {
+                                "type": "literal",
+                                "value": "searchset"
+                              },
+                              "total": {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              "entry": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "resource": {
+                                        "type": "call",
+                                        "fun": "list",
+                                        "args": {
+                                          "resourceType": {
+                                            "type": "literal",
+                                            "value": "Observation"
+                                          },
+                                          "id": {
+                                            "type": "literal",
+                                            "value": "test-obs-1"
+                                          },
+                                          "status": {
+                                            "type": "literal",
+                                            "value": "final"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "response"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "structure",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "status_code": {
+                            "type": "name",
+                            "value": "status_code"
+                          },
+                          "headers": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "content-type": {
+                                "type": "literal",
+                                "value": "application/fhir+json"
+                              }
+                            }
+                          },
+                          "content": {
+                            "type": "call",
+                            "fun": "charToRaw",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "class": {
+                        "type": "literal",
+                        "value": "response"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "response"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_mock_error_response"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["500", "Server Error"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "structure",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "status_code": {
+                        "type": "name",
+                        "value": "status_code"
+                      },
+                      "headers": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      },
+                      "content": {
+                        "type": "call",
+                        "fun": "charToRaw",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "jsonlite", "toJSON"],
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "resourceType": {
+                                    "type": "literal",
+                                    "value": "OperationOutcome"
+                                  },
+                                  "issue": {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "list",
+                                        "args": {
+                                          "severity": {
+                                            "type": "literal",
+                                            "value": "error"
+                                          },
+                                          "code": {
+                                            "type": "literal",
+                                            "value": "exception"
+                                          },
+                                          "diagnostics": {
+                                            "type": "name",
+                                            "value": "message"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "auto_unbox": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "class": {
+                    "type": "literal",
+                    "value": "response"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Circuit Breaker"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Circuit breaker opens after threshold failures"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "configure_circuit_breaker",
+            "args": {
+              "failure_threshold": {
+                "type": "literal",
+                "value": 3
+              },
+              "timeout_seconds": {
+                "type": "literal",
+                "value": 5
+              },
+              "success_threshold": {
+                "type": "literal",
+                "value": 2
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "fail_count"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Connection refused"
+                      }
+                    ]
+                  },
+                  "2": {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Connection refused"
+                      }
+                    ]
+                  },
+                  "3": {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Connection refused"
+                      }
+                    ]
+                  },
+                  "4": {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Connection refused"
+                      }
+                    ]
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 4
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "fhir_request_with_circuit_breaker",
+                        "args": {
+                          "request_fn": {
+                            "type": "call",
+                            "fun": "::",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "httr"
+                              },
+                              {
+                                "type": "name",
+                                "value": "GET"
+                              }
+                            ]
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Patient"
+                          },
+                          "max_retries": {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "status"
+              },
+              {
+                "type": "call",
+                "fun": "get_fhir_circuit_status",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "state"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "open"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "available"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "failures"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Circuit breaker transitions to half-open after timeout"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_circuit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "state"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "open"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_circuit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "failures"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_circuit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "last_failure_time"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": 65
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "status"
+              },
+              {
+                "type": "call",
+                "fun": "get_fhir_circuit_status",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "state"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "half_open"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Circuit breaker closes after successful recovery"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "configure_circuit_breaker",
+            "args": {
+              "success_threshold": {
+                "type": "literal",
+                "value": 2
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_circuit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "state"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "half_open"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_circuit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "success_count"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "fhir_request_with_circuit_breaker",
+                        "args": {
+                          "request_fn": {
+                            "type": "call",
+                            "fun": "::",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "httr"
+                              },
+                              {
+                                "type": "name",
+                                "value": "GET"
+                              }
+                            ]
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Patient"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "status"
+              },
+              {
+                "type": "call",
+                "fun": "get_fhir_circuit_status",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "state"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "closed"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  },
+                  {
+                    "type": "name",
+                    "value": "failures"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Retry Logic"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Requests retry on transient failures"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "attempt"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Timeout"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Connection reset"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "Sys.sleep"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  },
+                  "max_retries": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Non-retryable errors fail immediately"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "create_mock_error_response",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 400
+                      },
+                      {
+                        "type": "literal",
+                        "value": "Bad Request"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::http_error"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::status_code"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "name",
+                        "value": "status_code"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  },
+                  "max_retries": {
+                    "type": "literal",
+                    "value": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Rate limiting triggers appropriate wait"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "rate_limit_response"
+              },
+              {
+                "type": "call",
+                "fun": "structure",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "status_code": {
+                        "type": "literal",
+                        "value": 429
+                      },
+                      "headers": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "retry-after": {
+                            "type": "literal",
+                            "value": "5"
+                          }
+                        }
+                      },
+                      "content": {
+                        "type": "call",
+                        "fun": "charToRaw",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "{}"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "class": {
+                    "type": "literal",
+                    "value": "response"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "rate_limit_response"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "sleep_times"
+              },
+              {
+                "type": "call",
+                "fun": "numeric",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_sleep"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "sleep_times"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "c",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sleep_times"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "Sys.sleep"
+              },
+              {
+                "type": "name",
+                "value": "mock_sleep"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::http_error"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": ">=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "x"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status_code"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::status_code"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "name",
+                        "value": "status_code"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::headers"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "name",
+                        "value": "headers"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_sleep"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sleep_times"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Token Management"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Token refresh triggers on 401"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_auth_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "default"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "auth_url": {
+                    "type": "literal",
+                    "value": "http://auth.test/token"
+                  },
+                  "client_id": {
+                    "type": "literal",
+                    "value": "test-client"
+                  },
+                  "client_secret": {
+                    "type": "literal",
+                    "value": "test-secret"
+                  },
+                  "scope": {
+                    "type": "literal",
+                    "value": "system/*.read"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "create_mock_error_response",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 401
+                      },
+                      {
+                        "type": "literal",
+                        "value": "Unauthorized"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_refresh"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::http_error"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": ">=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "x"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status_code"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::status_code"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      },
+                      {
+                        "type": "name",
+                        "value": "status_code"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_refresh_token"
+              },
+              {
+                "type": "name",
+                "value": "mock_refresh"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "exists"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "is.function"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_request_with_circuit_breaker",
+                "args": {
+                  "request_fn": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "httr"
+                      },
+                      {
+                        "type": "name",
+                        "value": "GET"
+                      }
+                    ]
+                  },
+                  "url": {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Patient"
+                  },
+                  "retry_on_401": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_refresh"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Token expiry is detected and refreshed"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_tokens"
+                  },
+                  {
+                    "type": "name",
+                    "value": "token_default"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "token": {
+                    "type": "literal",
+                    "value": "expired-token"
+                  },
+                  "expires_at": {
+                    "type": "call",
+                    "fun": "-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      {
+                        "type": "literal",
+                        "value": 60
+                      }
+                    ]
+                  },
+                  "refresh_token": {
+                    "type": "literal",
+                    "value": "refresh-token"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_auth"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "get_fhir_token"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_authenticate"
+              },
+              {
+                "type": "name",
+                "value": "mock_auth"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_tokens"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token_default"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "token"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "new-token"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_tokens"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token_default"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expires_at"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "+",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3600
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "token"
+              },
+              {
+                "type": "call",
+                "fun": "get_fhir_token",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "token"
+              },
+              {
+                "type": "literal",
+                "value": "new-token"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_auth"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Caching"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache returns stored data within TTL"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "reset_cache_stats",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "data": {
+                        "type": "literal",
+                        "value": "test-data"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "test-key"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "test-data"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "test-key"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result2"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "test-data"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "stats"
+              },
+              {
+                "type": "call",
+                "fun": "get_cache_stats",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "hits"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "name",
+                    "value": "misses"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache respects TTL"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "data": {
+                        "type": "literal",
+                        "value": "original"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "data": {
+                        "type": "literal",
+                        "value": "updated"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "ttl-test"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "original"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.sleep",
+            "args": [
+              {
+                "type": "literal",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "ttl-test"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result2"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "updated"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache returns stale data on fetch error"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "fetch_count"
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fetch_count"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "fetch_count"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "fetch_count"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "data": {
+                                    "type": "literal",
+                                    "value": "cached-data"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Network error"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "stale-test"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cached-data"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.sleep",
+            "args": [
+              {
+                "type": "literal",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "suppressWarnings",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_cached_request",
+                    "args": {
+                      "cache_key": {
+                        "type": "literal",
+                        "value": "stale-test"
+                      },
+                      "fetch_fn": {
+                        "type": "name",
+                        "value": "mock_fetch"
+                      },
+                      "use_stale_on_error": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result2"
+                  },
+                  {
+                    "type": "name",
+                    "value": "data"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "cached-data"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache compression works for large objects"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "configure_fhir_cache",
+            "args": {
+              "enable_compression": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "large_data"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "data": {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "paste",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "rep",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "x"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1000
+                              }
+                            ]
+                          },
+                          "collapse": {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        }
+                      },
+                      {
+                        "type": "literal",
+                        "value": 100
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "large_data"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "compression-test"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache_entry"
+              },
+              {
+                "type": "call",
+                "fun": "[[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_cache"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "compression-test"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_entry"
+                  },
+                  {
+                    "type": "name",
+                    "value": "compressed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_entry"
+                  },
+                  {
+                    "type": "name",
+                    "value": "size"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "cache_entry"
+                  },
+                  {
+                    "type": "name",
+                    "value": "original_size"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "cache_key": {
+                    "type": "literal",
+                    "value": "compression-test"
+                  },
+                  "fetch_fn": {
+                    "type": "name",
+                    "value": "mock_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "name",
+                "value": "large_data"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Main FHIR Functions"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "fhir_get_observations handles network errors gracefully"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Timeout"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_get_observations"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "patient-123"
+                  },
+                  "use_cache": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "fhir_get_observations validates inputs"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": "patient_id is required"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "patient_id is required"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "patient_id is required"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "fhir_fetch_all_pages handles pagination correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "page1"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "resourceType": {
+                    "type": "literal",
+                    "value": "Bundle"
+                  },
+                  "type": {
+                    "type": "literal",
+                    "value": "searchset"
+                  },
+                  "total": {
+                    "type": "literal",
+                    "value": 25
+                  },
+                  "entry": {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 10
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "resource": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "id": {
+                                    "type": "call",
+                                    "fun": "paste0",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "obs-"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "link": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "relation": {
+                            "type": "literal",
+                            "value": "self"
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Observation?page=1"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "relation": {
+                            "type": "literal",
+                            "value": "next"
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Observation?page=2"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "page2"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "resourceType": {
+                    "type": "literal",
+                    "value": "Bundle"
+                  },
+                  "type": {
+                    "type": "literal",
+                    "value": "searchset"
+                  },
+                  "total": {
+                    "type": "literal",
+                    "value": 25
+                  },
+                  "entry": {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 11
+                          },
+                          {
+                            "type": "literal",
+                            "value": 20
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "resource": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "id": {
+                                    "type": "call",
+                                    "fun": "paste0",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "obs-"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "link": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "relation": {
+                            "type": "literal",
+                            "value": "self"
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Observation?page=2"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "relation": {
+                            "type": "literal",
+                            "value": "next"
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Observation?page=3"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "page3"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "resourceType": {
+                    "type": "literal",
+                    "value": "Bundle"
+                  },
+                  "type": {
+                    "type": "literal",
+                    "value": "searchset"
+                  },
+                  "total": {
+                    "type": "literal",
+                    "value": 25
+                  },
+                  "entry": {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 21
+                          },
+                          {
+                            "type": "literal",
+                            "value": 25
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "resource": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "id": {
+                                    "type": "call",
+                                    "fun": "paste0",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "obs-"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "link": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "relation": {
+                            "type": "literal",
+                            "value": "self"
+                          },
+                          "url": {
+                            "type": "literal",
+                            "value": "http://test.fhir.org/Observation?page=3"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "page1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "page2"
+                  },
+                  {
+                    "type": "name",
+                    "value": "page3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_fetch_all_pages"
+              },
+              {
+                "type": "literal",
+                "value": "fetch_fhir_bundle"
+              },
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_fetch_all_pages",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "http://test.fhir.org/Observation?patient=123"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "total"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 25
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "entry"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 25
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_called",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_fetch"
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "FHIR operations handle OperationOutcome errors"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "error_response"
+              },
+              {
+                "type": "call",
+                "fun": "create_mock_response",
+                "args": {
+                  "status_code": {
+                    "type": "literal",
+                    "value": 200
+                  },
+                  "content": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "resourceType": {
+                        "type": "literal",
+                        "value": "OperationOutcome"
+                      },
+                      "issue": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "severity": {
+                                "type": "literal",
+                                "value": "error"
+                              },
+                              "code": {
+                                "type": "literal",
+                                "value": "not-found"
+                              },
+                              "diagnostics": {
+                                "type": "literal",
+                                "value": "Patient not found"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "error_response"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_get_patient"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "suppressWarnings",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_get_patient",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": "unknown-patient"
+                      },
+                      "use_cache": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Error Handling Edge Cases"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "System handles malformed JSON responses"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "bad_response"
+              },
+              {
+                "type": "call",
+                "fun": "structure",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "status_code": {
+                        "type": "literal",
+                        "value": 200
+                      },
+                      "headers": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "content-type": {
+                            "type": "literal",
+                            "value": "application/json"
+                          }
+                        }
+                      },
+                      "content": {
+                        "type": "call",
+                        "fun": "charToRaw",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "{ invalid json }"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "class": {
+                    "type": "literal",
+                    "value": "response"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "bad_response"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_get_observations"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "suppressWarnings",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_get_observations",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": "patient-123"
+                      },
+                      "use_cache": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "System handles empty responses gracefully"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "empty_bundle"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "resourceType": {
+                    "type": "literal",
+                    "value": "Bundle"
+                  },
+                  "type": {
+                    "type": "literal",
+                    "value": "searchset"
+                  },
+                  "total": {
+                    "type": "literal",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_response"
+              },
+              {
+                "type": "call",
+                "fun": "create_mock_response",
+                "args": {
+                  "content": {
+                    "type": "name",
+                    "value": "empty_bundle"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mock_response"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_get_observations"
+              },
+              {
+                "type": "literal",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_get_observations",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "patient-123"
+                  },
+                  "use_cache": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "total"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "entry"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Integration Tests"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Complete flow works with all resilience features"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not",
+            "args": [
+              {
+                "type": "call",
+                "fun": "interactive",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": "Integration test requires manual verification"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": ".fhir_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "base_url"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "http://test.fhir.org"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "configure_circuit_breaker",
+            "args": {
+              "failure_threshold": {
+                "type": "literal",
+                "value": 3
+              },
+              "timeout_seconds": {
+                "type": "literal",
+                "value": 5
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "configure_fhir_cache",
+            "args": {
+              "default_ttl": {
+                "type": "literal",
+                "value": 60
+              },
+              "max_cache_size": {
+                "type": "literal",
+                "value": 10
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "scenarios"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "success": {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  },
+                  "server_error": {
+                    "type": "call",
+                    "fun": "create_mock_error_response",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 500
+                      }
+                    ]
+                  },
+                  "rate_limit": {
+                    "type": "call",
+                    "fun": "structure",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "status_code": {
+                            "type": "literal",
+                            "value": 429
+                          },
+                          "headers": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "retry-after": {
+                                "type": "literal",
+                                "value": "2"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "class": {
+                        "type": "literal",
+                        "value": "response"
+                      }
+                    }
+                  },
+                  "timeout": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Timeout"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  },
+                  "recovered": {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "scenario_name"
+              },
+              {
+                "type": "call",
+                "fun": "names",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "scenarios"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "message",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Testing scenario: %s"
+                          },
+                          {
+                            "type": "name",
+                            "value": "scenario_name"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "status"
+              },
+              {
+                "type": "call",
+                "fun": "get_fhir_status",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.list",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "circuit_breaker"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "status"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "cache"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "status"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "context",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Performance"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Circuit breaker adds minimal overhead"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not",
+            "args": [
+              {
+                "type": "call",
+                "fun": "interactive",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": "Performance test"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "reset_fhir_circuit",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_get"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "create_mock_response",
+                    "args": []
+                  },
+                  "cycle": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::GET"
+              },
+              {
+                "type": "name",
+                "value": "mock_get"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "stub",
+            "args": [
+              {
+                "type": "name",
+                "value": "fhir_request_with_circuit_breaker"
+              },
+              {
+                "type": "literal",
+                "value": "httr::with_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "name",
+                    "value": "expr"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "start_time"
+              },
+              {
+                "type": "call",
+                "fun": "Sys.time",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 100
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_request_with_circuit_breaker",
+                    "args": {
+                      "request_fn": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "httr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "GET"
+                          }
+                        ]
+                      },
+                      "url": {
+                        "type": "literal",
+                        "value": "http://test.fhir.org/Patient"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "elapsed"
+              },
+              {
+                "type": "call",
+                "fun": "as.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "difftime",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "start_time"
+                      },
+                      "units": {
+                        "type": "literal",
+                        "value": "secs"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lt",
+            "args": [
+              {
+                "type": "name",
+                "value": "elapsed"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "100 requests completed in %.3f seconds"
+                  },
+                  {
+                    "type": "name",
+                    "value": "elapsed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Cache improves response time significantly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not",
+            "args": [
+              {
+                "type": "call",
+                "fun": "interactive",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": "Performance test"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "clear_fhir_cache",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "slow_fetch"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.sleep",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0.1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "data": {
+                            "type": "literal",
+                            "value": "test"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "start1"
+              },
+              {
+                "type": "call",
+                "fun": "Sys.time",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "perf-test"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "slow_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "time1"
+              },
+              {
+                "type": "call",
+                "fun": "as.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "difftime",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "start1"
+                      },
+                      "units": {
+                        "type": "literal",
+                        "value": "secs"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "start2"
+              },
+              {
+                "type": "call",
+                "fun": "Sys.time",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result2"
+              },
+              {
+                "type": "call",
+                "fun": "fhir_cached_request",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "perf-test"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "slow_fetch"
+                  },
+                  "ttl": {
+                    "type": "literal",
+                    "value": 60
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "time2"
+              },
+              {
+                "type": "call",
+                "fun": "as.numeric",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "difftime",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "start2"
+                      },
+                      "units": {
+                        "type": "literal",
+                        "value": "secs"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "*",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "time2"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "time1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "Uncached: %.3fs, Cached: %.3fs (%.1fx faster)"
+                  },
+                  {
+                    "type": "name",
+                    "value": "time1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "time2"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "time1"
+                      },
+                      {
+                        "type": "name",
+                        "value": "time2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,4940 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "plumber"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "jose"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "digest"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "jsonlite"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".auth_attempts"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".active_sessions"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".blocked_ips"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "AUTH_MAX_ATTEMPTS"
+      },
+      {
+        "type": "call",
+        "fun": "as.integer",
+        "args": [
+          {
+            "type": "call",
+            "fun": "Sys.getenv",
+            "args": [
+              {
+                "type": "literal",
+                "value": "AUTH_MAX_ATTEMPTS"
+              },
+              {
+                "type": "literal",
+                "value": 5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "AUTH_WINDOW_MINUTES"
+      },
+      {
+        "type": "call",
+        "fun": "as.integer",
+        "args": [
+          {
+            "type": "call",
+            "fun": "Sys.getenv",
+            "args": [
+              {
+                "type": "literal",
+                "value": "AUTH_WINDOW_MINUTES"
+              },
+              {
+                "type": "literal",
+                "value": 15
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "AUTH_BLOCK_DURATION_MINUTES"
+      },
+      {
+        "type": "call",
+        "fun": "as.integer",
+        "args": [
+          {
+            "type": "call",
+            "fun": "Sys.getenv",
+            "args": [
+              {
+                "type": "literal",
+                "value": "AUTH_BLOCK_DURATION"
+              },
+              {
+                "type": "literal",
+                "value": 60
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "AUTH_LOG_PATH"
+      },
+      {
+        "type": "literal",
+        "value": "log/auth.log"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "AUTH_ERROR_LOG_PATH"
+      },
+      {
+        "type": "literal",
+        "value": "log/auth_errors.log"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "JWT_SECRET"
+      },
+      {
+        "type": "call",
+        "fun": "Sys.getenv",
+        "args": [
+          {
+            "type": "literal",
+            "value": "JWT_SECRET"
+          },
+          {
+            "type": "literal",
+            "value": "CHANGE_THIS_IN_PRODUCTION"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".auth_init"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "dir.create",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "log"
+                  },
+                  "showWarnings": {
+                    "type": "literal",
+                    "value": false
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "AUTH_LOG_PATH"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "timestamp,username,ip,action,success,details\n"
+                          },
+                          "file": {
+                            "type": "name",
+                            "value": "AUTH_LOG_PATH"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".log_auth_event"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "log_entry"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "%s,%s,%s,%s,%s,%s\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "format",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          },
+                          {
+                            "type": "literal",
+                            "value": "%Y-%m-%d %H:%M:%S"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "name",
+                        "value": "action"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "tolower",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "as.character",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "success"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "gsub",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": ","
+                          },
+                          {
+                            "type": "literal",
+                            "value": ";"
+                          },
+                          {
+                            "type": "name",
+                            "value": "details"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "log_entry"
+                          },
+                          "file": {
+                            "type": "name",
+                            "value": "AUTH_LOG_PATH"
+                          },
+                          "append": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "message",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Auth log write failed: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "log_entry"
+                              },
+                              "file": {
+                                "type": "call",
+                                "fun": "stderr",
+                                "args": []
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".log_auth_error"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "ERROR"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "error_msg"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "[%s] %s | %s\n"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "format",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          },
+                          {
+                            "type": "literal",
+                            "value": "%Y-%m-%d %H:%M:%S"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "severity"
+                      },
+                      {
+                        "type": "name",
+                        "value": "message"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "cat",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "error_msg"
+                          },
+                          "file": {
+                            "type": "name",
+                            "value": "AUTH_ERROR_LOG_PATH"
+                          },
+                          "append": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "cat",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "error_msg"
+                              },
+                              "file": {
+                                "type": "call",
+                                "fun": "stderr",
+                                "args": []
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "severity"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "CRITICAL"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.info",
+                                "args": []
+                              },
+                              {
+                                "type": "literal",
+                                "value": "sysname"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "Linux"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "try",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "system2",
+                                "args": {
+                                  "1": {
+                                    "type": "literal",
+                                    "value": "logger"
+                                  },
+                                  "args": {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "-p"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "auth.err"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "-t"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "tdmx-auth"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  },
+                                  "stdout": {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  "stderr": {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "silent": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".is_ip_blocked"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "blocked_until"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".blocked_ips"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "blocked_until"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      {
+                        "type": "name",
+                        "value": "blocked_until"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rm",
+                        "args": {
+                          "list": {
+                            "type": "name",
+                            "value": "ip"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".blocked_ips"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".block_ip"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "AUTH_BLOCK_DURATION_MINUTES"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "blocked_until"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "(",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "duration_minutes"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 60
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".blocked_ips"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "blocked_until"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ".log_auth_error",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "IP blocked: %s until %s"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "format",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "blocked_until"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "%Y-%m-%d %H:%M:%S"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "severity": {
+                    "type": "literal",
+                    "value": "WARNING"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_rate_limit"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ".is_ip_blocked",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "blocked_until"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".blocked_ips"
+                              },
+                              {
+                                "type": "name",
+                                "value": "ip"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "remaining_minutes"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.numeric",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "difftime",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "blocked_until"
+                                  },
+                                  "2": {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  "units": {
+                                    "type": "literal",
+                                    "value": "mins"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ".log_auth_event",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "login_attempt"
+                          },
+                          {
+                            "type": "literal",
+                            "value": false
+                          },
+                          {
+                            "type": "literal",
+                            "value": "ip_blocked"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "IP blocked. Try again in %.0f minutes."
+                              },
+                              {
+                                "type": "call",
+                                "fun": "ceiling",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "remaining_minutes"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "current_time"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "attempts"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".auth_attempts"
+                      },
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "attempts"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempts"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "attempts"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Filter",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "difftime",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "current_time"
+                                  },
+                                  "2": {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  "units": {
+                                    "type": "literal",
+                                    "value": "mins"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "name",
+                                "value": "AUTH_WINDOW_MINUTES"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "attempts"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempts"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "AUTH_MAX_ATTEMPTS"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ".block_ip",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ".log_auth_event",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "rate_limit_exceeded"
+                          },
+                          {
+                            "type": "literal",
+                            "value": false
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "attempts=%d"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempts"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Too many login attempts. IP blocked for %d minutes."
+                              },
+                              {
+                                "type": "name",
+                                "value": "AUTH_BLOCK_DURATION_MINUTES"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "attempts"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "attempts"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "current_time"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".auth_attempts"
+                      },
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "attempts"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempts"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "(",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "AUTH_MAX_ATTEMPTS"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ".log_auth_error",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Warning: User %s from IP %s has %d/%d attempts"
+                              },
+                              {
+                                "type": "name",
+                                "value": "username"
+                              },
+                              {
+                                "type": "name",
+                                "value": "ip"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempts"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "AUTH_MAX_ATTEMPTS"
+                              }
+                            ]
+                          },
+                          "severity": {
+                            "type": "literal",
+                            "value": "WARNING"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".reset_rate_limit"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "exists",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "key"
+                      },
+                      "envir": {
+                        "type": "name",
+                        "value": ".auth_attempts"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rm",
+                        "args": {
+                          "list": {
+                            "type": "name",
+                            "value": "key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".auth_attempts"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "auth_check"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbConnect"],
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": ["::", "RPostgres", "Postgres"],
+                                "args": []
+                              },
+                              "dbname": {
+                                "type": "call",
+                                "fun": "Sys.getenv",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "PG_DB"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "tdmx_users"
+                                  }
+                                ]
+                              },
+                              "host": {
+                                "type": "call",
+                                "fun": "Sys.getenv",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "PG_HOST"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "localhost"
+                                  }
+                                ]
+                              },
+                              "port": {
+                                "type": "call",
+                                "fun": "as.integer",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.getenv",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "PG_PORT"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 5432
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "user": {
+                                "type": "call",
+                                "fun": "Sys.getenv",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "PG_USER"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "auth_user"
+                                  }
+                                ]
+                              },
+                              "password": {
+                                "type": "call",
+                                "fun": "Sys.getenv",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "PG_PASS"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ""
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "query"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "SELECT user_id, password_hash, salt, role, active \n              FROM users \n              WHERE username = $1"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              "2": {
+                                "type": "name",
+                                "value": "query"
+                              },
+                              "params": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "DBI", "dbDisconnect"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "reason": {
+                                        "type": "literal",
+                                        "value": "user_not_found"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "active"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "reason": {
+                                        "type": "literal",
+                                        "value": "account_disabled"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "password_hash"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "digest",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "password"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "salt"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "algo": {
+                                "type": "literal",
+                                "value": "sha256"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!=",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "password_hash"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "reason": {
+                                        "type": "literal",
+                                        "value": "invalid_password"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": true
+                              },
+                              "user_id": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "user_id"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              "role": {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "role"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ".log_auth_error",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Auth check failed for user %s: %s"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "severity": {
+                                "type": "literal",
+                                "value": "ERROR"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "success": {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  "reason": {
+                                    "type": "literal",
+                                    "value": "auth_system_error"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".generate_jwt_token"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "payload"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "sub": {
+                        "type": "call",
+                        "fun": "as.character",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "user_id"
+                          }
+                        ]
+                      },
+                      "username": {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      "role": {
+                        "type": "name",
+                        "value": "role"
+                      },
+                      "iat": {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          }
+                        ]
+                      },
+                      "exp": {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": 60
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 60
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 8
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "jwt_encode_hmac",
+                    "args": {
+                      "claim": {
+                        "type": "name",
+                        "value": "payload"
+                      },
+                      "secret": {
+                        "type": "name",
+                        "value": "JWT_SECRET"
+                      },
+                      "algo": {
+                        "type": "literal",
+                        "value": "HS256"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".create_session"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "session_id"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "digest",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "paste",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "user_id"
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "Sys.time",
+                            "args": []
+                          },
+                          {
+                            "type": "call",
+                            "fun": "runif",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "algo": {
+                        "type": "literal",
+                        "value": "sha256"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "session_data"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "user_id": {
+                        "type": "name",
+                        "value": "user_id"
+                      },
+                      "username": {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      "ip": {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      "created_at": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "last_activity": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".active_sessions"
+                      },
+                      {
+                        "type": "name",
+                        "value": "session_id"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "session_data"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "session_id"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "NULL",
+        "value": []
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "status": {
+                "type": "literal",
+                "value": "healthy"
+              },
+              "timestamp": {
+                "type": "call",
+                "fun": "Sys.time",
+                "args": []
+              },
+              "version": {
+                "type": "literal",
+                "value": "1.0.0"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", "", "", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": ".auth_init",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "ip"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req"
+                  },
+                  {
+                    "type": "name",
+                    "value": "HTTP_X_FORWARDED_FOR"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "req"
+                          },
+                          {
+                            "type": "name",
+                            "value": "REMOTE_ADDR"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "unknown"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "||",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nchar",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nchar",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ".log_auth_event",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "login_attempt"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      },
+                      {
+                        "type": "literal",
+                        "value": "missing_credentials"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Username and password required"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "^[a-zA-Z0-9._-]+$"
+                      },
+                      {
+                        "type": "name",
+                        "value": "username"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ".log_auth_event",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "login_attempt"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      },
+                      {
+                        "type": "literal",
+                        "value": "invalid_username_format"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Invalid username format"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "rate_limit_result"
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "check_rate_limit",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "ip"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 429
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.logical",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "rate_limit_result"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "rate_limit_result"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "auth_result"
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "auth_check",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ".log_auth_error",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Authentication error for %s from %s: %s"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ip"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "severity": {
+                                "type": "literal",
+                                "value": "ERROR"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": ".log_auth_event",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "username"
+                              },
+                              {
+                                "type": "name",
+                                "value": "ip"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "login_attempt"
+                              },
+                              {
+                                "type": "literal",
+                                "value": false
+                              },
+                              {
+                                "type": "literal",
+                                "value": "system_error"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 500
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "literal",
+                                    "value": "Authentication system error"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "success"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ".log_auth_event",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      {
+                        "type": "name",
+                        "value": "ip"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "login_attempt"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "auth_result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "reason"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "auth_result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "reason"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "account_disabled"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 403
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "literal",
+                                    "value": "Account disabled"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 401
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Invalid credentials"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ".reset_rate_limit",
+            "args": [
+              {
+                "type": "name",
+                "value": "username"
+              },
+              {
+                "type": "name",
+                "value": "ip"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "token"
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ".generate_jwt_token",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "auth_result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "user_id"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "auth_result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "role"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ".log_auth_error",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Token generation failed for %s: %s"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "severity": {
+                                "type": "literal",
+                                "value": "CRITICAL"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 500
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "literal",
+                                    "value": "Token generation failed"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "session_id"
+              },
+              {
+                "type": "call",
+                "fun": ".create_session",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "user_id"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "username"
+                  },
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ".log_auth_event",
+            "args": [
+              {
+                "type": "name",
+                "value": "username"
+              },
+              {
+                "type": "name",
+                "value": "ip"
+              },
+              {
+                "type": "literal",
+                "value": "login_success"
+              },
+              {
+                "type": "literal",
+                "value": true
+              },
+              {
+                "type": "call",
+                "fun": "sprintf",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "role=%s,session=%s"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "substr",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "session_id"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 8
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "../R/audit.R"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "audit_append_hashchain",
+            "args": {
+              "actor": {
+                "type": "name",
+                "value": "username"
+              },
+              "action": {
+                "type": "literal",
+                "value": "user_login"
+              },
+              "payload": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "ip": {
+                    "type": "name",
+                    "value": "ip"
+                  },
+                  "role": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  },
+                  "session_id": {
+                    "type": "call",
+                    "fun": "substr",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "session_id"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 8
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "return",
+            "args": [
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "token": {
+                    "type": "name",
+                    "value": "token"
+                  },
+                  "expires_in": {
+                    "type": "literal",
+                    "value": 28800
+                  },
+                  "token_type": {
+                    "type": "literal",
+                    "value": "Bearer"
+                  },
+                  "role": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_result"
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", "", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "==",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "nchar",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_header"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "req"
+                          },
+                          {
+                            "type": "name",
+                            "value": "HTTP_AUTHORIZATION"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "if",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "&&",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "auth_header"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "grepl",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "^Bearer "
+                              },
+                              {
+                                "type": "name",
+                                "value": "auth_header"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "token"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "sub",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "^Bearer "
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "auth_header"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "==",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "nchar",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Token required"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "payload"
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "jwt_decode_hmac",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token"
+                          },
+                          "secret": {
+                            "type": "name",
+                            "value": "JWT_SECRET"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 401
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "literal",
+                                    "value": "Invalid token"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.list",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "ip"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req"
+                  },
+                  {
+                    "type": "name",
+                    "value": "HTTP_X_FORWARDED_FOR"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "req"
+                      },
+                      {
+                        "type": "name",
+                        "value": "REMOTE_ADDR"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ip"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "unknown"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ".log_auth_event",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "payload"
+                  },
+                  {
+                    "type": "name",
+                    "value": "username"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "ip"
+              },
+              {
+                "type": "literal",
+                "value": "logout"
+              },
+              {
+                "type": "literal",
+                "value": true
+              },
+              {
+                "type": "literal",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "../R/audit.R"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "audit_append_hashchain",
+            "args": {
+              "actor": {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "payload"
+                  },
+                  {
+                    "type": "name",
+                    "value": "username"
+                  }
+                ]
+              },
+              "action": {
+                "type": "literal",
+                "value": "user_logout"
+              },
+              "payload": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "ip": {
+                    "type": "name",
+                    "value": "ip"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "return",
+            "args": [
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "message": {
+                    "type": "literal",
+                    "value": "Logout successful"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "auth_header"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "req"
+                  },
+                  {
+                    "type": "name",
+                    "value": "HTTP_AUTHORIZATION"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "||",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_header"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "^Bearer "
+                          },
+                          {
+                            "type": "name",
+                            "value": "auth_header"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 401
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Authorization header required"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "token"
+              },
+              {
+                "type": "call",
+                "fun": "sub",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "^Bearer "
+                  },
+                  {
+                    "type": "literal",
+                    "value": ""
+                  },
+                  {
+                    "type": "name",
+                    "value": "auth_header"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "payload"
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "jwt_decode_hmac",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token"
+                          },
+                          "secret": {
+                            "type": "name",
+                            "value": "JWT_SECRET"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ".log_auth_error",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Token verification failed: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "severity": {
+                                "type": "literal",
+                                "value": "WARNING"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 401
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "error": {
+                                    "type": "literal",
+                                    "value": "Invalid token"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.list",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      },
+                      {
+                        "type": "name",
+                        "value": "exp"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "as.numeric",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 401
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "Token expired"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "return",
+            "args": [
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "valid": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "username": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      },
+                      {
+                        "type": "name",
+                        "value": "username"
+                      }
+                    ]
+                  },
+                  "role": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "payload"
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  },
+                  "expires_at": {
+                    "type": "call",
+                    "fun": "as.POSIXct",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "payload"
+                          },
+                          {
+                            "type": "name",
+                            "value": "exp"
+                          }
+                        ]
+                      },
+                      "origin": {
+                        "type": "literal",
+                        "value": "1970-01-01"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  }
+]

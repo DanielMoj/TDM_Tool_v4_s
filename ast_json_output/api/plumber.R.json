@@ -1,0 +1,959 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "plumber"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "utils.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "prior_db.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "error_models.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "pk_models.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R"
+          },
+          {
+            "type": "literal",
+            "value": "backend_bayes.R"
+          }
+        ]
+      },
+      "chdir": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "NULL",
+        "value": []
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "status": {
+            "type": "literal",
+            "value": "ok"
+          },
+          "time": {
+            "type": "call",
+            "fun": "as.character",
+            "args": [
+              {
+                "type": "call",
+                "fun": "Sys.time",
+                "args": []
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "body"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "jsonlite", "fromJSON"],
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "req"
+                      },
+                      {
+                        "type": "name",
+                        "value": "postBody"
+                      }
+                    ]
+                  },
+                  "simplifyVector": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "priors"
+              },
+              {
+                "type": "call",
+                "fun": "load_priors",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "priors"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "drug"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "drug"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "priors"
+                      },
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "status"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 400
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "error": {
+                            "type": "literal",
+                            "value": "unknown drug"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "obs"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "tibble", "tibble"],
+                "args": {
+                  "time": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "body"
+                          },
+                          {
+                            "type": "name",
+                            "value": "obs"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "time"
+                      }
+                    ]
+                  },
+                  "conc": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "body"
+                          },
+                          {
+                            "type": "name",
+                            "value": "obs"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "conc"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "covars"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "covariates"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backend"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "body"
+                      },
+                      {
+                        "type": "name",
+                        "value": "backend"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "Laplace"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "error_model"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "body"
+                      },
+                      {
+                        "type": "name",
+                        "value": "error_model"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "kombiniert"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "estimate_sigma"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "body"
+                      },
+                      {
+                        "type": "name",
+                        "value": "estimate_sigma"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "sigma_init"
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "body"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sigma_init"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "add": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "prop": {
+                        "type": "literal",
+                        "value": 0.15
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "res_fit"
+              },
+              {
+                "type": "call",
+                "fun": "run_fit",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "obs"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "priors"
+                      },
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "body"
+                      },
+                      {
+                        "type": "name",
+                        "value": "model_type"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "error_model"
+                  },
+                  {
+                    "type": "name",
+                    "value": "covars"
+                  },
+                  {
+                    "type": "name",
+                    "value": "backend"
+                  },
+                  {
+                    "type": "name",
+                    "value": "estimate_sigma"
+                  },
+                  {
+                    "type": "name",
+                    "value": "sigma_init"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "posterior_summary": {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "res_fit"
+                  },
+                  {
+                    "type": "name",
+                    "value": "posterior_summary"
+                  }
+                ]
+              },
+              "draws_head": {
+                "type": "call",
+                "fun": "head",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "res_fit"
+                      },
+                      {
+                        "type": "name",
+                        "value": "draws"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "function",
+    "args": [
+      {
+        "type": "pairlist",
+        "value": ["", ""]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "body"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "jsonlite", "fromJSON"],
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "req"
+                      },
+                      {
+                        "type": "name",
+                        "value": "postBody"
+                      }
+                    ]
+                  },
+                  "simplifyVector": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "theta"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "theta"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "times"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "times"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "regimen"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "model_type"
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "body"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "pred"
+              },
+              {
+                "type": "call",
+                "fun": "predict_conc_grid",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "times"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  },
+                  {
+                    "type": "name",
+                    "value": "theta"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "time": {
+                "type": "name",
+                "value": "times"
+              },
+              "conc": {
+                "type": "name",
+                "value": "pred"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "NULL",
+        "value": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.exists",
+        "args": [
+          {
+            "type": "literal",
+            "value": "api/plumber_phase5.R"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "source",
+        "args": [
+          {
+            "type": "literal",
+            "value": "plumber_phase5.R"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.exists",
+        "args": [
+          {
+            "type": "literal",
+            "value": "api/plumber_auth.R"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "source",
+        "args": [
+          {
+            "type": "literal",
+            "value": "plumber_auth.R"
+          }
+        ]
+      }
+    ]
+  }
+]

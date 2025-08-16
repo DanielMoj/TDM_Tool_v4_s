@@ -1,0 +1,1314 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "build_time_grid_adaptive"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "0.025", "0.25", "0.5", "1"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "obs_times"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.na",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "obs_times"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "obs_times"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "last_dose_end"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "(",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "regimen"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "start_time"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "regimen"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "n_doses"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "regimen"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "tau"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "tinf"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t_end"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "max",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "max",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "obs_times"
+                              },
+                              "na.rm": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          },
+                          {
+                            "type": "name",
+                            "value": "horizon_extra"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "last_dose_end"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "regimen"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tau"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "Tbase"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "t_end"
+                      },
+                      "by": {
+                        "type": "name",
+                        "value": "dt_base"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t_events"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "k"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_len",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "regimen"
+                          },
+                          {
+                            "type": "name",
+                            "value": "n_doses"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "t0"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "regimen"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "start_time"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "k"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "regimen"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "tau"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "t1"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "t0"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "regimen"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "tinf"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "t_events"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "t_events"
+                              },
+                              {
+                                "type": "name",
+                                "value": "t0"
+                              },
+                              {
+                                "type": "name",
+                                "value": "t1"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t_events"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "unique",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "t_events"
+                          },
+                          {
+                            "type": "name",
+                            "value": "obs_times"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "Tref"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "te"
+                  },
+                  {
+                    "type": "name",
+                    "value": "t_events"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "local"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "seq",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "max",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "te"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refine_window"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "min",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "t_end"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "te"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refine_window"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "by": {
+                                "type": "name",
+                                "value": "dt_min"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "Tref"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "Tref"
+                              },
+                              {
+                                "type": "name",
+                                "value": "local"
+                              },
+                              {
+                                "type": "name",
+                                "value": "te"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "Tseq"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sort",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "unique",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "round",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "c",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "Tbase"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "Tref"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "obs_times"
+                                  }
+                                ]
+                              },
+                              "digits": {
+                                "type": "literal",
+                                "value": 6
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "Nt"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "Tseq"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "Nt"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Time grid too short"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "dt"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "diff",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "Tseq"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "rate"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "numeric",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "Nt"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "i"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_len",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "Nt"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "tm"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "Tseq"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "i"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "Tseq"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "+",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "i"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "r"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "for",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "k"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "seq_len",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "regimen"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n_doses"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "t0"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "%||%",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "regimen"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "start_time"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 0
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "k"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "regimen"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "tau"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "t1"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "t0"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "regimen"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "tinf"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "&&",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ">=",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "tm"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "t0"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "tm"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "t1"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "r"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "+",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "r"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "/",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "regimen"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "dose"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "max",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1e-12
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "regimen"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "tinf"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "rate"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "r"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "idx_obs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "vapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "obs_times"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "which.min",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "abs",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "Tseq"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "t"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "integer",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "t": {
+                    "type": "name",
+                    "value": "Tseq"
+                  },
+                  "dt": {
+                    "type": "name",
+                    "value": "dt"
+                  },
+                  "rate": {
+                    "type": "name",
+                    "value": "rate"
+                  },
+                  "idx": {
+                    "type": "call",
+                    "fun": "as.integer",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "idx_obs"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,3444 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_dependencies"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "FALSE"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "required_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "shiny": {
+                        "type": "literal",
+                        "value": "1.7.0"
+                      },
+                      "shinydashboard": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "shinyjs": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "shinyWidgets": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "bslib": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "ggplot2": {
+                        "type": "literal",
+                        "value": "3.4.0"
+                      },
+                      "plotly": {
+                        "type": "literal",
+                        "value": "4.10.0"
+                      },
+                      "DT": {
+                        "type": "literal",
+                        "value": "0.26"
+                      },
+                      "dplyr": {
+                        "type": "literal",
+                        "value": "1.1.0"
+                      },
+                      "tidyr": {
+                        "type": "literal",
+                        "value": "1.3.0"
+                      },
+                      "data.table": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "DBI": {
+                        "type": "literal",
+                        "value": "1.1.0"
+                      },
+                      "RPostgres": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "RSQLite": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "pool": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "rjags": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "coda": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "jsonlite": {
+                        "type": "literal",
+                        "value": "1.8.0"
+                      },
+                      "yaml": {
+                        "type": "literal",
+                        "value": "2.3.0"
+                      },
+                      "digest": {
+                        "type": "literal",
+                        "value": "0.6.30"
+                      },
+                      "lubridate": {
+                        "type": "literal",
+                        "value": "1.9.0"
+                      },
+                      "glue": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "readr": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "tibble": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "deSolve": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "numDeriv": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "MASS": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "rmarkdown": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "knitr": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "promises": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "future": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "zoo": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "posterior": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "bayesplot": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "matrixStats": {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "optional_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "cmdstanr": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "rstan": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "httr": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "httr2": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "sendmailR": {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      "later": {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "missing_required"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "version_mismatches"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg_name"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "required_packages"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "min_version"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "required_packages"
+                              },
+                              {
+                                "type": "name",
+                                "value": "pkg_name"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pkg_name"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "missing_required"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "missing_required"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "pkg_name"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "min_version"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "installed_version"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "as.character",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "packageVersion",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "pkg_name"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "package_version",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "installed_version"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "package_version",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "min_version"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "version_mismatches"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "c",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "version_mismatches"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "%s (installed: %s, required: >= %s)"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "pkg_name"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "installed_version"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "min_version"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "missing_optional"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg_name"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "optional_packages"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pkg_name"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "missing_optional"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "missing_optional"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "pkg_name"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "missing_required"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "install_missing"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Installing missing required packages..."
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "for",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "missing_required"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "tryCatch",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "install.packages",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "name",
+                                                    "value": "pkg"
+                                                  },
+                                                  "quiet": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "message",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "  ✓ Installed %s"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "pkg"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "error": {
+                                            "type": "call",
+                                            "fun": "function",
+                                            "args": [
+                                              {
+                                                "type": "pairlist",
+                                                "value": ""
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "warning",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "sprintf",
+                                                        "args": [
+                                                          {
+                                                            "type": "literal",
+                                                            "value": "  ✗ Failed to install %s: %s"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "pkg"
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "e"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "message"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "NULL",
+                                                "value": []
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "still_missing"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "character",
+                                    "args": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "for",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "missing_required"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "!",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "requireNamespace",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "name",
+                                                    "value": "pkg"
+                                                  },
+                                                  "quietly": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "still_missing"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "c",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "still_missing"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "pkg"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ">",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "length",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "still_missing"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "stop",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "Required packages still missing after installation attempt:\n  %s\n\nPlease install manually with:\n  install.packages(c(%s))"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "paste",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "name",
+                                                    "value": "still_missing"
+                                                  },
+                                                  "collapse": {
+                                                    "type": "literal",
+                                                    "value": ", "
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "paste",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "call",
+                                                    "fun": "sprintf",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "\"%s\""
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "still_missing"
+                                                      }
+                                                    ]
+                                                  },
+                                                  "collapse": {
+                                                    "type": "literal",
+                                                    "value": ", "
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Required packages missing:\n  %s\n\nInstall with:\n  install.packages(c(%s))"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "paste",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "missing_required"
+                                          },
+                                          "collapse": {
+                                            "type": "literal",
+                                            "value": ", "
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "paste",
+                                        "args": {
+                                          "1": {
+                                            "type": "call",
+                                            "fun": "sprintf",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "\"%s\""
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "missing_required"
+                                              }
+                                            ]
+                                          },
+                                          "collapse": {
+                                            "type": "literal",
+                                            "value": ", "
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "version_mismatches"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Package version requirements not met:\n  %s\n\nConsider updating with:\n  update.packages()"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "version_mismatches"
+                                  },
+                                  "collapse": {
+                                    "type": "literal",
+                                    "value": "\n  "
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "missing_optional"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Optional packages not installed (some features may be unavailable):\n  %s"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "missing_optional"
+                                  },
+                                  "collapse": {
+                                    "type": "literal",
+                                    "value": ", "
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "✓ Package dependency check complete: %d required packages available"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "required_packages"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_dependency_report"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "all_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "formals",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "load_dependencies"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "required_packages"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "names",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "formals",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "load_dependencies"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "optional_packages"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "report"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "data.frame",
+                    "args": {
+                      "package": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      },
+                      "installed": {
+                        "type": "call",
+                        "fun": "logical",
+                        "args": []
+                      },
+                      "version": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      },
+                      "required": {
+                        "type": "call",
+                        "fun": "logical",
+                        "args": []
+                      },
+                      "status": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      },
+                      "stringsAsFactors": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg"
+                  },
+                  {
+                    "type": "name",
+                    "value": "all_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "installed"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "requireNamespace",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "pkg"
+                              },
+                              "quietly": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "version"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "installed"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "as.character",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "packageVersion",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "pkg"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": null
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "required"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "%in%",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "pkg"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "formals",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "load_dependencies"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "required_packages"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "status"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "installed"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "required"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "MISSING (REQUIRED)"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "MISSING (OPTIONAL)"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "OK"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "report"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "rbind",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "report"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "data.frame",
+                                "args": {
+                                  "package": {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  "installed": {
+                                    "type": "name",
+                                    "value": "installed"
+                                  },
+                                  "version": {
+                                    "type": "name",
+                                    "value": "version"
+                                  },
+                                  "required": {
+                                    "type": "name",
+                                    "value": "required"
+                                  },
+                                  "status": {
+                                    "type": "name",
+                                    "value": "status"
+                                  },
+                                  "stringsAsFactors": {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "report"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "report"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "order",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "report"
+                              },
+                              {
+                                "type": "name",
+                                "value": "required"
+                              }
+                            ]
+                          },
+                          "2": {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "report"
+                              },
+                              {
+                                "type": "name",
+                                "value": "package"
+                              }
+                            ]
+                          },
+                          "decreasing": {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": true
+                              },
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "name",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "rownames",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "report"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "report"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_package"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "package_name"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "min_version"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "installed_version"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "packageVersion",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "package_name"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "installed_version"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "package_version",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "min_version"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "use_package"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "package_name"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "error_if_missing"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "stop",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Package '%s' is required but not installed. Install with: install.packages('%s')"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "package_name"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "package_name"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getNamespace",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "package_name"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_package_manifest"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "NULL"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "loaded_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "loadedNamespaces",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manifest"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "created_at": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "r_version": {
+                        "type": "name",
+                        "value": "R.version.string"
+                      },
+                      "platform": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "R.version"
+                          },
+                          {
+                            "type": "name",
+                            "value": "platform"
+                          }
+                        ]
+                      },
+                      "packages": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg"
+                  },
+                  {
+                    "type": "name",
+                    "value": "loaded_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "%in%",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "pkg"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "c",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "base"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "methods"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "utils"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "grDevices"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "graphics"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "stats"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "datasets"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "next",
+                                "args": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pkg_info"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "version": {
+                                "type": "call",
+                                "fun": "as.character",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "packageVersion",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "pkg"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "loaded": {
+                                "type": "call",
+                                "fun": "%in%",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "search",
+                                    "args": []
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "desc"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tryCatch",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "packageDescription",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  }
+                                ]
+                              },
+                              "error": {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "desc"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "pkg_info"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "source"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "%||%",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "desc"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "Repository"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "desc"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "RemoteType"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "unknown"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "pkg_info"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "built"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "desc"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "Built"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": null
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "manifest"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "packages"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "pkg"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "pkg_info"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "file"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "jsonlite", "write_json"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "manifest"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "file"
+                          },
+                          "pretty": {
+                            "type": "literal",
+                            "value": true
+                          },
+                          "auto_unbox": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Package manifest saved to: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manifest"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "install_from_manifest"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "FALSE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "manifest_file"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Manifest file not found: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "manifest_file"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "manifest"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "jsonlite", "read_json"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "manifest_file"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Installing packages from manifest created on %s"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "manifest"
+                          },
+                          {
+                            "type": "name",
+                            "value": "created_at"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "packages_to_install"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "packages_to_upgrade"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "character",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg_name"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "manifest"
+                          },
+                          {
+                            "type": "name",
+                            "value": "packages"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pkg_info"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "manifest"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "packages"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "pkg_name"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "required_version"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "package_version",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pkg_info"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "version"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pkg_name"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "packages_to_install"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "packages_to_install"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "pkg_name"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upgrade"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "current_version"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "packageVersion",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "pkg_name"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "current_version"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "required_version"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "packages_to_upgrade"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "c",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "packages_to_upgrade"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "pkg_name"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "packages_to_install"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Installing %d missing packages..."
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "packages_to_install"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "install.packages",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "packages_to_install"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "upgrade"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ">",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "packages_to_upgrade"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Upgrading %d packages..."
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "packages_to_upgrade"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "install.packages",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "packages_to_upgrade"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "Package installation from manifest complete"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".package_groups"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "core": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "shiny"
+              },
+              {
+                "type": "literal",
+                "value": "shinydashboard"
+              },
+              {
+                "type": "literal",
+                "value": "DT"
+              },
+              {
+                "type": "literal",
+                "value": "ggplot2"
+              },
+              {
+                "type": "literal",
+                "value": "dplyr"
+              }
+            ]
+          },
+          "database": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "DBI"
+              },
+              {
+                "type": "literal",
+                "value": "RPostgres"
+              },
+              {
+                "type": "literal",
+                "value": "RSQLite"
+              },
+              {
+                "type": "literal",
+                "value": "pool"
+              }
+            ]
+          },
+          "bayesian": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "rjags"
+              },
+              {
+                "type": "literal",
+                "value": "coda"
+              }
+            ]
+          },
+          "stan": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cmdstanr"
+              },
+              {
+                "type": "literal",
+                "value": "rstan"
+              },
+              {
+                "type": "literal",
+                "value": "posterior"
+              },
+              {
+                "type": "literal",
+                "value": "bayesplot"
+              }
+            ]
+          },
+          "pk_pd": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "deSolve"
+              },
+              {
+                "type": "literal",
+                "value": "numDeriv"
+              },
+              {
+                "type": "literal",
+                "value": "MASS"
+              }
+            ]
+          },
+          "reporting": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "rmarkdown"
+              },
+              {
+                "type": "literal",
+                "value": "knitr"
+              }
+            ]
+          },
+          "api": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "httr"
+              },
+              {
+                "type": "literal",
+                "value": "httr2"
+              },
+              {
+                "type": "literal",
+                "value": "jsonlite"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_package_group"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "group"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".package_groups"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Unknown package group: %s. Available groups: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "group"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "names",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".package_groups"
+                                      }
+                                    ]
+                                  },
+                                  "collapse": {
+                                    "type": "literal",
+                                    "value": ", "
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".package_groups"
+                      },
+                      {
+                        "type": "name",
+                        "value": "group"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "packages"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "all",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "missing"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "packages"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Missing packages in group '%s': %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "group"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "missing"
+                                  },
+                                  "collapse": {
+                                    "type": "literal",
+                                    "value": ", "
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

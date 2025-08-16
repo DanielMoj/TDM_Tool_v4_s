@@ -1,0 +1,241 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_loinc_map"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "config/loinc_map.json"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "path"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "jsonlite", "read_json"],
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "path"
+                      },
+                      "simplifyVector": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "tdm": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      },
+                      "mic": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      },
+                      "units": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "unit_factor"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "||",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "unit"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "is.na",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "unit"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nzchar",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "unit"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "m"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": {
+                      "mg/L": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "ug/mL": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "µg/mL": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "mcg/mL": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "mg/dL": {
+                        "type": "literal",
+                        "value": 10
+                      },
+                      "mcg/dL": {
+                        "type": "literal",
+                        "value": 0.1
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "m"
+                      },
+                      {
+                        "type": "name",
+                        "value": "unit"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

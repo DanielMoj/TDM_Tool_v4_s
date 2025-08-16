@@ -1,0 +1,2766 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_all_sources"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["TRUE", "FALSE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "dep_mgr_path"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "dependencies.R"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "dep_mgr_path"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "source",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "dep_mgr_path"
+                          },
+                          "local": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "✓ Loaded dependency management system"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "CRITICAL: dependencies.R not found - cannot manage package dependencies"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "check_dependencies"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "tryCatch",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "load_dependencies",
+                                "args": {
+                                  "install_missing": {
+                                    "type": "name",
+                                    "value": "install_missing"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "✓ All package dependencies satisfied"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "error": {
+                            "type": "call",
+                            "fun": "function",
+                            "args": [
+                              {
+                                "type": "pairlist",
+                                "value": ""
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "stop",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "sprintf",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "Dependency check failed: %s"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "e"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "message"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "utils_path"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "utils.R"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "utils_path"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "source",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "utils_path"
+                          },
+                          "local": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "✓ Loaded core utilities: utils.R"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "CRITICAL: utils.R not found - this file contains essential utilities including %||% operator"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "source_files"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "utils/config"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "utils/helpers"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "utils/validators"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "safe_io"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "core/db_connection"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "core/auth_functions"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "core/audit_logger"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "error_monitor"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "health_checks"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fhir_auth"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fhir_cache"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fhir_circuit"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "fhir"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "models/pk_models"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "models/pk_parameters"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "models/dosing_regimens"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "pk_calculations"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "run_fit_jags"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "diagnostics"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "optimization"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "sensitivity"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "data/data_import"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "data/data_validation"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "data/data_transformation"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "plots/plot_concentrations"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "plots/plot_diagnostics"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "plots/plot_parameters"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "plotting_functions"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "reports/report_generator"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "reports/export_functions"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "loading_results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "loaded": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      },
+                      "skipped": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      },
+                      "failed": {
+                        "type": "call",
+                        "fun": "character",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "file"
+                  },
+                  {
+                    "type": "name",
+                    "value": "source_files"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "file_path"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "file.path",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "R"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "file"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": ".R"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "file.exists",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "file_path"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "tryCatch",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "source",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "file_path"
+                                          },
+                                          "local": {
+                                            "type": "literal",
+                                            "value": false
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "loading_results"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "loaded"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "c",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loading_results"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loaded"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "file_path"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "paste",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "✓ Loaded:"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "file_path"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loading_results"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "failed"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "c",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "loading_results"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "failed"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "file_path"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "warning",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "paste",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "✗ Failed to load:"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "file_path"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "-"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "e"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "message"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "loading_results"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "skipped"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "loading_results"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "skipped"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "file_path"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "!",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "grepl",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "^(utils/|core/|plots/|reports/|data/)"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "file"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "paste",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "ℹ File not found (skipping):"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "file_path"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "module_dir"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "modules"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "dir.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "module_dir"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "module_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list.files",
+                            "args": {
+                              "path": {
+                                "type": "name",
+                                "value": "module_dir"
+                              },
+                              "pattern": {
+                                "type": "literal",
+                                "value": "^mod_.*\\.R$"
+                              },
+                              "full.names": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "for",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "module_file"
+                          },
+                          {
+                            "type": "name",
+                            "value": "module_files"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "tryCatch",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "source",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "module_file"
+                                          },
+                                          "local": {
+                                            "type": "literal",
+                                            "value": false
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "loading_results"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "loaded"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "c",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loading_results"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loaded"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "module_file"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "message",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "paste",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "✓ Loaded module:"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "basename",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "module_file"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "loading_results"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "failed"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "c",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "loading_results"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "failed"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "module_file"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "warning",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "paste",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "✗ Failed to load module:"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "module_file"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "-"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "e"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "message"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "options",
+                "args": {
+                  "shiny.maxRequestSize": {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 50
+                      },
+                      {
+                        "type": "call",
+                        "fun": "^",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1024
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "shiny.sanitize.errors": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "digits": {
+                    "type": "literal",
+                    "value": 4
+                  },
+                  "scipen": {
+                    "type": "literal",
+                    "value": 999
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "config/database.yml"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Checking database configuration..."
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "literal",
+                                    "value": "DBI"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "literal",
+                                    "value": "pool"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "  Database packages available"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "  Database packages not available - database features disabled"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "%||%"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "CRITICAL: %||% operator not loaded - check utils.R"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\n========================================"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "Source Loading Summary:"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "  ✓ Loaded: %d files"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "loading_results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "loaded"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "loading_results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "skipped"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "  ℹ Skipped: %d files (not found)"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "loading_results"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "skipped"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "loading_results"
+                              },
+                              {
+                                "type": "name",
+                                "value": "failed"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "  ✗ Failed: %d files"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "loading_results"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "failed"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Some files failed to load. Check warnings above for details."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "========================================"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "✓ Application sources loaded successfully"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "✓ %||% operator is available globally"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cleanup_resources"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "&&",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "requireNamespace",
+                            "args": {
+                              "1": {
+                                "type": "literal",
+                                "value": "DBI"
+                              },
+                              "quietly": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "exists",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "db_pool"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "db_pool"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "requireNamespace",
+                            "args": {
+                              "1": {
+                                "type": "literal",
+                                "value": "pool"
+                              },
+                              "quietly": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ["::", "pool", "poolClose"],
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "db_pool"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Database pool closed"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_files"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list.files",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "tempdir",
+                        "args": []
+                      },
+                      "pattern": {
+                        "type": "literal",
+                        "value": "^pk_"
+                      },
+                      "full.names": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ">",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "temp_files"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "unlink",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "temp_files"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "paste",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Cleaned up"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "temp_files"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "temporary files"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "system_health_check"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "checks"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "r_version"
+                  },
+                  {
+                    "type": "name",
+                    "value": "R.version"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "checks"
+                      },
+                      {
+                        "type": "name",
+                        "value": "r_version"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "status": {
+                        "type": "call",
+                        "fun": ">=",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "r_version"
+                              },
+                              {
+                                "type": "name",
+                                "value": "major"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": "4"
+                          }
+                        ]
+                      },
+                      "message": {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "R version: %s.%s"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "r_version"
+                              },
+                              {
+                                "type": "name",
+                                "value": "major"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "r_version"
+                              },
+                              {
+                                "type": "name",
+                                "value": "minor"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "critical_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "shiny"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "ggplot2"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "dplyr"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pkg"
+                  },
+                  {
+                    "type": "name",
+                    "value": "critical_packages"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "checks"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "package_"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "status": {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              },
+                              "message": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Package %s: %s"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "pkg"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "ifelse",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "requireNamespace",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "pkg"
+                                          },
+                                          "quietly": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "OK"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "MISSING"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "critical_dirs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "R"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "config"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "data"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "dir"
+                  },
+                  {
+                    "type": "name",
+                    "value": "critical_dirs"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "checks"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "paste0",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "dir_"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dir"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "status": {
+                                "type": "call",
+                                "fun": "dir.exists",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "dir"
+                                  }
+                                ]
+                              },
+                              "message": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Directory %s: %s"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "dir"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "ifelse",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "dir.exists",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "dir"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "OK"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "MISSING"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_test"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tempfile",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "write_test"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "writeLines",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "test"
+                              },
+                              {
+                                "type": "name",
+                                "value": "temp_test"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "unlink",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "temp_test"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "literal",
+                            "value": false
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "checks"
+                      },
+                      {
+                        "type": "name",
+                        "value": "write_permission"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "status": {
+                        "type": "name",
+                        "value": "write_test"
+                      },
+                      "message": {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Write permission: %s"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "ifelse",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "write_test"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "OK"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "FAILED"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "\n========================================"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "System Health Check Results:"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "========================================"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "all_passed"
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "check_name"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "checks"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "check"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "checks"
+                              },
+                              {
+                                "type": "name",
+                                "value": "check_name"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "status_symbol"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "ifelse",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "check"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "✓"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "✗"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "  %s %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "status_symbol"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "check"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "message"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "check"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "status"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "all_passed"
+                              },
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "========================================"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "all_passed"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Some health checks failed. The application may not function correctly."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "✓ All health checks passed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "all_passed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "interactive",
+        "args": []
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "literal",
+                "value": "\n========================================"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "literal",
+                "value": "PK/PD Application - Development Mode"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "literal",
+                "value": "========================================"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "system_health_check",
+                "args": []
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "message",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "\nLoading application sources..."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "load_all_sources",
+                    "args": {
+                      "check_dependencies": {
+                        "type": "literal",
+                        "value": true
+                      },
+                      "install_missing": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "warning",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "System health check failed. Please resolve issues before continuing."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

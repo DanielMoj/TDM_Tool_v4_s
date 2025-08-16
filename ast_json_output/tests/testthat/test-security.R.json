@@ -1,0 +1,3866 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "DBI"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "RSQLite"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "mockery"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "sodium"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "setup_test_db"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "dbConnect",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "RSQLite", "SQLite"],
+                        "args": []
+                      },
+                      {
+                        "type": "literal",
+                        "value": ":memory:"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dbExecute",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "\n    CREATE TABLE audit_log (\n      id INTEGER PRIMARY KEY AUTOINCREMENT,\n      timestamp TEXT,\n      user TEXT,\n      action TEXT,\n      details TEXT\n    )\n  "
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dbExecute",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "\n    CREATE TABLE users (\n      id INTEGER PRIMARY KEY AUTOINCREMENT,\n      username TEXT UNIQUE,\n      password_hash TEXT,\n      role TEXT,\n      created_at TEXT\n    )\n  "
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dbExecute",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "\n    CREATE TABLE antibiogram_data (\n      id INTEGER PRIMARY KEY AUTOINCREMENT,\n      organism TEXT,\n      antibiotic TEXT,\n      mic_value REAL,\n      resistance_rate REAL\n    )\n  "
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "SQL queries are properly parameterized against injection"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "call",
+                "fun": "setup_test_db",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "dbDisconnect",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  }
+                ]
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "dbExecute",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "con"
+              },
+              "2": {
+                "type": "literal",
+                "value": "INSERT INTO antibiogram_data (organism, antibiotic, mic_value) VALUES (?, ?, ?)"
+              },
+              "params": {
+                "type": "call",
+                "fun": "list",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "E. coli"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "Ampicillin"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "malicious_inputs"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "'; DROP TABLE audit_log; --"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "1' OR '1'='1"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "admin'--"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "'; DELETE FROM users; --"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "' UNION SELECT * FROM users--"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "malicious_input"
+              },
+              {
+                "type": "name",
+                "value": "malicious_inputs"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "expect_no_error",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "dbGetQuery",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "con"
+                                  },
+                                  "2": {
+                                    "type": "literal",
+                                    "value": "SELECT * FROM antibiogram_data WHERE organism = ?"
+                                  },
+                                  "params": {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "malicious_input"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "audit_log"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dbListTables",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "users"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dbListTables",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "antibiogram_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dbListTables",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "No plaintext passwords are stored or accepted"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "password_hash"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "sodium", "password_store"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "password_verify"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "sodium", "password_verify"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "hash"
+                          },
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_password"
+              },
+              {
+                "type": "literal",
+                "value": "TestP@ssw0rd123"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "hash"
+              },
+              {
+                "type": "call",
+                "fun": "password_hash",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "grepl",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "test_password"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "hash"
+                  },
+                  "fixed": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "password_verify",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_password"
+                  },
+                  {
+                    "type": "name",
+                    "value": "hash"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "password_verify",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "WrongPassword"
+                  },
+                  {
+                    "type": "name",
+                    "value": "hash"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "==",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_password"
+                  },
+                  {
+                    "type": "name",
+                    "value": "hash"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Authentication requires proper credentials"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "call",
+                "fun": "setup_test_db",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "dbDisconnect",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  }
+                ]
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_user"
+              },
+              {
+                "type": "literal",
+                "value": "testuser"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_pass"
+              },
+              {
+                "type": "literal",
+                "value": "SecureP@ss123"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "pass_hash"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "sodium", "password_store"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_pass"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "dbExecute",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "con"
+              },
+              "2": {
+                "type": "literal",
+                "value": "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)"
+              },
+              "params": {
+                "type": "call",
+                "fun": "list",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_user"
+                  },
+                  {
+                    "type": "name",
+                    "value": "pass_hash"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "user"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "authenticate_user"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "user"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "dbGetQuery",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              "2": {
+                                "type": "literal",
+                                "value": "SELECT password_hash FROM users WHERE username = ?"
+                              },
+                              "params": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "username"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "user"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "password_verify"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "user"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "password_hash"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "password"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "authenticate_user",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_user"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_pass"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "authenticate_user",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_user"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "wrongpass"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "authenticate_user",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "nonexistent"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_pass"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "authenticate_user",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": ""
+                  },
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "authenticate_user",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_user"
+                  },
+                  {
+                    "type": "literal",
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Input validation prevents XSS attacks"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "sanitize_input"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": {
+                              "1": {
+                                "type": "literal",
+                                "value": "<script.*?<\/script>"
+                              },
+                              "2": {
+                                "type": "literal",
+                                "value": ""
+                              },
+                              "3": {
+                                "type": "name",
+                                "value": "input"
+                              },
+                              "ignore.case": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "<.*?>"
+                              },
+                              {
+                                "type": "literal",
+                                "value": ""
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "&"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "&amp;"
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "<"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "&lt;"
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": ">"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "&gt;"
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "\""
+                              },
+                              {
+                                "type": "literal",
+                                "value": "&quot;"
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "gsub",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "'"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "&#39;"
+                              },
+                              {
+                                "type": "name",
+                                "value": "input"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "input"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "xss_attempts"
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "<script>alert('XSS')<\/script>"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "<img src=x onerror=alert('XSS')>"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "javascript:alert('XSS')"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "<iframe src='malicious.com'><\/iframe>"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "<body onload=alert('XSS')>"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "xss"
+              },
+              {
+                "type": "name",
+                "value": "xss_attempts"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "sanitized"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "sanitize_input",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "xss"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "<script"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "sanitized"
+                          },
+                          "ignore.case": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "javascript:"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "sanitized"
+                          },
+                          "ignore.case": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "onerror"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "sanitized"
+                          },
+                          "ignore.case": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "grepl",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "onload"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "sanitized"
+                          },
+                          "ignore.case": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "File upload validation prevents malicious files"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "validate_upload"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "c(\"csv\", \"xlsx\", \"rds\")"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "file.exists",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "file_path"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ext"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tolower",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ["::", "tools", "file_ext"],
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "file_path"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "%in%",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "ext"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "allowed_types"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "file.info",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "file_path"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "size"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": 10
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1024
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1024
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "==",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "ext"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "csv"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "lines"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "readLines",
+                                    "args": {
+                                      "1": {
+                                        "type": "name",
+                                        "value": "file_path"
+                                      },
+                                      "n": {
+                                        "type": "literal",
+                                        "value": 10
+                                      },
+                                      "warn": {
+                                        "type": "literal",
+                                        "value": false
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "suspicious_patterns"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "c",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "=SYSTEM"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "=CMD"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "@SUM"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "+SUM"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "for",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "pattern"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "suspicious_patterns"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "any",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "grepl",
+                                                "args": {
+                                                  "1": {
+                                                    "type": "name",
+                                                    "value": "pattern"
+                                                  },
+                                                  "2": {
+                                                    "type": "name",
+                                                    "value": "lines"
+                                                  },
+                                                  "fixed": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "return",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": false
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "tempdir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "valid_csv"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "valid.csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "write.csv",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "a": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      }
+                    ]
+                  },
+                  "b": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 4
+                      },
+                      {
+                        "type": "literal",
+                        "value": 6
+                      }
+                    ]
+                  }
+                }
+              },
+              "2": {
+                "type": "name",
+                "value": "valid_csv"
+              },
+              "row.names": {
+                "type": "literal",
+                "value": false
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_upload",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "valid_csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "invalid_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "malicious.exe"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "malicious content"
+              },
+              {
+                "type": "name",
+                "value": "invalid_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_upload",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "invalid_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "formula_csv"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "formula.csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "name,value"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test,=SYSTEM('cmd.exe')"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "formula_csv"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_upload",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "formula_csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "unlink",
+            "args": [
+              {
+                "type": "call",
+                "fun": "c",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "valid_csv"
+                  },
+                  {
+                    "type": "name",
+                    "value": "invalid_file"
+                  },
+                  {
+                    "type": "name",
+                    "value": "formula_csv"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Session management is secure"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "create_session"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "session_id"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "random"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 32
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "session_token"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "bin2hex"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "session_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "token": {
+                                "type": "name",
+                                "value": "session_token"
+                              },
+                              "created_at": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              "expires_at": {
+                                "type": "call",
+                                "fun": "+",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 3600
+                                  }
+                                ]
+                              },
+                              "user_id": {
+                                "type": "name",
+                                "value": "user_id"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "validate_session"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ""
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "session"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "session"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_at"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!=",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nchar",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "session"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "token"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 64
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "session"
+              },
+              {
+                "type": "call",
+                "fun": "create_session",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "user123"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "session"
+                          },
+                          {
+                            "type": "name",
+                            "value": "token"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "nchar",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "session"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 64
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_session",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "session"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "expired_session"
+              },
+              {
+                "type": "name",
+                "value": "session"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "expired_session"
+                  },
+                  {
+                    "type": "name",
+                    "value": "expires_at"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "Sys.time",
+                    "args": []
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_session",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "expired_session"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_session",
+                "args": [
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "validate_session",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "token": {
+                        "type": "literal",
+                        "value": "short"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Rate limiting prevents brute force attacks"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "rate_limiter"
+              },
+              {
+                "type": "call",
+                "fun": "new.env",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "check_rate_limit"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "5", "60"]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "current_time"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "as.numeric",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "exists",
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "ip"
+                                  },
+                                  "envir": {
+                                    "type": "name",
+                                    "value": "rate_limiter"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "rate_limiter"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "ip"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "attempts": {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      "first_attempt": {
+                                        "type": "name",
+                                        "value": "current_time"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempts_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "rate_limiter"
+                              },
+                              {
+                                "type": "name",
+                                "value": "ip"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "time_elapsed"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "current_time"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempts_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "first_attempt"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "time_elapsed"
+                              },
+                              {
+                                "type": "name",
+                                "value": "window_seconds"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "rate_limiter"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "ip"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "attempts": {
+                                        "type": "literal",
+                                        "value": 1
+                                      },
+                                      "first_attempt": {
+                                        "type": "name",
+                                        "value": "current_time"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempts_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "attempts"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_attempts"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempts_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "attempts"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "attempts_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "attempts"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "rate_limiter"
+                              },
+                              {
+                                "type": "name",
+                                "value": "ip"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "attempts_data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_ip"
+              },
+              {
+                "type": "literal",
+                "value": "192.168.1.1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "check_rate_limit",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "test_ip"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "check_rate_limit",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_ip"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "check_rate_limit",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "192.168.1.2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Audit logging captures security events"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "call",
+                "fun": "setup_test_db",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "dbDisconnect",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  }
+                ]
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "log_security_event"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "dbExecute",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          "2": {
+                            "type": "literal",
+                            "value": "INSERT INTO audit_log (timestamp, user, action, details) VALUES (?, ?, ?, ?)"
+                          },
+                          "params": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "as.character",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "user"
+                              },
+                              {
+                                "type": "name",
+                                "value": "action"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "details"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "log_security_event",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "literal",
+                "value": "admin"
+              },
+              {
+                "type": "literal",
+                "value": "login_success"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "ip": {
+                    "type": "literal",
+                    "value": "192.168.1.1"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "log_security_event",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "literal",
+                "value": "unknown"
+              },
+              {
+                "type": "literal",
+                "value": "login_failure"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "ip": {
+                    "type": "literal",
+                    "value": "10.0.0.1"
+                  },
+                  "reason": {
+                    "type": "literal",
+                    "value": "invalid_password"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "log_security_event",
+            "args": [
+              {
+                "type": "name",
+                "value": "con"
+              },
+              {
+                "type": "literal",
+                "value": "user1"
+              },
+              {
+                "type": "literal",
+                "value": "data_export"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "table": {
+                    "type": "literal",
+                    "value": "antibiogram_data"
+                  },
+                  "rows": {
+                    "type": "literal",
+                    "value": 100
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "logs"
+              },
+              {
+                "type": "call",
+                "fun": "dbGetQuery",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "SELECT * FROM audit_log"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "logs"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "login_success"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "logs"
+                      },
+                      {
+                        "type": "name",
+                        "value": "action"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "login_failure"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "logs"
+                      },
+                      {
+                        "type": "name",
+                        "value": "action"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "data_export"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "logs"
+                      },
+                      {
+                        "type": "name",
+                        "value": "action"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Sensitive data is properly encrypted"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "encrypt_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "serialized"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "serialize",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "config"
+                              },
+                              {
+                                "type": "NULL",
+                                "value": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "nonce"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "random"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 24
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "encrypted"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "data_encrypt"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "serialized"
+                              },
+                              {
+                                "type": "name",
+                                "value": "key"
+                              },
+                              {
+                                "type": "name",
+                                "value": "nonce"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "data": {
+                                "type": "name",
+                                "value": "encrypted"
+                              },
+                              "nonce": {
+                                "type": "name",
+                                "value": "nonce"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "decrypt_config"
+              },
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "decrypted"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "sodium", "data_decrypt"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "encrypted_config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "data"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "key"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "encrypted_config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "nonce"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "unserialize",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "decrypted"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "key"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "sodium", "keygen"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "sensitive_config"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "db_password": {
+                    "type": "literal",
+                    "value": "SuperSecret123"
+                  },
+                  "api_key": {
+                    "type": "literal",
+                    "value": "sk-1234567890abcdef"
+                  },
+                  "admin_email": {
+                    "type": "literal",
+                    "value": "admin@example.com"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "encrypted"
+              },
+              {
+                "type": "call",
+                "fun": "encrypt_config",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "sensitive_config"
+                  },
+                  {
+                    "type": "name",
+                    "value": "key"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "encrypted_str"
+              },
+              {
+                "type": "call",
+                "fun": "rawToChar",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "encrypted"
+                      },
+                      {
+                        "type": "name",
+                        "value": "data"
+                      }
+                    ]
+                  },
+                  "multiple": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "any",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "SuperSecret123"
+                      },
+                      {
+                        "type": "name",
+                        "value": "encrypted_str"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "any",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "grepl",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "sk-1234567890"
+                      },
+                      {
+                        "type": "name",
+                        "value": "encrypted_str"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "decrypted"
+              },
+              {
+                "type": "call",
+                "fun": "decrypt_config",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "encrypted"
+                  },
+                  {
+                    "type": "name",
+                    "value": "key"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "decrypted"
+              },
+              {
+                "type": "name",
+                "value": "sensitive_config"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "wrong_key"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "sodium", "keygen"],
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "decrypt_config",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "encrypted"
+                  },
+                  {
+                    "type": "name",
+                    "value": "wrong_key"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

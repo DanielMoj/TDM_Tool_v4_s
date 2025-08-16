@@ -1,0 +1,405 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "optimize_regimen yields a recommendation"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "load_sources",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "set.seed",
+            "args": [
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "draws"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "CL": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 300
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 6
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "Vc": {
+                    "type": "call",
+                    "fun": "exp",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rnorm",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 300
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 35
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.3
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "base_regimen"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  "n_doses": {
+                    "type": "literal",
+                    "value": 10
+                  },
+                  "start_time": {
+                    "type": "literal",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "res"
+              },
+              {
+                "type": "call",
+                "fun": "optimize_regimen",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "draws"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "base_regimen"
+                  },
+                  "3": {
+                    "type": "literal",
+                    "value": "1C"
+                  },
+                  "4": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "metric": {
+                        "type": "literal",
+                        "value": "AUC24/MIC"
+                      },
+                      "threshold_min": {
+                        "type": "literal",
+                        "value": 125
+                      }
+                    }
+                  },
+                  "MIC": {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  "dose_seq": {
+                    "type": "call",
+                    "fun": "seq",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": 500
+                      },
+                      "2": {
+                        "type": "literal",
+                        "value": 2000
+                      },
+                      "by": {
+                        "type": "literal",
+                        "value": 500
+                      }
+                    }
+                  },
+                  "tau_seq": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 6
+                      },
+                      {
+                        "type": "literal",
+                        "value": 8
+                      },
+                      {
+                        "type": "literal",
+                        "value": 12
+                      }
+                    ]
+                  },
+                  "tinf_seq": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.5
+                      },
+                      {
+                        "type": "literal",
+                        "value": 3
+                      },
+                      {
+                        "type": "literal",
+                        "value": "NaN"
+                      }
+                    ]
+                  },
+                  "allow_cont": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "pta_min": {
+                    "type": "literal",
+                    "value": 0.5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.data.frame",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "res"
+                      },
+                      {
+                        "type": "name",
+                        "value": "grid"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "nrow",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "grid"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "||",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "res"
+                          },
+                          {
+                            "type": "name",
+                            "value": "rec"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "all",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "c",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "dose"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "tau"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "tinf"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "PTA"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "Risk"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "rec"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

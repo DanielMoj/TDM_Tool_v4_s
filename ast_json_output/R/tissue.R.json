@@ -1,0 +1,269 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "load_tissue_cfg"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "config/tissue.json"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.exists",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "path"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "jsonlite", "read_json"],
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "path"
+                      },
+                      "simplifyVector": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "site_factor"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cfg"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "default"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "site"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "%||%",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "cfg"
+                          },
+                          {
+                            "type": "name",
+                            "value": "drug"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "site"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "apply_site_penetration"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "f"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "site_factor",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "drug"
+                      },
+                      {
+                        "type": "name",
+                        "value": "site"
+                      },
+                      {
+                        "type": "name",
+                        "value": "cfg"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "*",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "conc_vec"
+                  },
+                  {
+                    "type": "name",
+                    "value": "f"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

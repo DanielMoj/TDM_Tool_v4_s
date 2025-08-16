@@ -1,0 +1,3030 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "cmdstanr"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "posterior"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "bayesplot"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "ggplot2"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/backend_bayes.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/warmstart_manager.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../R/optimization_utils.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "setup_optimization_env",
+    "args": [
+      {
+        "type": "literal",
+        "value": "config/optimization_config.yaml"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Example 1: PK Model ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pk_model_code"
+      },
+      {
+        "type": "literal",
+        "value": "\ndata {\n  int<lower=0> N;              // number of observations\n  int<lower=0> n_subjects;     // number of subjects\n  int<lower=1,upper=n_subjects> subject[N];  // subject identifier\n  vector[N] time;              // time points\n  vector[N] dose;              // dose amounts\n  vector[N] concentration;     // observed concentrations\n}\nparameters {\n  // Population parameters\n  real<lower=0> CL_pop;        // population clearance\n  real<lower=0> V_pop;         // population volume\n  \n  // Between-subject variability\n  real<lower=0> omega_CL;\n  real<lower=0> omega_V;\n  \n  // Individual random effects\n  vector[n_subjects] eta_CL;\n  vector[n_subjects] eta_V;\n  \n  // Residual error\n  real<lower=0> sigma_prop;\n  real<lower=0> sigma_add;\n}\ntransformed parameters {\n  vector[n_subjects] CL_ind;\n  vector[n_subjects] V_ind;\n  vector[N] concentration_pred;\n  \n  // Individual parameters\n  for (i in 1:n_subjects) {\n    CL_ind[i] = CL_pop * exp(omega_CL * eta_CL[i]);\n    V_ind[i] = V_pop * exp(omega_V * eta_V[i]);\n  }\n  \n  // Predictions\n  for (i in 1:N) {\n    real ke = CL_ind[subject[i]] / V_ind[subject[i]];\n    concentration_pred[i] = (dose[i] / V_ind[subject[i]]) * exp(-ke * time[i]);\n  }\n}\nmodel {\n  // Priors\n  CL_pop ~ lognormal(log(10), 0.5);\n  V_pop ~ lognormal(log(50), 0.5);\n  omega_CL ~ normal(0, 0.5);\n  omega_V ~ normal(0, 0.5);\n  \n  // Random effects\n  eta_CL ~ normal(0, 1);\n  eta_V ~ normal(0, 1);\n  \n  // Error model priors\n  sigma_prop ~ normal(0, 0.2);\n  sigma_add ~ normal(0, 1);\n  \n  // Likelihood\n  for (i in 1:N) {\n    real sigma_total = sqrt(square(sigma_prop * concentration_pred[i]) + square(sigma_add));\n    concentration[i] ~ normal(concentration_pred[i], sigma_total);\n  }\n}\ngenerated quantities {\n  vector[N] concentration_sim;\n  vector[N] log_lik;\n  \n  for (i in 1:N) {\n    real sigma_total = sqrt(square(sigma_prop * concentration_pred[i]) + square(sigma_add));\n    concentration_sim[i] = normal_rng(concentration_pred[i], sigma_total);\n    log_lik[i] = normal_lpdf(concentration[i] | concentration_pred[i], sigma_total);\n  }\n}\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "generate_pk_data"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["20", "10"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "set.seed",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 123
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "times"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0.5
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          },
+                          {
+                            "type": "literal",
+                            "value": 4
+                          },
+                          {
+                            "type": "literal",
+                            "value": 6
+                          },
+                          {
+                            "type": "literal",
+                            "value": 8
+                          },
+                          {
+                            "type": "literal",
+                            "value": 12
+                          },
+                          {
+                            "type": "literal",
+                            "value": 16
+                          },
+                          {
+                            "type": "literal",
+                            "value": 20
+                          },
+                          {
+                            "type": "literal",
+                            "value": 24
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "n_subjects"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "subjects"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "name",
+                            "value": "n_subjects"
+                          }
+                        ]
+                      },
+                      "each": {
+                        "type": "name",
+                        "value": "n_obs_per_subject"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "doses"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rep",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 100
+                      },
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "subjects"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "CL_pop_true"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "V_pop_true"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 50
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "omega_CL_true"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0.3
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "omega_V_true"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0.2
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "eta_CL"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rnorm",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "n_subjects"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "eta_V"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "rnorm",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "n_subjects"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "CL_ind"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "CL_pop_true"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "exp",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "omega_CL_true"
+                              },
+                              {
+                                "type": "name",
+                                "value": "eta_CL"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "V_ind"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "*",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "V_pop_true"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "exp",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "omega_V_true"
+                              },
+                              {
+                                "type": "name",
+                                "value": "eta_V"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "concentrations"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "numeric",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "subjects"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "for",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "i"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq_along",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "subjects"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "subj"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "subjects"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "ke"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "/",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "CL_ind"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "subj"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "V_ind"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "subj"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pred"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "doses"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "i"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "V_ind"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "subj"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "exp",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "ke"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "times"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "i"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_prop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_add"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0.5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sigma_total"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sqrt",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "+",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "^",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "*",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "sigma_prop"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "pred"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 2
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "^",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "sigma_add"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 2
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "concentrations"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "rnorm",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "name",
+                                "value": "pred"
+                              },
+                              {
+                                "type": "name",
+                                "value": "sigma_total"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "N": {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "subjects"
+                      }
+                    ]
+                  },
+                  "n_subjects": {
+                    "type": "name",
+                    "value": "n_subjects"
+                  },
+                  "subject": {
+                    "type": "name",
+                    "value": "subjects"
+                  },
+                  "time": {
+                    "type": "name",
+                    "value": "times"
+                  },
+                  "dose": {
+                    "type": "name",
+                    "value": "doses"
+                  },
+                  "concentration": {
+                    "type": "call",
+                    "fun": "pmax",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      {
+                        "type": "name",
+                        "value": "concentrations"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pk_data"
+      },
+      {
+        "type": "call",
+        "fun": "generate_pk_data",
+        "args": {
+          "n_subjects": {
+            "type": "literal",
+            "value": 20
+          },
+          "n_obs_per_subject": {
+            "type": "literal",
+            "value": 10
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pk_sampler"
+      },
+      {
+        "type": "call",
+        "fun": "create_model_optimizer",
+        "args": [
+          {
+            "type": "literal",
+            "value": "pk_models"
+          },
+          {
+            "type": "name",
+            "value": "pk_model_code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nRunning first fit (cold start)...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_cold"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pk_sampler",
+                    "args": {
+                      "data": {
+                        "type": "name",
+                        "value": "pk_data"
+                      },
+                      "params": {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "CL_pop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "V_pop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "omega_CL"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "omega_V"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sigma_prop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sigma_add"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "First fit completed in %.1f seconds\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_cold"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Memory used: %.1f MB\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "memory_stats"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "difference"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Convergence: %s\n"
+          },
+          {
+            "type": "call",
+            "fun": "ifelse",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result1"
+                  },
+                  {
+                    "type": "name",
+                    "value": "converged"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "YES"
+              },
+              {
+                "type": "literal",
+                "value": "NO"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "print",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "name",
+                "value": "diagnostics"
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "value": "recommendations"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nRunning second fit (warm start)...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "time_warm"
+      },
+      {
+        "type": "call",
+        "fun": "system.time",
+        "args": [
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result2"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pk_sampler",
+                    "args": {
+                      "data": {
+                        "type": "name",
+                        "value": "pk_data"
+                      },
+                      "params": {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "CL_pop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "V_pop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "omega_CL"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "omega_V"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sigma_prop"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "sigma_add"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Second fit completed in %.1f seconds\n"
+          },
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "name",
+                "value": "time_warm"
+              },
+              {
+                "type": "literal",
+                "value": "elapsed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Speedup: %.1fx\n"
+          },
+          {
+            "type": "call",
+            "fun": "/",
+            "args": [
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "time_cold"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "elapsed"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "time_warm"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "elapsed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Example 2: Challenging Model with Adaptive Sampling ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "funnel_model_code"
+      },
+      {
+        "type": "literal",
+        "value": "\ndata {\n  int<lower=0> N;\n  int<lower=0> J;\n  int<lower=1,upper=J> group[N];\n  vector[N] y;\n}\nparameters {\n  real mu;\n  real<lower=0> tau;\n  vector[J] theta_raw;\n}\ntransformed parameters {\n  vector[J] theta;\n  theta = mu + tau * theta_raw;  // Non-centered parameterization\n}\nmodel {\n  mu ~ normal(0, 5);\n  tau ~ cauchy(0, 2.5);\n  theta_raw ~ normal(0, 1);\n  \n  for (n in 1:N) {\n    y[n] ~ normal(theta[group[n]], 1);\n  }\n}\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "funnel_data"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "N": {
+            "type": "literal",
+            "value": 100
+          },
+          "J": {
+            "type": "literal",
+            "value": 10
+          },
+          "group": {
+            "type": "call",
+            "fun": "rep",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 10
+                  }
+                ]
+              },
+              "each": {
+                "type": "literal",
+                "value": 10
+              }
+            }
+          },
+          "y": {
+            "type": "call",
+            "fun": "rnorm",
+            "args": [
+              {
+                "type": "literal",
+                "value": 100
+              },
+              {
+                "type": "call",
+                "fun": "rep",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "rnorm",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 10
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  "each": {
+                    "type": "literal",
+                    "value": 10
+                  }
+                }
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "funnel_sampler"
+      },
+      {
+        "type": "call",
+        "fun": "create_optimized_sampler",
+        "args": {
+          "model_code": {
+            "type": "name",
+            "value": "funnel_model_code"
+          },
+          "config": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "adaptive_sampling": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "enabled": {
+                    "type": "literal",
+                    "value": true
+                  },
+                  "max_attempts": {
+                    "type": "literal",
+                    "value": 3
+                  },
+                  "adapt_delta_increment": {
+                    "type": "literal",
+                    "value": 0.05
+                  },
+                  "initial_adapt_delta": {
+                    "type": "literal",
+                    "value": 0.8
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nRunning challenging model with adaptive sampling...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "funnel_result"
+      },
+      {
+        "type": "call",
+        "fun": "funnel_sampler",
+        "args": {
+          "data": {
+            "type": "name",
+            "value": "funnel_data"
+          },
+          "params": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "mu"
+              },
+              {
+                "type": "literal",
+                "value": "tau"
+              },
+              {
+                "type": "literal",
+                "value": "theta"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Adapt delta used: %.2f\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "funnel_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "config_used"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "adapt_delta"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Divergences: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "funnel_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "num_divergent"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Max R-hat: %.3f\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "funnel_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "max_rhat"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Min ESS: %.0f\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "funnel_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "diagnostics"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "min_ess_bulk"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Example 3: Large Dataset Processing ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "large_pk_data"
+      },
+      {
+        "type": "call",
+        "fun": "generate_pk_data",
+        "args": {
+          "n_subjects": {
+            "type": "literal",
+            "value": 100
+          },
+          "n_obs_per_subject": {
+            "type": "literal",
+            "value": 20
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Dataset size: %d observations from %d subjects\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "large_pk_data"
+              },
+              {
+                "type": "name",
+                "value": "N"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "large_pk_data"
+              },
+              {
+                "type": "name",
+                "value": "n_subjects"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "large_sampler"
+      },
+      {
+        "type": "call",
+        "fun": "create_optimized_sampler",
+        "args": {
+          "model_code": {
+            "type": "name",
+            "value": "pk_model_code"
+          },
+          "config": {
+            "type": "call",
+            "fun": "list",
+            "args": {
+              "memory": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "chunk_size": {
+                    "type": "literal",
+                    "value": 500
+                  },
+                  "max_memory_mb": {
+                    "type": "literal",
+                    "value": 2048
+                  }
+                }
+              },
+              "extraction": {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "thin_large_fits": {
+                    "type": "literal",
+                    "value": 3
+                  },
+                  "large_fit_threshold_mb": {
+                    "type": "literal",
+                    "value": 500
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nProcessing large dataset...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "gc",
+    "args": []
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mem_before"
+      },
+      {
+        "type": "call",
+        "fun": "as.numeric",
+        "args": [
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "gc",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": 2
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "large_result"
+      },
+      {
+        "type": "call",
+        "fun": "large_sampler",
+        "args": {
+          "data": {
+            "type": "name",
+            "value": "large_pk_data"
+          },
+          "params": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "CL_pop"
+              },
+              {
+                "type": "literal",
+                "value": "V_pop"
+              },
+              {
+                "type": "literal",
+                "value": "omega_CL"
+              },
+              {
+                "type": "literal",
+                "value": "omega_V"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "gc",
+    "args": []
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mem_after"
+      },
+      {
+        "type": "call",
+        "fun": "as.numeric",
+        "args": [
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "gc",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": 2
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Memory usage: %.1f MB -> %.1f MB (increase: %.1f MB)\n"
+          },
+          {
+            "type": "name",
+            "value": "mem_before"
+          },
+          {
+            "type": "name",
+            "value": "mem_after"
+          },
+          {
+            "type": "call",
+            "fun": "-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mem_after"
+              },
+              {
+                "type": "name",
+                "value": "mem_before"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Draws extracted: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "nrow",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "large_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Example 4: Batch Processing ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "datasets"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "small": {
+            "type": "call",
+            "fun": "generate_pk_data",
+            "args": [
+              {
+                "type": "literal",
+                "value": 10
+              },
+              {
+                "type": "literal",
+                "value": 8
+              }
+            ]
+          },
+          "medium": {
+            "type": "call",
+            "fun": "generate_pk_data",
+            "args": [
+              {
+                "type": "literal",
+                "value": 30
+              },
+              {
+                "type": "literal",
+                "value": 10
+              }
+            ]
+          },
+          "large": {
+            "type": "call",
+            "fun": "generate_pk_data",
+            "args": [
+              {
+                "type": "literal",
+                "value": 50
+              },
+              {
+                "type": "literal",
+                "value": 12
+              }
+            ]
+          },
+          "xlarge": {
+            "type": "call",
+            "fun": "generate_pk_data",
+            "args": [
+              {
+                "type": "literal",
+                "value": 75
+              },
+              {
+                "type": "literal",
+                "value": 15
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Processing batch of 4 datasets...\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "batch_results"
+      },
+      {
+        "type": "call",
+        "fun": "batch_process",
+        "args": {
+          "datasets": {
+            "type": "name",
+            "value": "datasets"
+          },
+          "model_code": {
+            "type": "name",
+            "value": "pk_model_code"
+          },
+          "config": {
+            "type": "call",
+            "fun": "load_optimization_config",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "for",
+    "args": [
+      {
+        "type": "name",
+        "value": "i"
+      },
+      {
+        "type": "call",
+        "fun": "seq_along",
+        "args": [
+          {
+            "type": "name",
+            "value": "batch_results"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "name"
+              },
+              {
+                "type": "call",
+                "fun": "[",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "names",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "datasets"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "i"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "[[",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "batch_results"
+                  },
+                  {
+                    "type": "name",
+                    "value": "i"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "name",
+                            "value": "error"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "%s: FAILED - %s\n"
+                          },
+                          {
+                            "type": "name",
+                            "value": "name"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "error"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "cat",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "sprintf",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "%s: SUCCESS - Converged: %s, Memory: %.1f MB\n"
+                          },
+                          {
+                            "type": "name",
+                            "value": "name"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "ifelse",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "converged"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": "YES"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "NO"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "result"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "memory_stats"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "difference"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Example 5: Variational Inference ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "model_file"
+      },
+      {
+        "type": "call",
+        "fun": "write_stan_file",
+        "args": [
+          {
+            "type": "name",
+            "value": "pk_model_code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "vi_model"
+      },
+      {
+        "type": "call",
+        "fun": "cmdstan_model",
+        "args": [
+          {
+            "type": "name",
+            "value": "model_file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "vi_result"
+      },
+      {
+        "type": "call",
+        "fun": "run_variational_inference",
+        "args": {
+          "model": {
+            "type": "name",
+            "value": "vi_model"
+          },
+          "data": {
+            "type": "name",
+            "value": "pk_data"
+          },
+          "output_samples": {
+            "type": "literal",
+            "value": 2000
+          },
+          "algorithm": {
+            "type": "literal",
+            "value": "meanfield"
+          },
+          "iter": {
+            "type": "literal",
+            "value": 10000
+          },
+          "tol_rel_obj": {
+            "type": "literal",
+            "value": 0.01
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "VI method used: %s\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "vi_result"
+              },
+              {
+                "type": "name",
+                "value": "type"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Posterior samples: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "nrow",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vi_result"
+                  },
+                  {
+                    "type": "name",
+                    "value": "draws"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "vi_summary"
+      },
+      {
+        "type": "call",
+        "fun": "summarise_draws",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "vi_result"
+              },
+              {
+                "type": "name",
+                "value": "draws"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mcmc_summary"
+      },
+      {
+        "type": "call",
+        "fun": "summarise_draws",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "result1"
+              },
+              {
+                "type": "name",
+                "value": "draws"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "params_to_compare"
+      },
+      {
+        "type": "call",
+        "fun": "c",
+        "args": [
+          {
+            "type": "literal",
+            "value": "CL_pop"
+          },
+          {
+            "type": "literal",
+            "value": "V_pop"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "comparison"
+      },
+      {
+        "type": "call",
+        "fun": "data.frame",
+        "args": {
+          "Parameter": {
+            "type": "name",
+            "value": "params_to_compare"
+          },
+          "MCMC_mean": {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mcmc_summary"
+                  },
+                  {
+                    "type": "name",
+                    "value": "mean"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "match",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "params_to_compare"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mcmc_summary"
+                      },
+                      {
+                        "type": "name",
+                        "value": "variable"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "VI_mean": {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vi_summary"
+                  },
+                  {
+                    "type": "name",
+                    "value": "mean"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "match",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "params_to_compare"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "vi_summary"
+                      },
+                      {
+                        "type": "name",
+                        "value": "variable"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "MCMC_sd": {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mcmc_summary"
+                  },
+                  {
+                    "type": "name",
+                    "value": "sd"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "match",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "params_to_compare"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mcmc_summary"
+                      },
+                      {
+                        "type": "name",
+                        "value": "variable"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "VI_sd": {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vi_summary"
+                  },
+                  {
+                    "type": "name",
+                    "value": "sd"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "match",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "params_to_compare"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "vi_summary"
+                      },
+                      {
+                        "type": "name",
+                        "value": "variable"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "print",
+    "args": [
+      {
+        "type": "name",
+        "value": "comparison"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\n========== Optimization Summary ==========\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "manager"
+      },
+      {
+        "type": "call",
+        "fun": "create_warmstart_manager",
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cache_stats"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "manager", "get_stats"],
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Warmstart cache files: %d\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache_stats"
+              },
+              {
+                "type": "name",
+                "value": "n_files"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Cache size: %.1f MB\n"
+          },
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "cache_stats"
+              },
+              {
+                "type": "name",
+                "value": "total_size_mb"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": ["$", "manager", "clear"],
+    "args": {
+      "older_than_days": {
+        "type": "literal",
+        "value": 7
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "cleanup_temp_files",
+    "args": []
+  },
+  {
+    "type": "call",
+    "fun": "gc",
+    "args": []
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "final_memory"
+      },
+      {
+        "type": "call",
+        "fun": "as.numeric",
+        "args": [
+          {
+            "type": "call",
+            "fun": "[",
+            "args": [
+              {
+                "type": "call",
+                "fun": "gc",
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": 2
+              },
+              {
+                "type": "literal",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "call",
+        "fun": "sprintf",
+        "args": [
+          {
+            "type": "literal",
+            "value": "Final memory usage: %.1f MB\n"
+          },
+          {
+            "type": "name",
+            "value": "final_memory"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "export_results",
+    "args": {
+      "results": {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "pk_result": {
+            "type": "name",
+            "value": "result1"
+          },
+          "funnel_result": {
+            "type": "name",
+            "value": "funnel_result"
+          },
+          "large_result": {
+            "type": "name",
+            "value": "large_result"
+          },
+          "batch_results": {
+            "type": "name",
+            "value": "batch_results"
+          },
+          "vi_result": {
+            "type": "name",
+            "value": "vi_result"
+          }
+        }
+      },
+      "filename": {
+        "type": "literal",
+        "value": "output/optimization_examples.rds"
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nAll examples completed successfully!\n"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Results exported to: output/optimization_examples.rds\n"
+      }
+    ]
+  }
+]

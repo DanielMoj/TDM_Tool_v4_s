@@ -1,0 +1,538 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "numDeriv"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "predict_point"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "reg"
+                  },
+                  {
+                    "type": "name",
+                    "value": "regimen"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "reg"
+                      },
+                      {
+                        "type": "name",
+                        "value": "n_doses"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 20
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "reg"
+                      },
+                      {
+                        "type": "name",
+                        "value": "start_time"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "predict_conc_grid",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "t"
+                  },
+                  {
+                    "type": "name",
+                    "value": "reg"
+                  },
+                  {
+                    "type": "name",
+                    "value": "theta"
+                  },
+                  {
+                    "type": "name",
+                    "value": "model_type"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pred_var_over_draws"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vals"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sapply",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "draws"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 400
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.list",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "draws"
+                                          },
+                                          "2": {
+                                            "type": "name",
+                                            "value": "i"
+                                          },
+                                          "3": {
+                                            "type": "name",
+                                            "value": ""
+                                          },
+                                          "drop": {
+                                            "type": "literal",
+                                            "value": false
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "predict_point",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "theta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "regimen"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "t"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "model_type"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "stats", "var"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "vals"
+                  },
+                  "na.rm": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "suggest_next_time"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", "", "0.25"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "grid"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "seq",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "window_from"
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "window_to"
+                      },
+                      "by": {
+                        "type": "name",
+                        "value": "by"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "grid"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "t_best": {
+                            "type": "literal",
+                            "value": "NA"
+                          },
+                          "var_pred": {
+                            "type": "literal",
+                            "value": "NA"
+                          },
+                          "grid": {
+                            "type": "call",
+                            "fun": "numeric",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          "var": {
+                            "type": "call",
+                            "fun": "numeric",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "vars"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "sapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "grid"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "pred_var_over_draws",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "draws"
+                              },
+                              {
+                                "type": "name",
+                                "value": "regimen"
+                              },
+                              {
+                                "type": "name",
+                                "value": "t"
+                              },
+                              {
+                                "type": "name",
+                                "value": "model_type"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "j"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "which.max",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "vars"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "t_best": {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "grid"
+                      },
+                      {
+                        "type": "name",
+                        "value": "j"
+                      }
+                    ]
+                  },
+                  "var_pred": {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "vars"
+                      },
+                      {
+                        "type": "name",
+                        "value": "j"
+                      }
+                    ]
+                  },
+                  "grid": {
+                    "type": "name",
+                    "value": "grid"
+                  },
+                  "var": {
+                    "type": "name",
+                    "value": "vars"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

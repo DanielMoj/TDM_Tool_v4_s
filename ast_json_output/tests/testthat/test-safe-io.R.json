@@ -1,0 +1,4031 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "mockery"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/safe_io.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "source",
+    "args": [
+      {
+        "type": "literal",
+        "value": "../../R/auth_safe_upgrade.R"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_test_dir"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tempfile",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "test_safe_io_"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dir.create",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_test_users"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "users": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "username": {
+                                "type": "literal",
+                                "value": "admin"
+                              },
+                              "role": {
+                                "type": "literal",
+                                "value": "admin"
+                              },
+                              "password": {
+                                "type": "literal",
+                                "value": "admin123"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "username": {
+                                "type": "literal",
+                                "value": "user1"
+                              },
+                              "role": {
+                                "type": "literal",
+                                "value": "viewer"
+                              },
+                              "password": {
+                                "type": "literal",
+                                "value": "user123"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "username": {
+                                "type": "literal",
+                                "value": "user2"
+                              },
+                              "role": {
+                                "type": "literal",
+                                "value": "clinician"
+                              },
+                              "password_hash": {
+                                "type": "literal",
+                                "value": "$argon2id$v=19$m=65536,t=2,p=1$..."
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "write_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users"
+                  },
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_write_file creates automatic backups"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "version 1"
+              },
+              {
+                "type": "name",
+                "value": "test_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "old_config"
+              },
+              {
+                "type": "call",
+                "fun": "get_safe_io_config",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "configure_safe_io",
+            "args": {
+              "backup_dir": {
+                "type": "literal",
+                "value": "backups"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "configure_safe_io",
+                "args": {
+                  "backup_dir": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "old_config"
+                      },
+                      {
+                        "type": "name",
+                        "value": "backup_dir"
+                      }
+                    ]
+                  },
+                  "max_backups": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "old_config"
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_backups"
+                      }
+                    ]
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "safe_write_file",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "version 2"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "test_file"
+                  },
+                  "create_backup": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backup_dir"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "backups"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "dir.exists",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "backup_dir"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backups"
+              },
+              {
+                "type": "call",
+                "fun": "list.files",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "backup_dir"
+                  },
+                  "pattern": {
+                    "type": "literal",
+                    "value": "test\\.txt\\.backup_.*"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "backups"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backup_content"
+              },
+              {
+                "type": "call",
+                "fun": "readLines",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "file.path",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "backup_dir"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "backups"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "backup_content"
+              },
+              {
+                "type": "literal",
+                "value": "version 1"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "new_content"
+              },
+              {
+                "type": "call",
+                "fun": "readLines",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "new_content"
+              },
+              {
+                "type": "literal",
+                "value": "version 2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_write_file validates content after writing"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_data"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "user1": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "password": {
+                        "type": "literal",
+                        "value": "hash123"
+                      },
+                      "role": {
+                        "type": "literal",
+                        "value": "admin"
+                      }
+                    }
+                  },
+                  "user2": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "password": {
+                        "type": "literal",
+                        "value": "hash456"
+                      },
+                      "role": {
+                        "type": "literal",
+                        "value": "viewer"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "safe_write_yaml",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_data"
+                  },
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "read_data"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_identical",
+            "args": [
+              {
+                "type": "name",
+                "value": "read_data"
+              },
+              {
+                "type": "name",
+                "value": "test_data"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_read_file tries fallbacks on failure"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "primary"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "primary.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "fallback1"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "fallback1.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "fallback2"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "fallback2.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "fallback content"
+              },
+              {
+                "type": "name",
+                "value": "fallback2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "call",
+                "fun": "safe_read_file",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "primary"
+                  },
+                  "fallback_paths": {
+                    "type": "call",
+                    "fun": "c",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "fallback1"
+                      },
+                      {
+                        "type": "name",
+                        "value": "fallback2"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "literal",
+                "value": "fallback content"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "atomic writes prevent corruption on failure"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "original"
+              },
+              {
+                "type": "name",
+                "value": "temp_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "mock_rename"
+              },
+              {
+                "type": "call",
+                "fun": "mock",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "stop",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Simulated failure"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "with_mock",
+            "args": {
+              "file.rename": {
+                "type": "name",
+                "value": "mock_rename"
+              },
+              "2": {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "configure_safe_io",
+                    "args": {
+                      "use_atomic_writes": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_error",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "safe_write_file",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "corrupted"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "temp_file"
+                          },
+                          "writer_fn": {
+                            "type": "name",
+                            "value": "writeLines"
+                          },
+                          "create_backup": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      },
+                      {
+                        "type": "literal",
+                        "value": "Simulated failure"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "file.exists",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "call",
+                "fun": "readLines",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "literal",
+                "value": "original"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "cleanup_old_backups removes excess backups"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "configure_safe_io",
+            "args": {
+              "backup_dir": {
+                "type": "literal",
+                "value": "backups"
+              },
+              "max_backups": {
+                "type": "literal",
+                "value": 3
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "writeLines",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "paste",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "version"
+                          },
+                          {
+                            "type": "name",
+                            "value": "i"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "test_file"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "Sys.sleep",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0.1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "safe_write_file",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "paste",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "version"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "i"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "2": {
+                        "type": "name",
+                        "value": "test_file"
+                      },
+                      "create_backup": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backup_dir"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "backups"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backups"
+              },
+              {
+                "type": "call",
+                "fun": "list.files",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "backup_dir"
+                  },
+                  "pattern": {
+                    "type": "literal",
+                    "value": "test\\.txt\\.backup_.*"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_lte",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "backups"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_write_csv validates row count"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.csv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_data"
+              },
+              {
+                "type": "call",
+                "fun": "data.frame",
+                "args": {
+                  "id": {
+                    "type": "call",
+                    "fun": ":",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      {
+                        "type": "literal",
+                        "value": 5
+                      }
+                    ]
+                  },
+                  "value": {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "letters"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "stringsAsFactors": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "safe_write_csv",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_data"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "read_data"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "readr", "read_csv"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "test_file"
+                  },
+                  "show_col_types": {
+                    "type": "literal",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "read_data"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "nrow",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_data"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "read_data"
+                  },
+                  {
+                    "type": "name",
+                    "value": "id"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_data"
+                  },
+                  {
+                    "type": "name",
+                    "value": "id"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe_write_rds handles binary data correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "test.rds"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_data"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "matrix": {
+                    "type": "call",
+                    "fun": "matrix",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 100
+                          }
+                        ]
+                      },
+                      "nrow": {
+                        "type": "literal",
+                        "value": 10
+                      }
+                    }
+                  },
+                  "df": {
+                    "type": "call",
+                    "fun": "data.frame",
+                    "args": {
+                      "x": {
+                        "type": "call",
+                        "fun": ":",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 1
+                          },
+                          {
+                            "type": "literal",
+                            "value": 10
+                          }
+                        ]
+                      },
+                      "y": {
+                        "type": "call",
+                        "fun": "[",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "letters"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ":",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "literal",
+                                "value": 10
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "nested": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "a": {
+                        "type": "literal",
+                        "value": 1
+                      },
+                      "b": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "c": {
+                            "type": "literal",
+                            "value": 2
+                          },
+                          "d": {
+                            "type": "literal",
+                            "value": 3
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "safe_write_rds",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_data"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "read_data"
+              },
+              {
+                "type": "call",
+                "fun": "readRDS",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "test_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_identical",
+            "args": [
+              {
+                "type": "name",
+                "value": "read_data"
+              },
+              {
+                "type": "name",
+                "value": "test_data"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "auth_upgrade_hashes safely upgrades passwords"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "sodium"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "users_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "users.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "users"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "users": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "username": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "password": {
+                            "type": "literal",
+                            "value": "admin123"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "username": {
+                            "type": "literal",
+                            "value": "user1"
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "viewer"
+                          },
+                          "password": {
+                            "type": "literal",
+                            "value": "user123"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["::", "yaml", "write_yaml"],
+            "args": [
+              {
+                "type": "name",
+                "value": "users"
+              },
+              {
+                "type": "name",
+                "value": "users_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "auth_upgrade_hashes",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "users_file"
+                  },
+                  "backup": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "upgraded_users"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "upgraded_users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "upgraded_users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upgraded_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "users"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "password_hash"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upgraded_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "users"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 2
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "password_hash"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "grepl",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "^\\$argon2"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upgraded_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "users"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "password_hash"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "upgraded_users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "hash_version"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "2.0"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "[[",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "upgraded_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "users"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "upgraded_at"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backup_dir"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "backups"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "dir.exists",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "backup_dir"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "backups"
+              },
+              {
+                "type": "call",
+                "fun": "list.files",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "backup_dir"
+                  },
+                  "pattern": {
+                    "type": "literal",
+                    "value": "users\\.yaml\\.backup_.*"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": ">",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "length",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "backups"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "auth_upgrade_hashes handles already hashed passwords"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "sodium"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "users_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "users.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "modern_hash"
+              },
+              {
+                "type": "call",
+                "fun": "as.character",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "sodium", "password_store"],
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "charToRaw",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "test123"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "users"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "users": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "username": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "password_hash": {
+                            "type": "name",
+                            "value": "modern_hash"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["::", "yaml", "write_yaml"],
+            "args": [
+              {
+                "type": "name",
+                "value": "users"
+              },
+              {
+                "type": "name",
+                "value": "users_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "auth_upgrade_hashes",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "users_file"
+                  },
+                  "backup": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "upgraded_users"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "upgraded_users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "password_hash"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "modern_hash"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_null",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "upgraded_users"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "hash_version"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "restore_users_from_backup works correctly"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "users_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "users.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "original_users"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "users": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "username": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "password": {
+                            "type": "literal",
+                            "value": "original"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["::", "yaml", "write_yaml"],
+            "args": [
+              {
+                "type": "name",
+                "value": "original_users"
+              },
+              {
+                "type": "name",
+                "value": "users_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "safe_write_yaml",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "original_users"
+              },
+              "2": {
+                "type": "name",
+                "value": "users_file"
+              },
+              "create_backup": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "modified_users"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "users": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "username": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          "password": {
+                            "type": "literal",
+                            "value": "modified"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["::", "yaml", "write_yaml"],
+            "args": [
+              {
+                "type": "name",
+                "value": "modified_users"
+              },
+              {
+                "type": "name",
+                "value": "users_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              },
+              {
+                "type": "call",
+                "fun": "restore_users_from_backup",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "users_file"
+                  },
+                  "backup_index": {
+                    "type": "literal",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "restored"
+              },
+              {
+                "type": "call",
+                "fun": ["::", "yaml", "read_yaml"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "users_file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "restored"
+                          },
+                          {
+                            "type": "name",
+                            "value": "users"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "password"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "original"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "batch_upgrade_user_files processes multiple files"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "sodium"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "file_path"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file.path",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "temp_dir"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "users_%d.yaml"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "users"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "users": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "username": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "user%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  },
+                                  "role": {
+                                    "type": "literal",
+                                    "value": "viewer"
+                                  },
+                                  "password": {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "pass%d"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "yaml", "write_yaml"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "users"
+                      },
+                      {
+                        "type": "name",
+                        "value": "file_path"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "results"
+              },
+              {
+                "type": "call",
+                "fun": "batch_upgrade_user_files",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "users_*.yaml"
+                  },
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "results"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "r"
+              },
+              {
+                "type": "name",
+                "value": "results"
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "expect_true",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "r"
+                          },
+                          {
+                            "type": "name",
+                            "value": "success"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "for",
+            "args": [
+              {
+                "type": "name",
+                "value": "i"
+              },
+              {
+                "type": "call",
+                "fun": ":",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "file_path"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file.path",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "temp_dir"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "users_%d.yaml"
+                              },
+                              {
+                                "type": "name",
+                                "value": "i"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "users"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "yaml", "read_yaml"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "file_path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_false",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "users"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "users"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "password_hash"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "expect_null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "users"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "users"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe I/O handles permission errors gracefully"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_on_windows",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "test_file"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "readonly.txt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "content"
+              },
+              {
+                "type": "name",
+                "value": "test_file"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.chmod",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "test_file"
+              },
+              "mode": {
+                "type": "literal",
+                "value": "0444"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "expect_error",
+            "args": [
+              {
+                "type": "call",
+                "fun": "safe_write_file",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "new content"
+                  },
+                  {
+                    "type": "name",
+                    "value": "test_file"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": "No write permission"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "Sys.chmod",
+            "args": {
+              "1": {
+                "type": "name",
+                "value": "test_file"
+              },
+              "mode": {
+                "type": "literal",
+                "value": "0644"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "safe I/O recovers from corrupted YAML"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "temp_dir"
+              },
+              {
+                "type": "call",
+                "fun": "create_test_dir",
+                "args": []
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": "unlink",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "primary"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "corrupted.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "fallback"
+              },
+              {
+                "type": "call",
+                "fun": "file.path",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "temp_dir"
+                  },
+                  {
+                    "type": "literal",
+                    "value": "good.yaml"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "writeLines",
+            "args": [
+              {
+                "type": "literal",
+                "value": "{ invalid: yaml: content }"
+              },
+              {
+                "type": "name",
+                "value": "primary"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["::", "yaml", "write_yaml"],
+            "args": [
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "valid": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "name",
+                "value": "fallback"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "content"
+              },
+              {
+                "type": "call",
+                "fun": "safe_read_yaml",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "primary"
+                  },
+                  "fallback_paths": {
+                    "type": "name",
+                    "value": "fallback"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_false",
+            "args": [
+              {
+                "type": "call",
+                "fun": "is.null",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "content"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "$",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "content"
+                  },
+                  {
+                    "type": "name",
+                    "value": "valid"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

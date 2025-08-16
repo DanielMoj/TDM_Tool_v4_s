@@ -1,0 +1,927 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "args"
+      },
+      {
+        "type": "call",
+        "fun": "commandArgs",
+        "args": {
+          "trailingOnly": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "art"
+      },
+      {
+        "type": "call",
+        "fun": "if",
+        "args": [
+          {
+            "type": "call",
+            "fun": "length",
+            "args": [
+              {
+                "type": "name",
+                "value": "args"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "[[",
+            "args": [
+              {
+                "type": "name",
+                "value": "args"
+              },
+              {
+                "type": "literal",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": "artifacts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "dir.create",
+    "args": {
+      "1": {
+        "type": "name",
+        "value": "art"
+      },
+      "showWarnings": {
+        "type": "literal",
+        "value": false
+      },
+      "recursive": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "xml_file"
+      },
+      {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "name",
+            "value": "art"
+          },
+          {
+            "type": "literal",
+            "value": "test-results.xml"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "json_file"
+      },
+      {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "name",
+            "value": "art"
+          },
+          {
+            "type": "literal",
+            "value": "summary.json"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "sink_file"
+      },
+      {
+        "type": "call",
+        "fun": "file.path",
+        "args": [
+          {
+            "type": "name",
+            "value": "art"
+          },
+          {
+            "type": "literal",
+            "value": "console.log"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "jr"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "testthat::JunitReporter", "new"],
+        "args": {
+          "file": {
+            "type": "name",
+            "value": "xml_file"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "lr"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "testthat::ListReporter", "new"],
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "sr"
+      },
+      {
+        "type": "call",
+        "fun": ["$", "testthat::SummaryReporter", "new"],
+        "args": []
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "sink",
+    "args": [
+      {
+        "type": "name",
+        "value": "sink_file"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "res"
+      },
+      {
+        "type": "call",
+        "fun": ["::", "testthat", "test_dir"],
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "tests/testthat"
+          },
+          "reporter": {
+            "type": "call",
+            "fun": ["$", "testthat::MultiReporter", "new"],
+            "args": {
+              "reporters": {
+                "type": "call",
+                "fun": "list",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "jr"
+                  },
+                  {
+                    "type": "name",
+                    "value": "lr"
+                  },
+                  {
+                    "type": "name",
+                    "value": "sr"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "sink",
+    "args": []
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "summ"
+      },
+      {
+        "type": "call",
+        "fun": "lapply",
+        "args": [
+          {
+            "type": "call",
+            "fun": "$",
+            "args": [
+              {
+                "type": "name",
+                "value": "lr"
+              },
+              {
+                "type": "name",
+                "value": "results"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "function",
+            "args": [
+              {
+                "type": "pairlist",
+                "value": ""
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "file": {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "x"
+                              },
+                              {
+                                "type": "name",
+                                "value": "filename"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": null
+                          }
+                        ]
+                      },
+                      "test": {
+                        "type": "call",
+                        "fun": "%||%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "x"
+                              },
+                              {
+                                "type": "name",
+                                "value": "test"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": null
+                          }
+                        ]
+                      },
+                      "passed": {
+                        "type": "call",
+                        "fun": "-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "length",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectations"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sum",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "vapply",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "x"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "expectations"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "::",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "testthat"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "expectation_broken"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "logical",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "failed": {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "vapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectations"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "::",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "testthat"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectation_failure"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "logical",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "warnings": {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "vapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectations"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "::",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "testthat"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectation_warning"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "logical",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "skips": {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "vapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectations"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "::",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "testthat"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectation_skipped"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "logical",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "errors": {
+                        "type": "call",
+                        "fun": "sum",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "vapply",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectations"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "::",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "testthat"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expectation_error"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "logical",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "duration": {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "end_time"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "x"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "start_time"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "units": {
+                            "type": "literal",
+                            "value": "secs"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "NULL",
+                "value": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": ["::", "jsonlite", "write_json"],
+    "args": {
+      "1": {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "results": {
+            "type": "name",
+            "value": "summ"
+          }
+        }
+      },
+      "2": {
+        "type": "name",
+        "value": "json_file"
+      },
+      "pretty": {
+        "type": "literal",
+        "value": true
+      },
+      "auto_unbox": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "requireNamespace",
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "covr"
+          },
+          "quietly": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "r_files"
+              },
+              {
+                "type": "call",
+                "fun": "list.files",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "R"
+                  },
+                  "pattern": {
+                    "type": "literal",
+                    "value": "\\.R$"
+                  },
+                  "full.names": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "t_files"
+              },
+              {
+                "type": "call",
+                "fun": "list.files",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "tests/testthat"
+                  },
+                  "pattern": {
+                    "type": "literal",
+                    "value": "^test-.*\\.R$"
+                  },
+                  "full.names": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "cov"
+              },
+              {
+                "type": "call",
+                "fun": "try",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": ["::", "covr", "file_coverage"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "r_files"
+                      },
+                      {
+                        "type": "name",
+                        "value": "t_files"
+                      }
+                    ]
+                  },
+                  "silent": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "!",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "inherits",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "cov"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "try-error"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "covr", "report"],
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "cov"
+                      },
+                      "file": {
+                        "type": "call",
+                        "fun": "file.path",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "art"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "coverage.html"
+                          }
+                        ]
+                      },
+                      "browse": {
+                        "type": "literal",
+                        "value": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "cat",
+    "args": [
+      {
+        "type": "literal",
+        "value": "\nArtifacts written to: "
+      },
+      {
+        "type": "call",
+        "fun": "normalizePath",
+        "args": [
+          {
+            "type": "name",
+            "value": "art"
+          }
+        ]
+      },
+      {
+        "type": "literal",
+        "value": "\n"
+      }
+    ]
+  }
+]

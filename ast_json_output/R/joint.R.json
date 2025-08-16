@@ -1,0 +1,380 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cg_crcl"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "crcl"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "/",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "(",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "(",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": 140
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "age"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "weight"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "(",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "*",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 72
+                              },
+                              {
+                                "type": "name",
+                                "value": "scr_mgdl"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "==",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "tolower",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sex"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "female"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "<-",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "crcl"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": 0.85
+                          },
+                          {
+                            "type": "name",
+                            "value": "crcl"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "crcl"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cl_creatinine_penalty"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", "", "log(0.06)", "1", "0.5"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "creatinine_data"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "creatinine_data"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "crcl_vals"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "cg_crcl",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "age"
+                      },
+                      {
+                        "type": "name",
+                        "value": "weight"
+                      },
+                      {
+                        "type": "name",
+                        "value": "sex"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "creatinine_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "creat_mgdl"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mu"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "+",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "a"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "*",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "b"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "pmax",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "crcl_vals"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "target"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "mean",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "mu"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dnorm",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "log",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "CL"
+                      }
+                    ]
+                  },
+                  "mean": {
+                    "type": "name",
+                    "value": "target"
+                  },
+                  "sd": {
+                    "type": "name",
+                    "value": "sigma_pen"
+                  },
+                  "log": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

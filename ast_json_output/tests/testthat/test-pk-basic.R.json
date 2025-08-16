@@ -1,0 +1,219 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "predict_conc_grid returns reasonable shapes"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "load_sources",
+            "args": []
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "th"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "CL": {
+                    "type": "literal",
+                    "value": 5
+                  },
+                  "Vc": {
+                    "type": "literal",
+                    "value": 30
+                  },
+                  "Q1": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "Vp1": {
+                    "type": "literal",
+                    "value": 40
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "reg"
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "dose": {
+                    "type": "literal",
+                    "value": 1000
+                  },
+                  "tau": {
+                    "type": "literal",
+                    "value": 8
+                  },
+                  "tinf": {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  "n_doses": {
+                    "type": "literal",
+                    "value": 6
+                  },
+                  "start_time": {
+                    "type": "literal",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "times"
+              },
+              {
+                "type": "call",
+                "fun": "seq",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": 0
+                  },
+                  "2": {
+                    "type": "literal",
+                    "value": 48
+                  },
+                  "by": {
+                    "type": "literal",
+                    "value": 0.5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "y"
+              },
+              {
+                "type": "call",
+                "fun": "predict_conc_grid",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "times"
+                  },
+                  "2": {
+                    "type": "name",
+                    "value": "reg"
+                  },
+                  "3": {
+                    "type": "name",
+                    "value": "th"
+                  },
+                  "model_type": {
+                    "type": "literal",
+                    "value": "2C"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_equal",
+            "args": [
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "y"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "length",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "times"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "call",
+                "fun": "all",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.finite",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "y"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_gt",
+            "args": [
+              {
+                "type": "call",
+                "fun": "max",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "y"
+                  }
+                ]
+              },
+              {
+                "type": "literal",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

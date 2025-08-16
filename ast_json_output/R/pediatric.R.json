@@ -1,0 +1,694 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "maturation_sigmoid"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "47", "3"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "PMA_weeks"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "pmax",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 10
+                      },
+                      {
+                        "type": "name",
+                        "value": "PMA_weeks"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "/",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "(",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "^",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "PMA_weeks"
+                          },
+                          {
+                            "type": "name",
+                            "value": "Hill"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "(",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "+",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "PMA_weeks"
+                              },
+                              {
+                                "type": "name",
+                                "value": "Hill"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "^",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "TM50"
+                              },
+                              {
+                                "type": "name",
+                                "value": "Hill"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "adjust_priors_for_covariates"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "pr"
+                  },
+                  {
+                    "type": "name",
+                    "value": "priors"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "mu"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "theta_log"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "mu"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "wt"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "covariates"
+                          },
+                          {
+                            "type": "name",
+                            "value": "weight"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 70
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "PMA"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "covariates"
+                          },
+                          {
+                            "type": "name",
+                            "value": "PMA_weeks"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": null
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "is_neon"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "isTRUE",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "covariates"
+                          },
+                          {
+                            "type": "name",
+                            "value": "is_neonate"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mu"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "CL"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "shift"
+                          },
+                          {
+                            "type": "literal",
+                            "value": 0
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "shift"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "shift"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "log",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "^",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "/",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "wt"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 70
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 0.75
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "is_neon"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "is.finite",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "PMA"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "mat"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "maturation_sigmoid",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "PMA"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "shift"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "shift"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "log",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "pmax",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": 0.1
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "mat"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mu"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "CL"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "mu"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "CL"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "shift"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mu"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "Vc"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "mu"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "Vc"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[[",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "mu"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "Vc"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "log",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "^",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "(",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "/",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "wt"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 70
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "pr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "theta_log"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "mu"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "mu"
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "pr"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

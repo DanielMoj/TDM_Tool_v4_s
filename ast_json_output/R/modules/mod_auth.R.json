@@ -1,0 +1,2164 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mod_auth_ui"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "ns"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "NS",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tagList",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "shinyjs", "useShinyjs"],
+                    "args": []
+                  },
+                  {
+                    "type": "call",
+                    "fun": "div",
+                    "args": {
+                      "id": {
+                        "type": "call",
+                        "fun": "ns",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "auth_panel"
+                          }
+                        ]
+                      },
+                      "class": {
+                        "type": "literal",
+                        "value": "login-panel"
+                      },
+                      "3": {
+                        "type": "call",
+                        "fun": ["$", "tags", "head"],
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["$", "tags", "style"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "HTML",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "\n          .login-panel {\n            max-width: 400px;\n            margin: 100px auto;\n            padding: 20px;\n            background: white;\n            border-radius: 8px;\n            box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n          }\n          .login-title {\n            text-align: center;\n            margin-bottom: 30px;\n            color: #333;\n          }\n        "
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "4": {
+                        "type": "call",
+                        "fun": "h2",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "PK/PD Analysis Platform"
+                          },
+                          "class": {
+                            "type": "literal",
+                            "value": "login-title"
+                          }
+                        }
+                      },
+                      "5": {
+                        "type": "call",
+                        "fun": "wellPanel",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "textInput",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "ns",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "username"
+                                  }
+                                ]
+                              },
+                              "label": {
+                                "type": "literal",
+                                "value": "Username"
+                              },
+                              "placeholder": {
+                                "type": "literal",
+                                "value": "Enter your username"
+                              },
+                              "width": {
+                                "type": "literal",
+                                "value": "100%"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "passwordInput",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "ns",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "password"
+                                  }
+                                ]
+                              },
+                              "label": {
+                                "type": "literal",
+                                "value": "Password"
+                              },
+                              "placeholder": {
+                                "type": "literal",
+                                "value": "Enter your password"
+                              },
+                              "width": {
+                                "type": "literal",
+                                "value": "100%"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "div",
+                            "args": {
+                              "style": {
+                                "type": "literal",
+                                "value": "margin-top: 20px;"
+                              },
+                              "2": {
+                                "type": "call",
+                                "fun": "actionButton",
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": "ns",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "login"
+                                      }
+                                    ]
+                                  },
+                                  "2": {
+                                    "type": "literal",
+                                    "value": "Login"
+                                  },
+                                  "class": {
+                                    "type": "literal",
+                                    "value": "btn-primary"
+                                  },
+                                  "width": {
+                                    "type": "literal",
+                                    "value": "100%"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "div",
+                            "args": {
+                              "id": {
+                                "type": "call",
+                                "fun": "ns",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "auth_message"
+                                  }
+                                ]
+                              },
+                              "style": {
+                                "type": "literal",
+                                "value": "margin-top: 15px; text-align: center;"
+                              },
+                              "3": {
+                                "type": "call",
+                                "fun": "textOutput",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "ns",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "login_error"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "6": {
+                        "type": "call",
+                        "fun": "div",
+                        "args": {
+                          "style": {
+                            "type": "literal",
+                            "value": "text-align: center; margin-top: 20px; color: #666;"
+                          },
+                          "2": {
+                            "type": "call",
+                            "fun": ["$", "tags", "small"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Version 2.0 - Modularized"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "mod_auth_server"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "moduleServer",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "id"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ["", "", ""]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "auth_state"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "reactiveValues",
+                                "args": {
+                                  "logged_in": {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  "user": {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  "role": {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  "login_time": {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  "session_id": {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "observeEvent",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "input"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "login"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "req",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "input"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "username"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "input"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "password"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "shinyjs", "disable"],
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "login"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "validation_result"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "validate_credentials",
+                                        "args": {
+                                          "username": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "input"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "username"
+                                              }
+                                            ]
+                                          },
+                                          "password": {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "input"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "password"
+                                              }
+                                            ]
+                                          },
+                                          "config": {
+                                            "type": "name",
+                                            "value": "config"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "validation_result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "success"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "logged_in"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": true
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "user"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "validation_result"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "user"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "role"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "validation_result"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "role"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "login_time"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "Sys.time",
+                                                "args": []
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "session_id"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "generate_session_id",
+                                                "args": []
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "log_audit_event",
+                                            "args": {
+                                              "event_type": {
+                                                "type": "literal",
+                                                "value": "LOGIN_SUCCESS"
+                                              },
+                                              "user": {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "validation_result"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "user"
+                                                  }
+                                                ]
+                                              },
+                                              "details": {
+                                                "type": "call",
+                                                "fun": "list",
+                                                "args": {
+                                                  "ip": {
+                                                    "type": "call",
+                                                    "fun": "%||%",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "session"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "request"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "HTTP_X_FORWARDED_FOR"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "session"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "request"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "REMOTE_ADDR"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  },
+                                                  "user_agent": {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "session"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "request"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "HTTP_USER_AGENT"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "output"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "login_error"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "renderText",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": ""
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": ["::", "shinyjs", "hide"],
+                                            "args": {
+                                              "1": {
+                                                "type": "literal",
+                                                "value": "auth_panel"
+                                              },
+                                              "anim": {
+                                                "type": "literal",
+                                                "value": true
+                                              },
+                                              "animType": {
+                                                "type": "literal",
+                                                "value": "fade"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "log_audit_event",
+                                            "args": {
+                                              "event_type": {
+                                                "type": "literal",
+                                                "value": "LOGIN_FAILED"
+                                              },
+                                              "user": {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "input"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "username"
+                                                  }
+                                                ]
+                                              },
+                                              "details": {
+                                                "type": "call",
+                                                "fun": "list",
+                                                "args": {
+                                                  "reason": {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "validation_result"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "message"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "output"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "login_error"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "renderText",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "{",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "validation_result"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "message"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": ["::", "shinyjs", "enable"],
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "login"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "logout"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "auth_state"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "logged_in"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "log_audit_event",
+                                                "args": {
+                                                  "event_type": {
+                                                    "type": "literal",
+                                                    "value": "LOGOUT"
+                                                  },
+                                                  "user": {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "user"
+                                                      }
+                                                    ]
+                                                  },
+                                                  "details": {
+                                                    "type": "call",
+                                                    "fun": "list",
+                                                    "args": {
+                                                      "session_duration": {
+                                                        "type": "call",
+                                                        "fun": "difftime",
+                                                        "args": {
+                                                          "1": {
+                                                            "type": "call",
+                                                            "fun": "Sys.time",
+                                                            "args": []
+                                                          },
+                                                          "2": {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "auth_state"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "login_time"
+                                                              }
+                                                            ]
+                                                          },
+                                                          "units": {
+                                                            "type": "literal",
+                                                            "value": "mins"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "logged_in"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": false
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "user"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "role"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "login_time"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "auth_state"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "session_id"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": ["::", "shinyjs", "show"],
+                                                "args": {
+                                                  "1": {
+                                                    "type": "literal",
+                                                    "value": "auth_panel"
+                                                  },
+                                                  "anim": {
+                                                    "type": "literal",
+                                                    "value": true
+                                                  },
+                                                  "animType": {
+                                                    "type": "literal",
+                                                    "value": "fade"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "observe",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "auth_state"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "logged_in"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "invalidateLater",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "*",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "*",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 30
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": 60
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1000
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "if",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": ">",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "difftime",
+                                                    "args": {
+                                                      "1": {
+                                                        "type": "call",
+                                                        "fun": "Sys.time",
+                                                        "args": []
+                                                      },
+                                                      "2": {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "auth_state"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "login_time"
+                                                          }
+                                                        ]
+                                                      },
+                                                      "units": {
+                                                        "type": "literal",
+                                                        "value": "mins"
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 30
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "showNotification",
+                                                    "args": {
+                                                      "1": {
+                                                        "type": "literal",
+                                                        "value": "Session expired. Please login again."
+                                                      },
+                                                      "type": {
+                                                        "type": "literal",
+                                                        "value": "warning"
+                                                      },
+                                                      "duration": {
+                                                        "type": "literal",
+                                                        "value": 5
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "logout",
+                                                    "args": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "state": {
+                                    "type": "call",
+                                    "fun": "reactive",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "auth_state"
+                                      }
+                                    ]
+                                  },
+                                  "logout": {
+                                    "type": "name",
+                                    "value": "logout"
+                                  },
+                                  "is_logged_in": {
+                                    "type": "call",
+                                    "fun": "reactive",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "auth_state"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "logged_in"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "get_user": {
+                                    "type": "call",
+                                    "fun": "reactive",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "auth_state"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "user"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "get_role": {
+                                    "type": "call",
+                                    "fun": "reactive",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "auth_state"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "role"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "has_permission": {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "check_permission",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "auth_state"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "role"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "permission"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "validate_credentials"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "password"
+                          },
+                          {
+                            "type": "literal",
+                            "value": ""
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Username and password are required"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "valid_users"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "admin": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "password": {
+                            "type": "call",
+                            "fun": ["::", "digest", "digest"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "admin123"
+                              }
+                            ]
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "admin"
+                          }
+                        }
+                      },
+                      "user": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "password": {
+                            "type": "call",
+                            "fun": ["::", "digest", "digest"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "user123"
+                              }
+                            ]
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "user"
+                          }
+                        }
+                      },
+                      "analyst": {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "password": {
+                            "type": "call",
+                            "fun": ["::", "digest", "digest"],
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "analyst123"
+                              }
+                            ]
+                          },
+                          "role": {
+                            "type": "literal",
+                            "value": "analyst"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%in%",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "username"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "names",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "valid_users"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Invalid username or password"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "hashed_password"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "digest", "digest"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "password"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!=",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "valid_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "username"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "password"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "hashed_password"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": false
+                              },
+                              "message": {
+                                "type": "literal",
+                                "value": "Invalid username or password"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "success": {
+                        "type": "literal",
+                        "value": true
+                      },
+                      "user": {
+                        "type": "name",
+                        "value": "username"
+                      },
+                      "role": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "valid_users"
+                              },
+                              {
+                                "type": "name",
+                                "value": "username"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "role"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "generate_session_id"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "paste0",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "session_"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "format",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      {
+                        "type": "literal",
+                        "value": "%Y%m%d%H%M%S"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "_"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "sample",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "letters"
+                          },
+                          "2": {
+                            "type": "literal",
+                            "value": 6
+                          },
+                          "replace": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      },
+                      "collapse": {
+                        "type": "literal",
+                        "value": ""
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "check_permission"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "permissions"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "admin": {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "view"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "edit"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "delete"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "admin"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "export"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "import"
+                          }
+                        ]
+                      },
+                      "analyst": {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "view"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "edit"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "export"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "import"
+                          }
+                        ]
+                      },
+                      "user": {
+                        "type": "call",
+                        "fun": "c",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "view"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "export"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "role"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "%in%",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "role"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "names",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "permissions"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "%in%",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "permission"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "permissions"
+                      },
+                      {
+                        "type": "name",
+                        "value": "role"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "log_audit_event"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "list()"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "[AUDIT] %s | User: %s | Event: %s | Details: %s"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      {
+                        "type": "name",
+                        "value": "user"
+                      },
+                      {
+                        "type": "name",
+                        "value": "event_type"
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "jsonlite", "toJSON"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "details"
+                          },
+                          "auto_unbox": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

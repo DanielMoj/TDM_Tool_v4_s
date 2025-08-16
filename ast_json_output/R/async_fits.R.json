@@ -1,0 +1,3949 @@
+[
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "requireNamespace",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "future"
+              },
+              "quietly": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "stop",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Package 'future' required. Install with: install.packages('future')"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "requireNamespace",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "promises"
+              },
+              "quietly": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "stop",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Package 'promises' required. Install with: install.packages('promises')"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "requireNamespace",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "progressr"
+              },
+              "quietly": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "warning",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Package 'progressr' recommended. Install with: install.packages('progressr')"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.exists",
+        "args": [
+          {
+            "type": "literal",
+            "value": "R/parallel_utils.R"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "parallel_utils.R"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_stan_async"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL", "4", "1000", "1000", "NULL", "0.8", "10", "NULL", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "cmdstanr"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Package 'cmdstanr' required. Install with: cmdstanr::install_cmdstan()"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "parallel_chains"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "parallel_chains"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "chains"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "get_optimal_workers",
+                                "args": {
+                                  "task_type": {
+                                    "type": "literal",
+                                    "value": "cpu"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "promises", "future_promise"],
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "progress"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "requireNamespace",
+                                "args": {
+                                  "1": {
+                                    "type": "literal",
+                                    "value": "progressr"
+                                  },
+                                  "quietly": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "p"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "progressr", "progressor"],
+                                    "args": {
+                                      "steps": {
+                                        "type": "call",
+                                        "fun": "*",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "chains"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "+",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "iter_warmup"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "iter_sampling"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "p"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ""
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "invisible",
+                                        "args": [
+                                          {
+                                            "type": "NULL",
+                                            "value": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.character",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "stan_code"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "file.exists",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "stan_code"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "model_file"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "stan_code"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "model_file"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "cmdstanr", "write_stan_file"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "stan_code"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "model"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "cmdstanr", "cmdstan_model"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "model_file"
+                              },
+                              "quiet": {
+                                "type": "literal",
+                                "value": false
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "callbacks"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "progress"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "callbacks"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refresh"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "function",
+                                    "args": [
+                                      {
+                                        "type": "pairlist",
+                                        "value": ["", "", ""]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "p",
+                                            "args": {
+                                              "amount": {
+                                                "type": "literal",
+                                                "value": 1
+                                              },
+                                              "message": {
+                                                "type": "call",
+                                                "fun": "sprintf",
+                                                "args": [
+                                                  {
+                                                    "type": "literal",
+                                                    "value": "Chain %d: Iteration %d"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "chain_id"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "iteration"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "if",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "!",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "is.null",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "progress"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "{",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "progress",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "chain_id"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "iteration"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "chains"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "+",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "iter_warmup"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "iter_sampling"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fit"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "model", "sample"],
+                            "args": {
+                              "data": {
+                                "type": "name",
+                                "value": "data"
+                              },
+                              "chains": {
+                                "type": "name",
+                                "value": "chains"
+                              },
+                              "parallel_chains": {
+                                "type": "name",
+                                "value": "parallel_chains"
+                              },
+                              "iter_warmup": {
+                                "type": "name",
+                                "value": "iter_warmup"
+                              },
+                              "iter_sampling": {
+                                "type": "name",
+                                "value": "iter_sampling"
+                              },
+                              "adapt_delta": {
+                                "type": "name",
+                                "value": "adapt_delta"
+                              },
+                              "max_treedepth": {
+                                "type": "name",
+                                "value": "max_treedepth"
+                              },
+                              "refresh": {
+                                "type": "literal",
+                                "value": 100
+                              },
+                              "show_messages": {
+                                "type": "literal",
+                                "value": true
+                              },
+                              "show_exceptions": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "draws"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "posterior", "as_draws_df"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ["$", "fit", "draws"],
+                                "args": {
+                                  "variables": {
+                                    "type": "name",
+                                    "value": "params"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "summary"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "fit", "summary"],
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "diagnostics"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["$", "fit", "diagnostic_summary"],
+                            "args": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "max_rhat"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "max",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "summary"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "rhat"
+                                  }
+                                ]
+                              },
+                              "na.rm": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "min_ess"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "summary"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ess_bulk"
+                                  }
+                                ]
+                              },
+                              "na.rm": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "n_divergent"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "sum",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "diagnostics"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "num_divergent"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "fit": {
+                                "type": "name",
+                                "value": "fit"
+                              },
+                              "draws": {
+                                "type": "name",
+                                "value": "draws"
+                              },
+                              "summary": {
+                                "type": "name",
+                                "value": "summary"
+                              },
+                              "diagnostics": {
+                                "type": "name",
+                                "value": "diagnostics"
+                              },
+                              "converged": {
+                                "type": "call",
+                                "fun": "&&",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "max_rhat"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 1.01
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ">",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "min_ess"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 400
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "n_divergent": {
+                                "type": "name",
+                                "value": "n_divergent"
+                              },
+                              "model_id": {
+                                "type": "name",
+                                "value": "model_id"
+                              },
+                              "timestamp": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "getOption",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "tdmx_async_cleanup"
+                              },
+                              {
+                                "type": "literal",
+                                "value": true
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "fit"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "gc",
+                                "args": {
+                                  "verbose": {
+                                    "type": "literal",
+                                    "value": false
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "seed": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_stan_multiple_async"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "NULL", "NULL", "TRUE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "max_parallel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "max_parallel"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "get_optimal_workers",
+                            "args": {
+                              "task_type": {
+                                "type": "literal",
+                                "value": "memory"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "current_plan"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "future", "plan"],
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "future", "plan"],
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "::",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "future"
+                      },
+                      {
+                        "type": "name",
+                        "value": "multisession"
+                      }
+                    ]
+                  },
+                  "workers": {
+                    "type": "name",
+                    "value": "max_parallel"
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "on.exit",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "future", "plan"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "current_plan"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "fit_promises"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "seq_along",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "models"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "model_spec"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[[",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "models"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "i"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "!",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "is.null",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "common_data"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "model_spec"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "data"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "c",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "model_spec"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "data"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "common_data"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "model_spec"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "model_id"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "model_spec"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "model_id"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "paste0",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": "model_"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "i"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "do.call",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "fit_stan_async"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "model_spec"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "combine_results"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "%>%",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "promises", "promise_all"],
+                            "args": {
+                              ".list": {
+                                "type": "name",
+                                "value": "fit_promises"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "promises", "then"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "names",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "results"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "sapply",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "models"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "function",
+                                                "args": [
+                                                  {
+                                                    "type": "pairlist",
+                                                    "value": ""
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "%||%",
+                                                    "args": [
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "$",
+                                                        "args": [
+                                                          {
+                                                            "type": "name",
+                                                            "value": "m"
+                                                          },
+                                                          {
+                                                            "type": "name",
+                                                            "value": "model_id"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "unnamed"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "NULL",
+                                                    "value": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "getOption",
+                                            "args": [
+                                              {
+                                                "type": "literal",
+                                                "value": "tdmx_combine_draws"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": false
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "all_draws"
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "lapply",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "results"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "function",
+                                                        "args": [
+                                                          {
+                                                            "type": "pairlist",
+                                                            "value": ""
+                                                          },
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "r"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "draws"
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "type": "NULL",
+                                                            "value": []
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "results"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "combined_draws"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "do.call",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "rbind"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "all_draws"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "if",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "requireNamespace",
+                                            "args": {
+                                              "1": {
+                                                "type": "literal",
+                                                "value": "loo"
+                                              },
+                                              "quietly": {
+                                                "type": "literal",
+                                                "value": true
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "{",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "<-",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "results"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "model_comparison"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "compare_models_async",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "results"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "return",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "results"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fit_promises"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "setup_async_progress"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "cli"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "progressr"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "progressr not available, progress reporting disabled"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "handler"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "switch",
+                    "args": {
+                      "1": {
+                        "type": "name",
+                        "value": "type"
+                      },
+                      "cli": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progressr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "handler_cli"
+                          }
+                        ]
+                      },
+                      "shiny": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progressr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "handler_shiny"
+                          }
+                        ]
+                      },
+                      "txt": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progressr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "handler_txtprogressbar"
+                          }
+                        ]
+                      },
+                      "5": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progressr"
+                          },
+                          {
+                            "type": "name",
+                            "value": "handler_void"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "progressr", "handlers"],
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "handler",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "handler"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_shiny_progress"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "fit_progress"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "function",
+                "args": [
+                  {
+                    "type": "pairlist",
+                    "value": ["", "", "", ""]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "progress"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "chain_id"
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n_chains"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "/",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "(",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "/",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "iteration"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "total_iter"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n_chains"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "session", "sendCustomMessage"],
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "updateProgress"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "id": {
+                                "type": "name",
+                                "value": "output_id"
+                              },
+                              "value": {
+                                "type": "call",
+                                "fun": "round",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "*",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "progress"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 100
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "message": {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Chain %d/%d: Iteration %d/%d"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "chain_id"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "n_chains"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "iteration"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "total_iter"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_stan_adaptive_chains"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "2", "8", "1000", "500"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "current_chains"
+                  },
+                  {
+                    "type": "name",
+                    "value": "min_chains"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "combined_fit"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "total_ess"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "while",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<=",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "current_chains"
+                          },
+                          {
+                            "type": "name",
+                            "value": "max_chains"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_ess"
+                          },
+                          {
+                            "type": "name",
+                            "value": "target_ess"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Running %d chains..."
+                              },
+                              {
+                                "type": "name",
+                                "value": "current_chains"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fit_promise"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "fit_stan_async",
+                            "args": {
+                              "stan_code": {
+                                "type": "name",
+                                "value": "stan_code"
+                              },
+                              "data": {
+                                "type": "name",
+                                "value": "data"
+                              },
+                              "chains": {
+                                "type": "name",
+                                "value": "current_chains"
+                              },
+                              "iter_warmup": {
+                                "type": "name",
+                                "value": "check_interval"
+                              },
+                              "iter_sampling": {
+                                "type": "name",
+                                "value": "check_interval"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "fit_result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "promises", "promise_resolve"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "fit_promise"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "min_ess"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "fit_result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "summary"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "ess_bulk"
+                                  }
+                                ]
+                              },
+                              "na.rm": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "total_ess"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "total_ess"
+                              },
+                              {
+                                "type": "name",
+                                "value": "min_ess"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "combined_fit"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "combined_fit"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "fit_result"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "combined_fit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "draws"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "rbind",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "combined_fit"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "draws"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "fit_result"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "draws"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "combined_fit"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "summary"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "update_summary",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "combined_fit"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "draws"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">=",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "total_ess"
+                              },
+                              {
+                                "type": "name",
+                                "value": "target_ess"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Target ESS reached with %d chains"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "current_chains"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "break",
+                                "args": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "current_chains"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "min",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "*",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "current_chains"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 2
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_chains"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "combined_fit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fit_stan_async_warmstart"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "init_values"
+                  },
+                  {
+                    "type": "NULL",
+                    "value": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_file"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart_file"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "warmstart"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "readRDS",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "warmstart_file"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "draws"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "last_draw"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "[",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "warmstart"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "draws"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "nrow",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "warmstart"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "draws"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": ""
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "init_values"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "as.list",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "last_draw"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Using warmstart from: "
+                          },
+                          {
+                            "type": "name",
+                            "value": "warmstart_file"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "fit_promise"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "fit_stan_async",
+                    "args": {
+                      "stan_code": {
+                        "type": "name",
+                        "value": "stan_code"
+                      },
+                      "data": {
+                        "type": "name",
+                        "value": "data"
+                      },
+                      "init": {
+                        "type": "name",
+                        "value": "init_values"
+                      },
+                      "4": {
+                        "type": "name",
+                        "value": "..."
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "promises", "then"],
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "fit_promise"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "if",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_file"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "saveRDS",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "result"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_file"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "message",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Warmstart saved to: "
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "warmstart_file"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "compare_models_async"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "loo"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Package 'loo' required for model comparison"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "loo_list"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "lapply",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "results"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "%in%",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "log_lik"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "names",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "res"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "draws"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "<-",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "log_lik_matrix"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "as.matrix",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "[",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "$",
+                                                    "args": [
+                                                      {
+                                                        "type": "name",
+                                                        "value": "res"
+                                                      },
+                                                      {
+                                                        "type": "name",
+                                                        "value": "draws"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": ""
+                                                  },
+                                                  {
+                                                    "type": "call",
+                                                    "fun": "grep",
+                                                    "args": [
+                                                      {
+                                                        "type": "literal",
+                                                        "value": "log_lik"
+                                                      },
+                                                      {
+                                                        "type": "call",
+                                                        "fun": "names",
+                                                        "args": [
+                                                          {
+                                                            "type": "call",
+                                                            "fun": "$",
+                                                            "args": [
+                                                              {
+                                                                "type": "name",
+                                                                "value": "res"
+                                                              },
+                                                              {
+                                                                "type": "name",
+                                                                "value": "draws"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "loo", "loo"],
+                                        "args": {
+                                          "1": {
+                                            "type": "name",
+                                            "value": "log_lik_matrix"
+                                          },
+                                          "r_eff": {
+                                            "type": "call",
+                                            "fun": ["::", "loo", "relative_eff"],
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "log_lik_matrix"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "NULL",
+                                        "value": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "loo_list"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "loo_list"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sapply",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "loo_list"
+                              },
+                              {
+                                "type": "name",
+                                "value": "is.null"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "length",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "loo_list"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "comparison"
+                  },
+                  {
+                    "type": "call",
+                    "fun": ["::", "loo", "loo_compare"],
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "loo_list"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "comparison"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "create_resource_monitor"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "5"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "monitoring"
+                  },
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "stats"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "monitor_fun"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "while",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "monitoring"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "cpu_usage"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "system",
+                                        "args": {
+                                          "1": {
+                                            "type": "literal",
+                                            "value": "top -bn1 | grep 'Cpu(s)' | awk '{print $2}'"
+                                          },
+                                          "intern": {
+                                            "type": "literal",
+                                            "value": true
+                                          },
+                                          "ignore.stderr": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "mem_info"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "gc",
+                                        "args": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "mem_used"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sum",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "mem_info"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": ""
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 2
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "if",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "requireNamespace",
+                                        "args": {
+                                          "1": {
+                                            "type": "literal",
+                                            "value": "future"
+                                          },
+                                          "quietly": {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "n_futures"
+                                              },
+                                              {
+                                                "type": "call",
+                                                "fun": "length",
+                                                "args": [
+                                                  {
+                                                    "type": "call",
+                                                    "fun": ["::", "future", "futureOf"],
+                                                    "args": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "{",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "<-",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "n_futures"
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": null
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "current_stats"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "list",
+                                        "args": {
+                                          "timestamp": {
+                                            "type": "call",
+                                            "fun": "Sys.time",
+                                            "args": []
+                                          },
+                                          "cpu": {
+                                            "type": "name",
+                                            "value": "cpu_usage"
+                                          },
+                                          "memory_mb": {
+                                            "type": "name",
+                                            "value": "mem_used"
+                                          },
+                                          "active_futures": {
+                                            "type": "name",
+                                            "value": "n_futures"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[[",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "stats"
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "+",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "length",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "stats"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "current_stats"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.sleep",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "interval"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "stats"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "requireNamespace",
+                    "args": {
+                      "1": {
+                        "type": "literal",
+                        "value": "future"
+                      },
+                      "quietly": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "future", "future"],
+                        "args": {
+                          "1": {
+                            "type": "call",
+                            "fun": "monitor_fun",
+                            "args": []
+                          },
+                          "lazy": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "stop": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<<-",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "monitoring"
+                              },
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  },
+                  "get_stats": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "stats"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "async_fits"
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "fit_stan_async": {
+            "type": "name",
+            "value": "fit_stan_async"
+          },
+          "fit_stan_multiple_async": {
+            "type": "name",
+            "value": "fit_stan_multiple_async"
+          },
+          "fit_stan_adaptive_chains": {
+            "type": "name",
+            "value": "fit_stan_adaptive_chains"
+          },
+          "fit_stan_async_warmstart": {
+            "type": "name",
+            "value": "fit_stan_async_warmstart"
+          },
+          "setup_async_progress": {
+            "type": "name",
+            "value": "setup_async_progress"
+          },
+          "create_shiny_progress": {
+            "type": "name",
+            "value": "create_shiny_progress"
+          },
+          "compare_models_async": {
+            "type": "name",
+            "value": "compare_models_async"
+          },
+          "create_resource_monitor": {
+            "type": "name",
+            "value": "create_resource_monitor"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "requireNamespace",
+        "args": {
+          "1": {
+            "type": "literal",
+            "value": "future"
+          },
+          "quietly": {
+            "type": "literal",
+            "value": true
+          }
+        }
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "if",
+            "args": [
+              {
+                "type": "call",
+                "fun": "==",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".Platform"
+                      },
+                      {
+                        "type": "name",
+                        "value": "OS.type"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "literal",
+                    "value": "unix"
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "future", "plan"],
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "future"
+                          },
+                          {
+                            "type": "name",
+                            "value": "multicore"
+                          }
+                        ]
+                      },
+                      "workers": {
+                        "type": "call",
+                        "fun": "get_optimal_workers",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "{",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": ["::", "future", "plan"],
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "::",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "future"
+                          },
+                          {
+                            "type": "name",
+                            "value": "multisession"
+                          }
+                        ]
+                      },
+                      "workers": {
+                        "type": "call",
+                        "fun": "get_optimal_workers",
+                        "args": []
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "message",
+            "args": [
+              {
+                "type": "literal",
+                "value": "Async fits configured with "
+              },
+              {
+                "type": "call",
+                "fun": ["::", "future", "nbrOfWorkers"],
+                "args": []
+              },
+              {
+                "type": "literal",
+                "value": " workers"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

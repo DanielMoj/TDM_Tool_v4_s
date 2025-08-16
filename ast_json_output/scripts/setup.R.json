@@ -1,0 +1,158 @@
+[
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "!",
+        "args": [
+          {
+            "type": "call",
+            "fun": "requireNamespace",
+            "args": {
+              "1": {
+                "type": "literal",
+                "value": "renv"
+              },
+              "quietly": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "install.packages",
+        "args": [
+          {
+            "type": "literal",
+            "value": "renv"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": ["::", "renv", "init"],
+    "args": {
+      "bare": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "pkgs"
+      },
+      {
+        "type": "call",
+        "fun": "c",
+        "args": [
+          {
+            "type": "literal",
+            "value": "shiny"
+          },
+          {
+            "type": "literal",
+            "value": "bslib"
+          },
+          {
+            "type": "literal",
+            "value": "ggplot2"
+          },
+          {
+            "type": "literal",
+            "value": "dplyr"
+          },
+          {
+            "type": "literal",
+            "value": "DT"
+          },
+          {
+            "type": "literal",
+            "value": "jsonlite"
+          },
+          {
+            "type": "literal",
+            "value": "glue"
+          },
+          {
+            "type": "literal",
+            "value": "readr"
+          },
+          {
+            "type": "literal",
+            "value": "tibble"
+          },
+          {
+            "type": "literal",
+            "value": "lubridate"
+          },
+          {
+            "type": "literal",
+            "value": "deSolve"
+          },
+          {
+            "type": "literal",
+            "value": "numDeriv"
+          },
+          {
+            "type": "literal",
+            "value": "MASS"
+          },
+          {
+            "type": "literal",
+            "value": "rmarkdown"
+          },
+          {
+            "type": "literal",
+            "value": "promises"
+          },
+          {
+            "type": "literal",
+            "value": "future"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": ["::", "renv", "install"],
+    "args": [
+      {
+        "type": "name",
+        "value": "pkgs"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": ["::", "renv", "snapshot"],
+    "args": {
+      "prompt": {
+        "type": "literal",
+        "value": false
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "message",
+    "args": [
+      {
+        "type": "literal",
+        "value": "renv setup complete."
+      }
+    ]
+  }
+]

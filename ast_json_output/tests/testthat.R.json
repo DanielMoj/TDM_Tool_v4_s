@@ -1,0 +1,272 @@
+[
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "testthat"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "library",
+    "args": [
+      {
+        "type": "name",
+        "value": "PKPDApp"
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "options",
+    "args": {
+      "testthat.use_colours": {
+        "type": "literal",
+        "value": true
+      },
+      "testthat.progress.max_fails": {
+        "type": "literal",
+        "value": 10
+      },
+      "warn": {
+        "type": "literal",
+        "value": 1
+      },
+      "testthat.parallel": {
+        "type": "literal",
+        "value": true
+      },
+      "testthat.parallel.threads": {
+        "type": "literal",
+        "value": 2
+      },
+      "width": {
+        "type": "literal",
+        "value": 80
+      },
+      "scipen": {
+        "type": "literal",
+        "value": 999
+      },
+      "tz": {
+        "type": "literal",
+        "value": "UTC"
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "set.seed",
+    "args": [
+      {
+        "type": "literal",
+        "value": 42
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "Sys.setenv",
+    "args": {
+      "TESTTHAT": {
+        "type": "literal",
+        "value": "true"
+      },
+      "R_TESTS": {
+        "type": "literal",
+        "value": ""
+      },
+      "TESTING_ENV": {
+        "type": "literal",
+        "value": "local"
+      },
+      "TEST_DB_PATH": {
+        "type": "literal",
+        "value": ":memory:"
+      },
+      "DISABLE_EXTERNAL_API": {
+        "type": "literal",
+        "value": "true"
+      },
+      "TEST_TIMEOUT": {
+        "type": "literal",
+        "value": "60"
+      }
+    }
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.exists",
+        "args": [
+          {
+            "type": "literal",
+            "value": "tests/testthat/helper-functions.R"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "testthat/helper-functions.R"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "file.exists",
+        "args": [
+          {
+            "type": "literal",
+            "value": "tests/testthat/fixtures/test-data.R"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "source",
+            "args": [
+              {
+                "type": "literal",
+                "value": "tests/testthat/fixtures/test-data.R"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "if",
+    "args": [
+      {
+        "type": "call",
+        "fun": "==",
+        "args": [
+          {
+            "type": "call",
+            "fun": "Sys.getenv",
+            "args": [
+              {
+                "type": "literal",
+                "value": "CI"
+              }
+            ]
+          },
+          {
+            "type": "literal",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "reporter"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "MultiReporter", "new"],
+                "args": {
+                  "reporters": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["$", "ProgressReporter", "new"],
+                        "args": []
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "JunitReporter", "new"],
+                        "args": {
+                          "file": {
+                            "type": "literal",
+                            "value": "test-results.xml"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["$", "CheckReporter", "new"],
+                        "args": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "reporter"
+              },
+              {
+                "type": "literal",
+                "value": "progress"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "test_check",
+    "args": {
+      "1": {
+        "type": "literal",
+        "value": "PKPDApp"
+      },
+      "reporter": {
+        "type": "name",
+        "value": "reporter"
+      }
+    }
+  }
+]

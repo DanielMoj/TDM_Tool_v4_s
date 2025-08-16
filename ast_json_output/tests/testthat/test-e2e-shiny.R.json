@@ -1,0 +1,199 @@
+[
+  {
+    "type": "call",
+    "fun": "test_that",
+    "args": [
+      {
+        "type": "literal",
+        "value": "Shiny app launches and basic inputs are present"
+      },
+      {
+        "type": "call",
+        "fun": "{",
+        "args": [
+          {
+            "type": "call",
+            "fun": "skip_if_not_installed",
+            "args": [
+              {
+                "type": "literal",
+                "value": "shinytest2"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "appdir"
+              },
+              {
+                "type": "call",
+                "fun": "normalizePath",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": "."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "<-",
+            "args": [
+              {
+                "type": "name",
+                "value": "app"
+              },
+              {
+                "type": "call",
+                "fun": ["$", "shinytest2::AppDriver", "new"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "appdir"
+                  },
+                  "load_timeout": {
+                    "type": "literal",
+                    "value": 20000
+                  },
+                  "shiny_args": {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "display.mode": {
+                        "type": "literal",
+                        "value": "normal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "on.exit",
+            "args": {
+              "1": {
+                "type": "call",
+                "fun": ["$", "app", "stop"],
+                "args": []
+              },
+              "add": {
+                "type": "literal",
+                "value": true
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "wait_for_value"],
+            "args": {
+              "input": {
+                "type": "literal",
+                "value": "backend"
+              },
+              "timeout": {
+                "type": "literal",
+                "value": 20000
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "set_inputs"],
+            "args": {
+              "backend": {
+                "type": "literal",
+                "value": "Laplace (schnell)"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "set_inputs"],
+            "args": {
+              "model_type": {
+                "type": "literal",
+                "value": "1C"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "set_inputs"],
+            "args": {
+              "dose": {
+                "type": "literal",
+                "value": 1000
+              },
+              "tau": {
+                "type": "literal",
+                "value": 8
+              },
+              "tinf": {
+                "type": "literal",
+                "value": 1
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "set_inputs"],
+            "args": {
+              "obs_times": {
+                "type": "literal",
+                "value": "2,6,7"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "set_inputs"],
+            "args": {
+              "obs_conc": {
+                "type": "literal",
+                "value": "8,12,10"
+              }
+            }
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "click"],
+            "args": [
+              {
+                "type": "literal",
+                "value": "fit"
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": ["$", "app", "wait_for_idle"],
+            "args": [
+              {
+                "type": "literal",
+                "value": 20000
+              }
+            ]
+          },
+          {
+            "type": "call",
+            "fun": "expect_true",
+            "args": [
+              {
+                "type": "literal",
+                "value": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

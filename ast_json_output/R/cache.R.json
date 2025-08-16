@@ -1,0 +1,384 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_cache_path"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "file.path",
+            "args": [
+              {
+                "type": "literal",
+                "value": "cache"
+              },
+              {
+                "type": "call",
+                "fun": "paste0",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "key"
+                  },
+                  {
+                    "type": "literal",
+                    "value": ".rds"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cache_key_for_fit"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "", "", "", "", "", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "digest"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "obj"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "obs": {
+                        "type": "name",
+                        "value": "obs"
+                      },
+                      "regimen": {
+                        "type": "name",
+                        "value": "regimen"
+                      },
+                      "priors": {
+                        "type": "name",
+                        "value": "priors"
+                      },
+                      "model_type": {
+                        "type": "name",
+                        "value": "model_type"
+                      },
+                      "error_model": {
+                        "type": "name",
+                        "value": "error_model"
+                      },
+                      "covariates": {
+                        "type": "name",
+                        "value": "covariates"
+                      },
+                      "backend": {
+                        "type": "name",
+                        "value": "backend"
+                      },
+                      "estimate_sigma": {
+                        "type": "name",
+                        "value": "estimate_sigma"
+                      },
+                      "sigma_init": {
+                        "type": "name",
+                        "value": "sigma_init"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": ["::", "digest", "digest"],
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "obj"
+                  },
+                  "algo": {
+                    "type": "literal",
+                    "value": "xxhash64"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cache_get"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "get_cache_path",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "file.exists",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "path"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "readRDS",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "cache_put"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "return",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "invisible",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "dir.create",
+                "args": {
+                  "1": {
+                    "type": "literal",
+                    "value": "cache"
+                  },
+                  "showWarnings": {
+                    "type": "literal",
+                    "value": false
+                  },
+                  "recursive": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "saveRDS",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "value"
+                  },
+                  "file": {
+                    "type": "call",
+                    "fun": "get_cache_path",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "key"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "invisible",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

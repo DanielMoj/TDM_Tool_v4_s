@@ -1,0 +1,4250 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_tokens"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": ".fhir_auth_config"
+      },
+      {
+        "type": "call",
+        "fun": "new.env",
+        "args": {
+          "parent": {
+            "type": "call",
+            "fun": "emptyenv",
+            "args": []
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "call",
+        "fun": "$",
+        "args": [
+          {
+            "type": "name",
+            "value": ".fhir_auth_config"
+          },
+          {
+            "type": "name",
+            "value": "settings"
+          }
+        ]
+      },
+      {
+        "type": "call",
+        "fun": "list",
+        "args": {
+          "token_refresh_margin": {
+            "type": "literal",
+            "value": 60
+          },
+          "max_auth_retries": {
+            "type": "literal",
+            "value": 3
+          },
+          "auth_timeout": {
+            "type": "literal",
+            "value": 10
+          },
+          "supported_grant_types": {
+            "type": "call",
+            "fun": "c",
+            "args": [
+              {
+                "type": "literal",
+                "value": "client_credentials"
+              },
+              {
+                "type": "literal",
+                "value": "refresh_token"
+              },
+              {
+                "type": "literal",
+                "value": "authorization_code"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "init_fhir_auth"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["NULL", "NULL", "NULL", "system/*.read", "default"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "auth_url"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "auth_url"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.getenv",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR_AUTH_URL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "client_id"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "client_id"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.getenv",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR_CLIENT_ID"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "client_secret"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "client_secret"
+                      },
+                      {
+                        "type": "call",
+                        "fun": "Sys.getenv",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR_CLIENT_SECRET"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nzchar",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "auth_url"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR authentication URL is required (auth_url or FHIR_AUTH_URL env var)"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "nzchar",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "client_id"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR client ID is required (client_id or FHIR_CLIENT_ID env var)"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_auth_config"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "auth_url": {
+                        "type": "name",
+                        "value": "auth_url"
+                      },
+                      "client_id": {
+                        "type": "name",
+                        "value": "client_id"
+                      },
+                      "client_secret": {
+                        "type": "name",
+                        "value": "client_secret"
+                      },
+                      "scope": {
+                        "type": "name",
+                        "value": "scope"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "message",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "FHIR authentication initialized for tenant: %s"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_authenticate",
+                    "args": {
+                      "tenant_id": {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Initial authentication successful"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Initial authentication failed - manual authentication required"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_fhir_token"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["default", "FALSE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "tenant_id"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_auth_config"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Tenant '%s' not configured. Run init_fhir_auth() first."
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "token_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "force_refresh"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_tokens"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token_key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "token_data"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_at"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "token_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "token"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "FHIR token expired, refreshing..."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "fhir_authenticate",
+                    "args": {
+                      "tenant_id": {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    }
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token_key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "token_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "stop",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "Failed to obtain FHIR access token for tenant: %s"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fhir_authenticate"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["default", "client_credentials"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "config"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_auth_config"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "config"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "No configuration found for tenant: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "token_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "==",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "grant_type"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "client_credentials"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_tokens"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token_key"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "token_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refresh_token"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "if",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "fhir_refresh_token",
+                                    "args": {
+                                      "tenant_id": {
+                                        "type": "name",
+                                        "value": "tenant_id"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "return",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": true
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "auth_body"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "grant_type": {
+                        "type": "name",
+                        "value": "grant_type"
+                      },
+                      "client_id": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "client_id"
+                          }
+                        ]
+                      },
+                      "scope": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "scope"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "client_secret"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "nzchar",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "auth_body"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "attempt"
+                  },
+                  {
+                    "type": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "max_attempts"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": ".fhir_auth_config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "settings"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_auth_retries"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "while",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "<=",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "attempt"
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_attempts"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "perform_auth_request",
+                            "args": {
+                              "url": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "auth_url"
+                                  }
+                                ]
+                              },
+                              "body": {
+                                "type": "name",
+                                "value": "auth_body"
+                              },
+                              "tenant_id": {
+                                "type": "name",
+                                "value": "tenant_id"
+                              },
+                              "attempt": {
+                                "type": "name",
+                                "value": "attempt"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "result"
+                              },
+                              {
+                                "type": "name",
+                                "value": "success"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "<",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "name",
+                                "value": "max_attempts"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "min",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "^",
+                                        "args": [
+                                          {
+                                            "type": "literal",
+                                            "value": 2
+                                          },
+                                          {
+                                            "type": "call",
+                                            "fun": "(",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "-",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "attempt"
+                                                  },
+                                                  {
+                                                    "type": "literal",
+                                                    "value": 1
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 10
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Authentication attempt %d failed, retrying in %d seconds..."
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "attempt"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "wait_time"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "Sys.sleep",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "wait_time"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "attempt"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "+",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "attempt"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "warning",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "sprintf",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "FHIR authentication failed after %d attempts for tenant: %s"
+                      },
+                      {
+                        "type": "name",
+                        "value": "max_attempts"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "return",
+                "args": [
+                  {
+                    "type": "literal",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "perform_auth_request"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "", "1"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "response"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "POST"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "url"
+                              },
+                              "body": {
+                                "type": "name",
+                                "value": "body"
+                              },
+                              "encode": {
+                                "type": "literal",
+                                "value": "form"
+                              },
+                              "4": {
+                                "type": "call",
+                                "fun": ["::", "httr", "timeout"],
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_auth_config"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "settings"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "auth_timeout"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "5": {
+                                "type": "call",
+                                "fun": ["::", "httr", "user_agent"],
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "FHIR-R-Client/1.0"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "http_error"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "response"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "error_msg"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "extract_auth_error",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "response"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Authentication failed (attempt %d): %s"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "attempt"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "error_msg"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "error": {
+                                        "type": "name",
+                                        "value": "error_msg"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "content"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "response"
+                              },
+                              "as": {
+                                "type": "literal",
+                                "value": "parsed"
+                              },
+                              "type": {
+                                "type": "literal",
+                                "value": "application/json"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "access_token"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Invalid token response: missing access_token"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "list",
+                                    "args": {
+                                      "success": {
+                                        "type": "literal",
+                                        "value": false
+                                      },
+                                      "error": {
+                                        "type": "literal",
+                                        "value": "Invalid token response"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "expires_in"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "%||%",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_in"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 3600
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "expires_at"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "-",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "+",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_in"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": ".fhir_auth_config"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "settings"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "token_refresh_margin"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "paste0",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "token_"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token_key"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "token": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "access_token"
+                                  }
+                                ]
+                              },
+                              "token_type": {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "token_type"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "Bearer"
+                                  }
+                                ]
+                              },
+                              "expires_at": {
+                                "type": "name",
+                                "value": "expires_at"
+                              },
+                              "expires_in": {
+                                "type": "name",
+                                "value": "expires_in"
+                              },
+                              "refresh_token": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "refresh_token"
+                                  }
+                                ]
+                              },
+                              "scope": {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "scope"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "body"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "scope"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "obtained_at": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "FHIR authentication successful (tenant: %s, expires in: %ds)"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              },
+                              {
+                                "type": "name",
+                                "value": "expires_in"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "log_auth_event",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "authentication_success"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "tenant_id": {
+                                "type": "name",
+                                "value": "tenant_id"
+                              },
+                              "grant_type": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "body"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "grant_type"
+                                  }
+                                ]
+                              },
+                              "scope": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "scope"
+                                  }
+                                ]
+                              },
+                              "expires_in": {
+                                "type": "name",
+                                "value": "expires_in"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "success": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Authentication request failed: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log_auth_event",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "authentication_error"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "tenant_id": {
+                                    "type": "name",
+                                    "value": "tenant_id"
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  },
+                                  "attempt": {
+                                    "type": "name",
+                                    "value": "attempt"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "success": {
+                                    "type": "literal",
+                                    "value": false
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fhir_refresh_token"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "default"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "token_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_tokens"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "No existing token to refresh"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "fhir_authenticate",
+                            "args": {
+                              "tenant_id": {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_data"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_tokens"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token_key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "refresh_token"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "No refresh token available, performing full authentication"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "fhir_authenticate",
+                            "args": {
+                              "tenant_id": {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "config"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_auth_config"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "config"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "No configuration found for tenant: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "refresh_body"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "list",
+                    "args": {
+                      "grant_type": {
+                        "type": "literal",
+                        "value": "refresh_token"
+                      },
+                      "refresh_token": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "refresh_token"
+                          }
+                        ]
+                      },
+                      "client_id": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "config"
+                          },
+                          {
+                            "type": "name",
+                            "value": "client_id"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "&&",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "!",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "client_secret"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "nzchar",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "refresh_body"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "config"
+                              },
+                              {
+                                "type": "name",
+                                "value": "client_secret"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "response"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "POST"],
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "auth_url"
+                                  }
+                                ]
+                              },
+                              "body": {
+                                "type": "name",
+                                "value": "refresh_body"
+                              },
+                              "encode": {
+                                "type": "literal",
+                                "value": "form"
+                              },
+                              "4": {
+                                "type": "call",
+                                "fun": ["::", "httr", "timeout"],
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_auth_config"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "settings"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "auth_timeout"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "http_error"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "response"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "warning",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Token refresh failed: %s"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "extract_auth_error",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "response"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "fhir_authenticate",
+                                    "args": {
+                                      "tenant_id": {
+                                        "type": "name",
+                                        "value": "tenant_id"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "content"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "response"
+                              },
+                              "as": {
+                                "type": "literal",
+                                "value": "parsed"
+                              },
+                              "type": {
+                                "type": "literal",
+                                "value": "application/json"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "expires_in"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "%||%",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "expires_in"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 3600
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "[[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              },
+                              {
+                                "type": "name",
+                                "value": "token_key"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "token": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "content"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "access_token"
+                                  }
+                                ]
+                              },
+                              "token_type": {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "token_type"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "Bearer"
+                                  }
+                                ]
+                              },
+                              "expires_at": {
+                                "type": "call",
+                                "fun": "-",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "+",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "Sys.time",
+                                        "args": []
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "expires_in"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": ".fhir_auth_config"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "settings"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "token_refresh_margin"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "expires_in": {
+                                "type": "name",
+                                "value": "expires_in"
+                              },
+                              "refresh_token": {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refresh_token"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "token_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "refresh_token"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "scope": {
+                                "type": "call",
+                                "fun": "%||%",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "scope"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "token_data"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "scope"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "obtained_at": {
+                                "type": "call",
+                                "fun": "Sys.time",
+                                "args": []
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "FHIR token refreshed successfully (tenant: %s)"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "log_auth_event",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "token_refresh_success"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "tenant_id": {
+                                "type": "name",
+                                "value": "tenant_id"
+                              },
+                              "expires_in": {
+                                "type": "name",
+                                "value": "expires_in"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Token refresh failed: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "log_auth_event",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "token_refresh_error"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "list",
+                                "args": {
+                                  "tenant_id": {
+                                    "type": "name",
+                                    "value": "tenant_id"
+                                  },
+                                  "error": {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "fhir_authenticate",
+                                "args": {
+                                  "tenant_id": {
+                                    "type": "name",
+                                    "value": "tenant_id"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "extract_auth_error"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "content"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "httr", "content"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "response"
+                              },
+                              "as": {
+                                "type": "literal",
+                                "value": "parsed"
+                              },
+                              "type": {
+                                "type": "literal",
+                                "value": "application/json"
+                              },
+                              "encoding": {
+                                "type": "literal",
+                                "value": "UTF-8"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "content"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "error"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "error_desc"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "%||%",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "content"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "error_description"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "content"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "error"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "return",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "%s: %s"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "httr", "status_code"],
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "response"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "error_desc"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "%d: %s"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "httr", "status_code"],
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "response"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "httr", "http_status"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "response"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "message"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "return",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "%d: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "httr", "status_code"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "response"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "httr", "http_status"],
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "response"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_token_info"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "default"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_key"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "paste0",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "token_"
+                      },
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "exists",
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_tokens"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_data"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "[[",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": ".fhir_tokens"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token_key"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "time_remaining"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "difftime",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_data"
+                          },
+                          {
+                            "type": "name",
+                            "value": "expires_at"
+                          }
+                        ]
+                      },
+                      "2": {
+                        "type": "call",
+                        "fun": "Sys.time",
+                        "args": []
+                      },
+                      "units": {
+                        "type": "literal",
+                        "value": "secs"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "tenant_id": {
+                    "type": "name",
+                    "value": "tenant_id"
+                  },
+                  "token_type": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token_data"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token_type"
+                      }
+                    ]
+                  },
+                  "scope": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token_data"
+                      },
+                      {
+                        "type": "name",
+                        "value": "scope"
+                      }
+                    ]
+                  },
+                  "expires_at": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token_data"
+                      },
+                      {
+                        "type": "name",
+                        "value": "expires_at"
+                      }
+                    ]
+                  },
+                  "expires_in_seconds": {
+                    "type": "call",
+                    "fun": "max",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": 0
+                      },
+                      {
+                        "type": "call",
+                        "fun": "as.numeric",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "time_remaining"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "is_expired": {
+                    "type": "call",
+                    "fun": "<=",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "time_remaining"
+                      },
+                      {
+                        "type": "literal",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "has_refresh_token": {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "token_data"
+                              },
+                              {
+                                "type": "name",
+                                "value": "refresh_token"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "obtained_at": {
+                    "type": "call",
+                    "fun": "$",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token_data"
+                      },
+                      {
+                        "type": "name",
+                        "value": "obtained_at"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "clear_tokens"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "NULL"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "rm",
+                        "args": {
+                          "list": {
+                            "type": "call",
+                            "fun": "ls",
+                            "args": {
+                              "envir": {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              }
+                            }
+                          },
+                          "envir": {
+                            "type": "name",
+                            "value": ".fhir_tokens"
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "All FHIR tokens cleared"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_key"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "paste0",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "token_"
+                              },
+                              {
+                                "type": "name",
+                                "value": "tenant_id"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "exists",
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "token_key"
+                              },
+                              "envir": {
+                                "type": "name",
+                                "value": ".fhir_tokens"
+                              }
+                            }
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "rm",
+                                "args": {
+                                  "list": {
+                                    "type": "name",
+                                    "value": "token_key"
+                                  },
+                                  "envir": {
+                                    "type": "name",
+                                    "value": ".fhir_tokens"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Token cleared for tenant: %s"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "tenant_id"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "fhir_auth_header"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "default"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "get_fhir_token",
+                    "args": {
+                      "tenant_id": {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_info"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "get_token_info",
+                    "args": {
+                      "tenant_id": {
+                        "type": "name",
+                        "value": "tenant_id"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "token_type"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "%||%",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "$",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "token_info"
+                          },
+                          {
+                            "type": "name",
+                            "value": "token_type"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "literal",
+                        "value": "Bearer"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "c",
+                "args": {
+                  "Authorization": {
+                    "type": "call",
+                    "fun": "paste",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "token_type"
+                      },
+                      {
+                        "type": "name",
+                        "value": "token"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "is_fhir_auth_configured"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "default"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "exists",
+                "args": {
+                  "1": {
+                    "type": "name",
+                    "value": "tenant_id"
+                  },
+                  "envir": {
+                    "type": "name",
+                    "value": ".fhir_auth_config"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "log_auth_event"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "getOption",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "fhir.auth.verbose"
+                      },
+                      {
+                        "type": "literal",
+                        "value": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "[AUTH] %s: %s"
+                              },
+                              {
+                                "type": "name",
+                                "value": "event_type"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "details"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "%||%"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", ""]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "x"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "name",
+                    "value": "y"
+                  },
+                  {
+                    "type": "name",
+                    "value": "x"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

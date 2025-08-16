@@ -1,0 +1,2029 @@
+[
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "get_db_config"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "list",
+                "args": {
+                  "host": {
+                    "type": "call",
+                    "fun": "Sys.getenv",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "PG_HOST"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "localhost"
+                      }
+                    ]
+                  },
+                  "port": {
+                    "type": "call",
+                    "fun": "as.integer",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "Sys.getenv",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "PG_PORT"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "5432"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "database": {
+                    "type": "call",
+                    "fun": "Sys.getenv",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "PG_DATABASE"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "tdmx"
+                      }
+                    ]
+                  },
+                  "user": {
+                    "type": "call",
+                    "fun": "Sys.getenv",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "PG_USER"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "tdmx"
+                      }
+                    ]
+                  },
+                  "password": {
+                    "type": "call",
+                    "fun": "Sys.getenv",
+                    "args": [
+                      {
+                        "type": "literal",
+                        "value": "PG_PASSWORD"
+                      },
+                      {
+                        "type": "literal",
+                        "value": "tdmx"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "connect_pg"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "config"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "get_db_config",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "tryCatch",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbConnect"],
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": ["::", "RPostgres", "Postgres"],
+                                "args": []
+                              },
+                              "host": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "host"
+                                  }
+                                ]
+                              },
+                              "port": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "port"
+                                  }
+                                ]
+                              },
+                              "dbname": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "database"
+                                  }
+                                ]
+                              },
+                              "user": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "user"
+                                  }
+                                ]
+                              },
+                              "password": {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "config"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "password"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  "error": {
+                    "type": "call",
+                    "fun": "function",
+                    "args": [
+                      {
+                        "type": "pairlist",
+                        "value": ""
+                      },
+                      {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "warning",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "sprintf",
+                                "args": [
+                                  {
+                                    "type": "literal",
+                                    "value": "Database connection failed: %s"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "e"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "message"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      {
+                        "type": "NULL",
+                        "value": []
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "with_db_connection"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "FALSE"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "connect_pg",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "is.null",
+                    "args": [
+                      {
+                        "type": "name",
+                        "value": "con"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "warning",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "No database connection available"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "on.exit",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "try",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": ["::", "DBI", "dbDisconnect"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          }
+                        ]
+                      },
+                      "silent": {
+                        "type": "literal",
+                        "value": true
+                      }
+                    }
+                  },
+                  "add": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "transactional"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": ["::", "DBI", "dbBegin"],
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "tryCatch",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": "{",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "<-",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "res"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "eval",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "expr"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "DBI", "dbCommit"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "con"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "res"
+                                  }
+                                ]
+                              },
+                              "error": {
+                                "type": "call",
+                                "fun": "function",
+                                "args": [
+                                  {
+                                    "type": "pairlist",
+                                    "value": ""
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "{",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": ["::", "DBI", "dbRollback"],
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "con"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "stop",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "e"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "NULL",
+                                    "value": []
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "result"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "eval",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "expr"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_import_antibiogram"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ["", "", "NULL"]
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "!",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "requireNamespace",
+                        "args": {
+                          "1": {
+                            "type": "literal",
+                            "value": "digest"
+                          },
+                          "quietly": {
+                            "type": "literal",
+                            "value": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "stop",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": "Package 'digest' required for checksums"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "dplyr", "ungroup"],
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": ["::", "dplyr", "mutate"],
+                                "args": {
+                                  "1": {
+                                    "type": "call",
+                                    "fun": ["::", "dplyr", "group_by"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "drug"
+                                      }
+                                    ]
+                                  },
+                                  "prob": {
+                                    "type": "call",
+                                    "fun": "/",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "prob"
+                                      },
+                                      {
+                                        "type": "call",
+                                        "fun": "sum",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "prob"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "source"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "name",
+                            "value": "source"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "DBI", "dbWriteTable"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          "2": {
+                            "type": "literal",
+                            "value": "antibiogram"
+                          },
+                          "3": {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          "append": {
+                            "type": "literal",
+                            "value": true
+                          },
+                          "row.names": {
+                            "type": "literal",
+                            "value": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "v"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "%||%",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "version"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "format",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "Sys.time",
+                                    "args": []
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "%Y%m%d%H%M%S"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "checksum"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "digest", "digest"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              "algo": {
+                                "type": "literal",
+                                "value": "sha256"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "meta"
+                          },
+                          {
+                            "type": "call",
+                            "fun": "list",
+                            "args": {
+                              "source": {
+                                "type": "name",
+                                "value": "source"
+                              },
+                              "rows": {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              },
+                              "drugs": {
+                                "type": "call",
+                                "fun": "length",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "unique",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "$",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "df"
+                                          },
+                                          {
+                                            "type": "name",
+                                            "value": "drug"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sql"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "INSERT INTO dataset_versions(kind, version, checksum, meta) VALUES ($1,$2,$3,$4)"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": ["::", "DBI", "dbExecute"],
+                        "args": {
+                          "1": {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          "2": {
+                            "type": "name",
+                            "value": "sql"
+                          },
+                          "params": {
+                            "type": "call",
+                            "fun": "list",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "antibiogram"
+                              },
+                              {
+                                "type": "name",
+                                "value": "v"
+                              },
+                              {
+                                "type": "name",
+                                "value": "checksum"
+                              },
+                              {
+                                "type": "call",
+                                "fun": ["::", "jsonlite", "toJSON"],
+                                "args": {
+                                  "1": {
+                                    "type": "name",
+                                    "value": "meta"
+                                  },
+                                  "auto_unbox": {
+                                    "type": "literal",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "call",
+                        "fun": "message",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "sprintf",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": "Imported %d antibiogram rows for %d drugs"
+                              },
+                              {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "$",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "meta"
+                                  },
+                                  {
+                                    "type": "name",
+                                    "value": "drugs"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "list",
+                        "args": {
+                          "version": {
+                            "type": "name",
+                            "value": "v"
+                          },
+                          "checksum": {
+                            "type": "name",
+                            "value": "checksum"
+                          },
+                          "rows": {
+                            "type": "call",
+                            "fun": "nrow",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "transactional": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_get_antibiogram"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": "NULL"
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "is.null",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "DBI", "dbGetQuery"],
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "con"
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": "SELECT * FROM antibiogram ORDER BY drug, mic"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sql"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "SELECT * FROM antibiogram WHERE drug = $1 ORDER BY mic"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "DBI", "dbGetQuery"],
+                                    "args": {
+                                      "1": {
+                                        "type": "name",
+                                        "value": "con"
+                                      },
+                                      "2": {
+                                        "type": "name",
+                                        "value": "sql"
+                                      },
+                                      "params": {
+                                        "type": "call",
+                                        "fun": "list",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "drug"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "name",
+                        "value": "df"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_list_antibiogram_drugs"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "SELECT DISTINCT drug FROM antibiogram ORDER BY drug"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": ">",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "nrow",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 0
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "$",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "name",
+                                "value": "drug"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "character",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_get_latest_version"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "pairlist",
+            "value": ""
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "sql"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "SELECT * FROM dataset_versions WHERE kind = $1 ORDER BY created_at DESC LIMIT 1"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": {
+                              "1": {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              "2": {
+                                "type": "name",
+                                "value": "sql"
+                              },
+                              "params": {
+                                "type": "call",
+                                "fun": "list",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "kind"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "nrow",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "[",
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "df"
+                              },
+                              {
+                                "type": "literal",
+                                "value": 1
+                              },
+                              {
+                                "type": "name",
+                                "value": ""
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_has_antibiogram_data"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "df"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "SELECT COUNT(*) as n FROM antibiogram"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "&&",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "!",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "is.null",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "df"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": ">",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "[",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "$",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "df"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "n"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_cleanup_antibiogram"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "with_db_connection",
+                "args": {
+                  "1": {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "<-",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "latest"
+                          },
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "SELECT MAX(created_at) as latest FROM antibiogram"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "if",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "&&",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.null",
+                                    "args": [
+                                      {
+                                        "type": "name",
+                                        "value": "latest"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "!",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "is.na",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "[",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "$",
+                                            "args": [
+                                              {
+                                                "type": "name",
+                                                "value": "latest"
+                                              },
+                                              {
+                                                "type": "name",
+                                                "value": "latest"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "literal",
+                                            "value": 1
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "cutoff"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": "-",
+                                    "args": [
+                                      {
+                                        "type": "call",
+                                        "fun": "as.POSIXct",
+                                        "args": [
+                                          {
+                                            "type": "call",
+                                            "fun": "[",
+                                            "args": [
+                                              {
+                                                "type": "call",
+                                                "fun": "$",
+                                                "args": [
+                                                  {
+                                                    "type": "name",
+                                                    "value": "latest"
+                                                  },
+                                                  {
+                                                    "type": "name",
+                                                    "value": "latest"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "literal",
+                                                "value": 1
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "literal",
+                                        "value": 86400
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "sql"
+                                  },
+                                  {
+                                    "type": "literal",
+                                    "value": "DELETE FROM antibiogram WHERE created_at < $1"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "<-",
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "deleted"
+                                  },
+                                  {
+                                    "type": "call",
+                                    "fun": ["::", "DBI", "dbExecute"],
+                                    "args": {
+                                      "1": {
+                                        "type": "name",
+                                        "value": "con"
+                                      },
+                                      "2": {
+                                        "type": "name",
+                                        "value": "sql"
+                                      },
+                                      "params": {
+                                        "type": "call",
+                                        "fun": "list",
+                                        "args": [
+                                          {
+                                            "type": "name",
+                                            "value": "cutoff"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "call",
+                                "fun": "message",
+                                "args": [
+                                  {
+                                    "type": "call",
+                                    "fun": "sprintf",
+                                    "args": [
+                                      {
+                                        "type": "literal",
+                                        "value": "Cleaned up %d old antibiogram entries"
+                                      },
+                                      {
+                                        "type": "name",
+                                        "value": "deleted"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "name",
+                                "value": "deleted"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "transactional": {
+                    "type": "literal",
+                    "value": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "call",
+    "fun": "<-",
+    "args": [
+      {
+        "type": "name",
+        "value": "db_test_connection"
+      },
+      {
+        "type": "call",
+        "fun": "function",
+        "args": [
+          {
+            "type": "NULL",
+            "value": []
+          },
+          {
+            "type": "call",
+            "fun": "{",
+            "args": [
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "con"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "connect_pg",
+                    "args": []
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "if",
+                "args": [
+                  {
+                    "type": "call",
+                    "fun": "||",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "is.null",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "call",
+                        "fun": "inherits",
+                        "args": [
+                          {
+                            "type": "name",
+                            "value": "con"
+                          },
+                          {
+                            "type": "literal",
+                            "value": "try-error"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "call",
+                    "fun": "{",
+                    "args": [
+                      {
+                        "type": "call",
+                        "fun": "return",
+                        "args": [
+                          {
+                            "type": "literal",
+                            "value": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "call",
+                "fun": "<-",
+                "args": [
+                  {
+                    "type": "name",
+                    "value": "result"
+                  },
+                  {
+                    "type": "call",
+                    "fun": "tryCatch",
+                    "args": {
+                      "1": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": ["::", "DBI", "dbGetQuery"],
+                            "args": [
+                              {
+                                "type": "name",
+                                "value": "con"
+                              },
+                              {
+                                "type": "literal",
+                                "value": "SELECT 1 as test"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "literal",
+                            "value": true
+                          }
+                        ]
+                      },
+                      "error": {
+                        "type": "call",
+                        "fun": "function",
+                        "args": [
+                          {
+                            "type": "pairlist",
+                            "value": ""
+                          },
+                          {
+                            "type": "call",
+                            "fun": "{",
+                            "args": [
+                              {
+                                "type": "literal",
+                                "value": false
+                              }
+                            ]
+                          },
+                          {
+                            "type": "NULL",
+                            "value": []
+                          }
+                        ]
+                      },
+                      "finally": {
+                        "type": "call",
+                        "fun": "{",
+                        "args": [
+                          {
+                            "type": "call",
+                            "fun": "try",
+                            "args": {
+                              "1": {
+                                "type": "call",
+                                "fun": ["::", "DBI", "dbDisconnect"],
+                                "args": [
+                                  {
+                                    "type": "name",
+                                    "value": "con"
+                                  }
+                                ]
+                              },
+                              "silent": {
+                                "type": "literal",
+                                "value": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "name",
+                "value": "result"
+              }
+            ]
+          },
+          {
+            "type": "NULL",
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]
