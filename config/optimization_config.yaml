@@ -1,0 +1,331 @@
+# config/optimization_config.yaml
+# Configuration for TDMx Parallelization and Optimization
+# Version: 1.0.0
+# Date: 2025
+
+# ============================================================================
+# PARALLEL PROCESSING CONFIGURATION
+# ============================================================================
+
+parallel:
+  # Maximum number of cores to use (null = auto-detect)
+  max_cores: null
+  
+  # Reserve cores for system (not used for parallel processing)
+  reserve_cores: 1
+  
+  # Default parallelization method
+  # Options: "auto", "fork", "socket", "future"
+  method: "auto"
+  
+  # Chunk size for batch processing (null = auto)
+  default_chunk_size: null
+  
+  # Minimum chunk size to prevent overhead
+  min_chunk_size: 10
+  
+  # Show progress indicators
+  show_progress: true
+  
+  # Load balancing for uneven workloads
+  enable_load_balancing: true
+  
+  # Memory limits (MB)
+  memory_limit_mb: 4096
+  
+  # Task-specific settings
+  task_settings:
+    cpu_intensive:
+      worker_fraction: 0.75  # Use 75% of available cores
+      chunk_multiplier: 4     # Chunks = workers * multiplier
+    
+    memory_intensive:
+      max_workers: 4
+      chunk_multiplier: 2
+    
+    io_bound:
+      max_workers: 6
+      chunk_multiplier: 8
+
+# ============================================================================
+# STAN/MCMC CONFIGURATION
+# ============================================================================
+
+stan:
+  # Sampling parameters
+  chains: 4
+  iter_warmup: 1000
+  iter_sampling: 1000
+  
+  # Parallel chains (null = auto)
+  parallel_chains: null
+  
+  # Adaptation parameters
+  adapt_delta: 0.8
+  max_treedepth: 10
+  
+  # Auto-tuning for divergences
+  auto_tune:
+    enabled: true
+    max_attempts: 3
+    delta_increment: 0.05
+    max_delta: 0.99
+  
+  # Early stopping
+  early_stopping:
+    enabled: true
+    check_interval: 500
+    rhat_threshold: 1.01
+    ess_threshold: 400
+  
+  # Memory management
+  thinning:
+    auto: true
+    max_draws: 4000
+    thin_factor: 2
+  
+  # Output management
+  save_output_files: true
+  output_dir: "cache/stan_outputs"
+  
+  # ADVI settings
+  advi:
+    algorithm: "meanfield"
+    iter: 10000
+    output_samples: 1000
+    tol_rel_obj: 0.01
+    elbo_samples: 100
+    eval_elbo: 100
+    
+    # Fallback to Laplace
+    fallback_laplace: true
+
+# ============================================================================
+# ASYNC PROCESSING CONFIGURATION
+# ============================================================================
+
+async:
+  # Enable async fits
+  enabled: true
+  
+  # Future backend
+  # Options: "multicore", "multisession", "cluster"
+  backend: "auto"
+  
+  # Maximum concurrent async operations
+  max_concurrent: 4
+  
+  # Cleanup after completion
+  auto_cleanup: true
+  
+  # Progress reporting
+  progress:
+    enabled: true
+    type: "cli"  # Options: "cli", "shiny", "txt"
+    update_interval: 2  # seconds
+
+# ============================================================================
+# JOB QUEUE CONFIGURATION
+# ============================================================================
+
+job_queue:
+  # Maximum workers for job processing
+  max_workers: 4
+  
+  # Cache settings
+  cache:
+    enabled: true
+    dir: "cache/job_results"
+    max_age_hours: 24
+    memory_cache_size: 100  # max items in memory
+  
+  # Priority levels (higher = sooner)
+  priorities:
+    urgent: 10
+    high: 7
+    normal: 5
+    low: 3
+    batch: 1
+  
+  # Job types and their default priorities
+  job_defaults:
+    stan_fit:
+      priority: 5
+      timeout: 3600  # seconds
+    
+    pta_calculation:
+      priority: 7
+      timeout: 600
+    
+    optimization:
+      priority: 3
+      timeout: 1800
+    
+    batch_processing:
+      priority: 1
+      timeout: 7200
+  
+  # Retry settings
+  retry:
+    enabled: true
+    max_attempts: 3
+    delay: 5  # seconds
+
+# ============================================================================
+# PTA/CFR CONFIGURATION
+# ============================================================================
+
+pta_cfr:
+  # Parallel PTA calculations
+  parallel:
+    enabled: true
+    min_draws_for_parallel: 100
+    
+  # Caching
+  cache:
+    enabled: true
+    method: "digest"  # Options: "digest", "simple"
+    
+  # Steady-state simulation
+  steady_state:
+    n_intervals: 20
+    dt: 0.05
+    
+  # Batch processing
+  batch:
+    enabled: true
+    load_balance: true
+
+# ============================================================================
+# WARMSTART CONFIGURATION
+# ============================================================================
+
+warmstart:
+  # Enable warmstart functionality
+  enabled: true
+  
+  # Cache directory
+  cache_dir: "cache/warmstart"
+  
+  # Maximum age for warmstart data (hours)
+  max_age: 24
+  
+  # Auto-save successful fits
+  auto_save: true
+  
+  # Compression for saved data
+  compress: true
+  compression_level: 6
+
+# ============================================================================
+# MONITORING AND DIAGNOSTICS
+# ============================================================================
+
+monitoring:
+  # Resource monitoring
+  resource_monitoring:
+    enabled: true
+    interval: 5  # seconds
+    
+  # Performance logging
+  performance_log:
+    enabled: true
+    file: "logs/performance.log"
+    
+  # Memory monitoring
+  memory:
+    check_interval: 10  # seconds
+    warning_threshold_mb: 3000
+    critical_threshold_mb: 4000
+    
+  # Diagnostic calculations
+  diagnostics:
+    parallel: true
+    include_mcse: true
+    include_quantiles: true
+
+# ============================================================================
+# OPTIMIZATION STRATEGIES
+# ============================================================================
+
+optimization:
+  # Adaptive strategies based on data size
+  adaptive:
+    enabled: true
+    
+    small_data:  # < 1000 observations
+      parallel: false
+      chains: 2
+      iter: 500
+      
+    medium_data:  # 1000-10000 observations
+      parallel: true
+      chains: 4
+      iter: 1000
+      
+    large_data:  # > 10000 observations
+      parallel: true
+      chains: 4
+      iter: 2000
+      thinning: 2
+  
+  # Memory optimization
+  memory:
+    chunk_processing: true
+    immediate_gc: true
+    clear_cache_on_complete: false
+
+# ============================================================================
+# PLATFORM-SPECIFIC SETTINGS
+# ============================================================================
+
+platform:
+  unix:
+    prefer_fork: true
+    nice_level: 10
+    
+  windows:
+    prefer_socket: true
+    socket_timeout: 60
+    
+  macos:
+    prefer_fork: true
+    check_openmp: true
+
+# ============================================================================
+# ERROR HANDLING
+# ============================================================================
+
+error_handling:
+  # On error behavior
+  on_error: "continue"  # Options: "stop", "continue", "retry"
+  
+  # Logging
+  log_errors: true
+  error_log_file: "logs/errors.log"
+  
+  # Notifications (for production)
+  notifications:
+    enabled: false
+    email: null
+    slack_webhook: null
+
+# ============================================================================
+# DEVELOPMENT/DEBUG SETTINGS
+# ============================================================================
+
+debug:
+  # Verbose output
+  verbose: false
+  
+  # Timing information
+  show_timing: true
+  
+  # Memory profiling
+  profile_memory: false
+  
+  # Save intermediate results
+  save_intermediate: false
+  
+  # Disable parallelization (for debugging)
+  force_sequential: false
