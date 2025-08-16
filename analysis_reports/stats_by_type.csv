@@ -1,0 +1,8 @@
+type,total,missing,missing_pct
+copies,11,4,36.4
+inherits_from,3,3,100.0
+links_to,21,0,0.0
+loads_config,3,3,100.0
+reads_data,5,5,100.0
+references,3,3,100.0
+sources,68,9,13.2

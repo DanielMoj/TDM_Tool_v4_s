@@ -1,0 +1,654 @@
+{
+  "app.R": [
+    {
+      "target": "R/load_all.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "docker-compose.test.yml": [
+    {
+      "target": "K6_OUT=json=/results/load-test.json",
+      "type": "references",
+      "exists": false
+    }
+  ],
+  "Dockerfile.api": [
+    {
+      "target": "rocker/r-ver:4.3.1",
+      "type": "inherits_from",
+      "exists": false
+    },
+    {
+      "target": ".",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "Dockerfile.app": [
+    {
+      "target": "rocker/shiny:4.3.1",
+      "type": "inherits_from",
+      "exists": false
+    },
+    {
+      "target": ".",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "Dockerfile.test": [
+    {
+      "target": "rocker/verse:4.3.2",
+      "type": "inherits_from",
+      "exists": false
+    },
+    {
+      "target": "DESCRIPTION",
+      "type": "copies",
+      "exists": true
+    },
+    {
+      "target": "R",
+      "type": "copies",
+      "exists": true
+    },
+    {
+      "target": "tests",
+      "type": "copies",
+      "exists": true
+    },
+    {
+      "target": "models",
+      "type": "copies",
+      "exists": true
+    },
+    {
+      "target": "data",
+      "type": "copies",
+      "exists": false
+    },
+    {
+      "target": "inst",
+      "type": "copies",
+      "exists": false
+    },
+    {
+      "target": "man",
+      "type": "copies",
+      "exists": false
+    },
+    {
+      "target": "NAMESPACE",
+      "type": "copies",
+      "exists": false
+    },
+    {
+      "target": "run_all_tests.R",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "TEST_STRATEGY.md": [
+    {
+      "target": "tests/README.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": ".github/workflows/ci.yml",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "Dockerfile.test",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "MAKEFILE",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "api/plumber.R": [
+    {
+      "target": "api/plumber_phase5.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "api/plumber_auth.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "api/plumber_auth.R": [
+    {
+      "target": "R/audit.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "docs/INDEX.md": [
+    {
+      "target": "docs/PROJECT_PHASES.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/OPEN_POINTS.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/AI_README.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/LLM_ONBOARDING.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/MIGRATION_GUIDE_PARALLELIZATION.md": [
+    {
+      "target": "docs/README_PARALLELIZATION.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "examples/parallel_usage_example.R",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "tests/performance/benchmark_parallelization.R",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "config/optimization_config.yaml",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/MONITORING_GUIDE.md": [
+    {
+      "target": "docs/API.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/SECURITY.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/DEPLOYMENT.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/PACKAGE_MANAGEMENT_MIGRATION.md": [
+    {
+      "target": "docs/ARCHITECTURE.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "docs/CONTRIBUTING.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "R/dependencies.R",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "target": "R/load_all.R",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "examples/optimization_example.R": [
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/warmstart_manager.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/optimization_utils.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "examples/parallel_usage_example.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/async_fits.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/pta_cfr.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "examples/config/optimization_config.yaml",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "R/async_fits.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/auth_safe_upgrade.R": [
+    {
+      "target": "R/safe_io.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/audit.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/backend_bayes.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/async_fits.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/config/optimization_config.yaml",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "R/fhir.R": [
+    {
+      "target": "R/fhir_connection.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/fhir_auth.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/fhir_cache.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/job_queue.R": [
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/pta_cfr.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/optimize_regimen.R": [
+    {
+      "target": "R/config/tissue.json",
+      "type": "reads_data",
+      "exists": false
+    },
+    {
+      "target": "R/config/risk_models.json",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "R/pta_cfr.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/config/tissue.json",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "R/run_fit_jags.R": [
+    {
+      "target": "R/safe_computation.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "scripts/security_migration.R": [
+    {
+      "target": "R/auth.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/audit.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat.R": [
+    {
+      "target": "tests/testthat/helper-functions.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "tests/tests/testthat/fixtures/test-data.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  ".github/workflows/ci.yml": [
+    {
+      "target": ".github/workflows/Rscript tests/performance/benchmark.R\n",
+      "type": "references",
+      "exists": false
+    },
+    {
+      "target": ".github/workflows/benchmark-results.json",
+      "type": "references",
+      "exists": false
+    }
+  ],
+  "R/modules/mod_job_monitor.R": [
+    {
+      "target": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/performance/benchmark.R": [
+    {
+      "target": "R/utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "tests/performance/R/pk_calculations.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "target": "tests/performance/R/plotting_functions.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/performance/benchmark_parallelization.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/async_fits.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/pta_cfr.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/performance/ode_benchmark.R": [
+    {
+      "target": "R/pk_models.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/helper-common.R": [
+    {
+      "target": "tests/testthat/R/utils.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/testthat/test-audit-no-silent.R": [
+    {
+      "target": "R/audit.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/audit_fallback.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "api/plumber_auth.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-cache-manager.R": [
+    {
+      "target": "R/cache_manager.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-computation-stability.R": [
+    {
+      "target": "R/safe_computation.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/run_fit_jags.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-db-error-handling.R": [
+    {
+      "target": "tests/testthat/R/utils.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "target": "tests/testthat/R/db.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "target": "tests/testthat/R/antibiogram.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "target": "tests/testthat/R/audit.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "target": "tests/testthat/nonexistent.csv",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "tests/testthat/test-error-handling-integration.R": [
+    {
+      "target": "tests/testthat/non_existent_file.txt",
+      "type": "reads_data",
+      "exists": false
+    },
+    {
+      "target": "tests/testthat/missing.yaml",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "tests/testthat/test-fhir-resilience.R": [
+    {
+      "target": "R/fhir_connection.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/fhir_auth.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/fhir_cache.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/fhir.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-memory_optimization.R": [
+    {
+      "target": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/warmstart_manager.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-parallelization.R": [
+    {
+      "target": "R/parallel_utils.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/async_fits.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/pta_cfr.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-safe-io.R": [
+    {
+      "target": "R/safe_io.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/auth_safe_upgrade.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/test-utils.R": [
+    {
+      "target": "tests/testthat/R/utils.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/testthat/test-vectorized-functions.R": [
+    {
+      "target": "R/pk_models.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/error_models.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/crrt.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "target": "R/prior_db.R",
+      "type": "sources",
+      "exists": true
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "R/load_all.R": [
+    {
+      "source": "app.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "docs/PACKAGE_MANAGEMENT_MIGRATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "K6_OUT=json=/results/load-test.json": [
+    {
+      "source": "docker-compose.test.yml",
+      "type": "references",
+      "exists": false
+    }
+  ],
+  "rocker/r-ver:4.3.1": [
+    {
+      "source": "Dockerfile.api",
+      "type": "inherits_from",
+      "exists": false
+    }
+  ],
+  ".": [
+    {
+      "source": "Dockerfile.api",
+      "type": "copies",
+      "exists": true
+    },
+    {
+      "source": "Dockerfile.app",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "rocker/shiny:4.3.1": [
+    {
+      "source": "Dockerfile.app",
+      "type": "inherits_from",
+      "exists": false
+    }
+  ],
+  "rocker/verse:4.3.2": [
+    {
+      "source": "Dockerfile.test",
+      "type": "inherits_from",
+      "exists": false
+    }
+  ],
+  "DESCRIPTION": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "R": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "tests": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "models": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "data": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": false
+    }
+  ],
+  "inst": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": false
+    }
+  ],
+  "man": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": false
+    }
+  ],
+  "NAMESPACE": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": false
+    }
+  ],
+  "run_all_tests.R": [
+    {
+      "source": "Dockerfile.test",
+      "type": "copies",
+      "exists": true
+    }
+  ],
+  "tests/README.md": [
+    {
+      "source": "TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  ".github/workflows/ci.yml": [
+    {
+      "source": "TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "Dockerfile.test": [
+    {
+      "source": "TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "MAKEFILE": [
+    {
+      "source": "TEST_STRATEGY.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "api/plumber_phase5.R": [
+    {
+      "source": "api/plumber.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "api/plumber_auth.R": [
+    {
+      "source": "api/plumber.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-audit-no-silent.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/audit.R": [
+    {
+      "source": "api/plumber_auth.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/auth_safe_upgrade.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "scripts/security_migration.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-audit-no-silent.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "docs/PROJECT_PHASES.md": [
+    {
+      "source": "docs/INDEX.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/OPEN_POINTS.md": [
+    {
+      "source": "docs/INDEX.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/TEST_STRATEGY.md": [
+    {
+      "source": "docs/INDEX.md",
+      "type": "links_to",
+      "exists": true
+    },
+    {
+      "source": "docs/MONITORING_GUIDE.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/AI_README.md": [
+    {
+      "source": "docs/INDEX.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/LLM_ONBOARDING.md": [
+    {
+      "source": "docs/INDEX.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/README_PARALLELIZATION.md": [
+    {
+      "source": "docs/MIGRATION_GUIDE_PARALLELIZATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "examples/parallel_usage_example.R": [
+    {
+      "source": "docs/MIGRATION_GUIDE_PARALLELIZATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "tests/performance/benchmark_parallelization.R": [
+    {
+      "source": "docs/MIGRATION_GUIDE_PARALLELIZATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "config/optimization_config.yaml": [
+    {
+      "source": "docs/MIGRATION_GUIDE_PARALLELIZATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/API.md": [
+    {
+      "source": "docs/MONITORING_GUIDE.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/SECURITY.md": [
+    {
+      "source": "docs/MONITORING_GUIDE.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/DEPLOYMENT.md": [
+    {
+      "source": "docs/MONITORING_GUIDE.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/ARCHITECTURE.md": [
+    {
+      "source": "docs/PACKAGE_MANAGEMENT_MIGRATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "docs/CONTRIBUTING.md": [
+    {
+      "source": "docs/PACKAGE_MANAGEMENT_MIGRATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "R/dependencies.R": [
+    {
+      "source": "docs/PACKAGE_MANAGEMENT_MIGRATION.md",
+      "type": "links_to",
+      "exists": true
+    }
+  ],
+  "R/backend_bayes.R": [
+    {
+      "source": "examples/optimization_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-cache-manager.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-computation-stability.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-memory_optimization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/warmstart_manager.R": [
+    {
+      "source": "examples/optimization_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-memory_optimization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/optimization_utils.R": [
+    {
+      "source": "examples/optimization_example.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/parallel_utils.R": [
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/async_fits.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/pta_cfr.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/performance/benchmark_parallelization.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-parallelization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/async_fits.R": [
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/performance/benchmark_parallelization.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-parallelization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/job_queue.R": [
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/backend_bayes.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/modules/mod_job_monitor.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/performance/benchmark_parallelization.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-parallelization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/pta_cfr.R": [
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "R/job_queue.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/performance/benchmark_parallelization.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-parallelization.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "examples/config/optimization_config.yaml": [
+    {
+      "source": "examples/parallel_usage_example.R",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "R/safe_io.R": [
+    {
+      "source": "R/auth_safe_upgrade.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-safe-io.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/config/optimization_config.yaml": [
+    {
+      "source": "R/backend_bayes.R",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "R/fhir_connection.R": [
+    {
+      "source": "R/fhir.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-fhir-resilience.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/fhir_auth.R": [
+    {
+      "source": "R/fhir.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-fhir-resilience.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/fhir_cache.R": [
+    {
+      "source": "R/fhir.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-fhir-resilience.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/config/tissue.json": [
+    {
+      "source": "R/optimize_regimen.R",
+      "type": "reads_data",
+      "exists": false
+    },
+    {
+      "source": "R/pta_cfr.R",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "R/config/risk_models.json": [
+    {
+      "source": "R/optimize_regimen.R",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "R/safe_computation.R": [
+    {
+      "source": "R/run_fit_jags.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-computation-stability.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/auth.R": [
+    {
+      "source": "scripts/security_migration.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/helper-functions.R": [
+    {
+      "source": "tests/testthat.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/tests/testthat/fixtures/test-data.R": [
+    {
+      "source": "tests/testthat.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  ".github/workflows/Rscript tests/performance/benchmark.R\n": [
+    {
+      "source": ".github/workflows/ci.yml",
+      "type": "references",
+      "exists": false
+    }
+  ],
+  ".github/workflows/benchmark-results.json": [
+    {
+      "source": ".github/workflows/ci.yml",
+      "type": "references",
+      "exists": false
+    }
+  ],
+  "R/utils.R": [
+    {
+      "source": "tests/performance/benchmark.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/performance/R/pk_calculations.R": [
+    {
+      "source": "tests/performance/benchmark.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/performance/R/plotting_functions.R": [
+    {
+      "source": "tests/performance/benchmark.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "R/pk_models.R": [
+    {
+      "source": "tests/performance/ode_benchmark.R",
+      "type": "sources",
+      "exists": true
+    },
+    {
+      "source": "tests/testthat/test-vectorized-functions.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/R/utils.R": [
+    {
+      "source": "tests/testthat/helper-common.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "source": "tests/testthat/test-db-error-handling.R",
+      "type": "sources",
+      "exists": false
+    },
+    {
+      "source": "tests/testthat/test-utils.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "R/audit_fallback.R": [
+    {
+      "source": "tests/testthat/test-audit-no-silent.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/cache_manager.R": [
+    {
+      "source": "tests/testthat/test-cache-manager.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/run_fit_jags.R": [
+    {
+      "source": "tests/testthat/test-computation-stability.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "tests/testthat/R/db.R": [
+    {
+      "source": "tests/testthat/test-db-error-handling.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/testthat/R/antibiogram.R": [
+    {
+      "source": "tests/testthat/test-db-error-handling.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/testthat/R/audit.R": [
+    {
+      "source": "tests/testthat/test-db-error-handling.R",
+      "type": "sources",
+      "exists": false
+    }
+  ],
+  "tests/testthat/nonexistent.csv": [
+    {
+      "source": "tests/testthat/test-db-error-handling.R",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "tests/testthat/non_existent_file.txt": [
+    {
+      "source": "tests/testthat/test-error-handling-integration.R",
+      "type": "reads_data",
+      "exists": false
+    }
+  ],
+  "tests/testthat/missing.yaml": [
+    {
+      "source": "tests/testthat/test-error-handling-integration.R",
+      "type": "loads_config",
+      "exists": false
+    }
+  ],
+  "R/fhir.R": [
+    {
+      "source": "tests/testthat/test-fhir-resilience.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/auth_safe_upgrade.R": [
+    {
+      "source": "tests/testthat/test-safe-io.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/error_models.R": [
+    {
+      "source": "tests/testthat/test-vectorized-functions.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/crrt.R": [
+    {
+      "source": "tests/testthat/test-vectorized-functions.R",
+      "type": "sources",
+      "exists": true
+    }
+  ],
+  "R/prior_db.R": [
+    {
+      "source": "tests/testthat/test-vectorized-functions.R",
+      "type": "sources",
+      "exists": true
+    }
+  ]
+}
